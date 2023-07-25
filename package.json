@@ -1,0 +1,14 @@
+{
+  "name": "cylander",
+  "version": "1.0.0",
+  "description": "Web-based point-and-click game aimed at raising awareness of cybersecurity threats.",
+  "scripts": {
+    "start": "web-dev-server --config web-dev-server.config.mjs"
+  },
+  "dependencies": {
+    "phaser": "^3.60.0"
+  },
+  "devDependencies": {
+    "@web/dev-server": "^0.3.0"
+  }
+}
