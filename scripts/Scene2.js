@@ -1,5 +1,6 @@
 // Scene2.js
 import * as Phaser from 'phaser';
+import { Robot } from './Robot.js';
 
 export class Scene2 extends Phaser.Scene {
     constructor() {
@@ -9,7 +10,8 @@ export class Scene2 extends Phaser.Scene {
     preload() {
         this.load.image('scene2', 'assets/scene2.jpg');
         this.load.image('key', 'assets/key.png'); // Load the key image
-
+        this.robot = new Robot(this);
+        this.robot.preload();
     }
 
     create(data) {
@@ -20,29 +22,27 @@ export class Scene2 extends Phaser.Scene {
 
         this.input.setDraggable(interactiveObject);
 
-     // Add text to display the coordinates
-     const textCoordinates = this.add.text(interactiveObject.x, interactiveObject.y + 60, '', { fontFamily: 'Arial', fontSize: 16, color: '#ffffff', stroke: '#000000', strokeThickness: 4 });
-     textCoordinates.setOrigin(0.5);
+        // Add text to display the coordinates
+        const textCoordinates = this.add.text(interactiveObject.x, interactiveObject.y + 60, '', { fontFamily: 'Arial', fontSize: 16, color: '#ffffff', stroke: '#000000', strokeThickness: 4 });
+        textCoordinates.setOrigin(0.5);
 
-     // Listen for the 'drag' event to update the text when the green rectangle is dragged
-     this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-         // Update the position of the object based on the pointer's position
-         gameObject.x = dragX;
-         gameObject.y = dragY;
+        // Listen for the 'drag' event to update the text when the key image is dragged
+        this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+            gameObject.x = dragX;
+            gameObject.y = dragY;
 
-         // Update the text with the current coordinates
-         textCoordinates.setText(`x: ${gameObject.x.toFixed(0)}, y: ${gameObject.y.toFixed(0)}`);
-         textCoordinates.setPosition(gameObject.x, gameObject.y + 60);
-     });
+            textCoordinates.setText(`x: ${gameObject.x.toFixed(0)}, y: ${gameObject.y.toFixed(0)}`);
+            textCoordinates.setPosition(gameObject.x, gameObject.y + 60);
+        });
 
-        // Add a blue rectangle to Scene2
-        const blueRectangle = this.add.rectangle(766, 520, 100, 100, );
-        blueRectangle.setInteractive();
-        blueRectangle.setOrigin(0.5);
-        blueRectangle.setDepth(0);
+        // Add a exit door to Scene2
+        const exitDoor = this.add.rectangle(766, 520, 200, 300);
+        exitDoor.setInteractive();
+        exitDoor.setOrigin(0.5);
+        exitDoor.setDepth(0);
 
-        // Add click event to the blue rectangle
-        blueRectangle.on('pointerup', function () {
+        // Add click event to the exit door
+        exitDoor.on('pointerup', function () {
             // Switch back to the DefaultScene
             this.scene.start('DefaultScene');
         }, this);
@@ -57,13 +57,16 @@ export class Scene2 extends Phaser.Scene {
         });
         collisionText.setOrigin(0.5);
 
-        // Check for collision between the green and blue rectangles in the update loop
+        // Check for collision between the key and exit door in the update loop
         this.events.on('update', function () {
-            if (Phaser.Geom.Rectangle.Overlaps(interactiveObject.getBounds(), blueRectangle.getBounds())) {
+            if (Phaser.Geom.Rectangle.Overlaps(interactiveObject.getBounds(), exitDoor.getBounds())) {
                 collisionText.setText('COLLISION');
             } else {
                 collisionText.setText('');
             }
         });
+
+        this.robot.create();
+        this.robot.showDialog('Well done :)');
     }
 }

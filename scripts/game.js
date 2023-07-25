@@ -1,4 +1,5 @@
-import * as Phaser  from 'phaser';
+// game.js
+import * as Phaser from 'phaser';
 import { DefaultScene } from './DefaultScene.js';
 import { Scene2 } from './Scene2.js';
 
