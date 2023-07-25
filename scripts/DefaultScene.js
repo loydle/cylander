@@ -7,7 +7,7 @@ export class DefaultScene extends Phaser.Scene {
  }
 
  preload() {
-     this.load.image('background', 'assets/background.jpg');
+     this.load.image('background', 'assets/scene1.jpg');
      this.load.image('scene2', 'assets/scene2.jpg'); // Load the new scene (scene2.jpg)
      // Load other assets here (characters, items, etc.)
  }
@@ -23,7 +23,7 @@ export class DefaultScene extends Phaser.Scene {
      // Enable dragging for the interactive object
      this.input.setDraggable(interactiveObject);
 
-     const redRectangle = this.add.rectangle(650, 300, 100, 100, 0xff0000);
+     const redRectangle = this.add.rectangle(637, 544, 100, 100);
      redRectangle.setInteractive();
      redRectangle.setOrigin(0.5);
      redRectangle.setDepth(0); // Set a lower depth value for the red rectangle
