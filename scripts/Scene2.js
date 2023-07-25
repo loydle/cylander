@@ -8,12 +8,13 @@ export class Scene2 extends Phaser.Scene {
 
     preload() {
         this.load.image('scene2', 'assets/scene2.jpg');
+        this.load.image('key', 'assets/key.png'); // Load the key image
+
     }
 
     create(data) {
         this.add.image(0, 0, 'scene2').setOrigin(0);
-
-        let interactiveObject = this.add.rectangle(data.x, data.y, 100, 100, 0x00ff00);
+        let interactiveObject = this.add.image(data.x, data.y, 'key');
         interactiveObject.setInteractive();
         interactiveObject.setDepth(1);
 

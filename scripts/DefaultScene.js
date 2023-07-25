@@ -9,16 +9,17 @@ export class DefaultScene extends Phaser.Scene {
  preload() {
      this.load.image('background', 'assets/scene1.jpg');
      this.load.image('scene2', 'assets/scene2.jpg'); // Load the new scene (scene2.jpg)
+     this.load.image('key', 'assets/key.png'); // Load the key image
      // Load other assets here (characters, items, etc.)
  }
 
  create() {
      this.add.image(0, 0, 'background').setOrigin(0);
 
-     // Add an interactive object (rectangle)
-     const interactiveObject = this.add.rectangle(400, 300, 100, 100, 0x00ff00);
+     // Add an interactive object (key image)
+     const interactiveObject = this.add.image(73, 900, 'key');
      interactiveObject.setInteractive();
-     interactiveObject.setDepth(1); // Set a higher depth value for the green rectangle
+     interactiveObject.setDepth(1); // Set a higher depth value for the key image
 
      // Enable dragging for the interactive object
      this.input.setDraggable(interactiveObject);
@@ -38,7 +39,7 @@ export class DefaultScene extends Phaser.Scene {
      const textCoordinates = this.add.text(interactiveObject.x, interactiveObject.y + 60, '', { fontFamily: 'Arial', fontSize: 16, color: '#ffffff', stroke: '#000000', strokeThickness: 4 });
      textCoordinates.setOrigin(0.5);
 
-     // Listen for the 'drag' event to update the text when the green rectangle is dragged
+     // Listen for the 'drag' event to update the text when the key image is dragged
      this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
          // Update the position of the object based on the pointer's position
          gameObject.x = dragX;
