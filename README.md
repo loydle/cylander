@@ -22,4 +22,3 @@ This project is currently in development and is a first draft aimed at testing t
 ## Technologies Used
 
 - [Phaser](https://phaser.io/): A fast and free open-source framework for Canvas and WebGL-powered browser games.
-- [@web/dev-server](https://modern-web.dev/docs/dev-server/overview/): A lightweight development server for modern web development.
