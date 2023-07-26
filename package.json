@@ -1,7 +1,7 @@
 {
   "name": "cylander",
   "version": "1.0.0",
-  "description": "Cylander is a non profit association dedicated to provide and produce free Cyber Security Knowledge",
+  "description": "Cylander is a non-profit association dedicated to providing and producing free Cyber Security Knowledge",
   "scripts": {
     "start": "web-dev-server --config web-dev-server.config.mjs",
     "format": "prettier --write \"js/**/*.js\"",
