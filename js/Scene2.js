@@ -34,31 +34,13 @@ export class Scene2 extends Phaser.Scene {
 
         // Add click event to the exit door
         this.exitDoor.on('pointerup', function () {
-            // Switch back to the DefaultScene
+            // Switch back to Scene1
             this.cameras.main.zoomTo(1.5, 1000, 'Linear', true, (camera, progress) => {
                 if (progress === 1) {
                     this.scene.start('Scene1');
                 }
             });
         }, this);
-
-        // Add a text for collision display
-        const collisionText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, '', {
-            fontFamily: 'Arial',
-            fontSize: 32,
-            color: '#ffffff',
-            stroke: '#000000',
-            strokeThickness: 4
-        });
-        collisionText.setOrigin(0.5);
-
-        this.events.on('update', () => {
-            if (Phaser.Geom.Rectangle.Overlaps(this.key.getBounds(), this.exitDoor.getBounds())) {
-                collisionText.setText('COLLISION');
-            } else {
-                collisionText.setText('');
-            }
-        });
 
         this.robot.create();
         this.robot.robotImage.setPosition(1055, 490);
@@ -73,6 +55,7 @@ export class Scene2 extends Phaser.Scene {
         });
 
         this.robot.moveTextPosition(1055, 300); // Move the text to (1055, 300)
-        this.robot.showDialog('Well done :)');
+
+        this.robot.showDialog('Well done! You found the door!\nNow, explore further and find the exit!', 30000);
     }
 }

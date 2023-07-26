@@ -1,5 +1,3 @@
-import * as Phaser from 'phaser';
-
 export class Robot {
     constructor(scene) {
         this.scene = scene;
@@ -13,7 +11,7 @@ export class Robot {
 
     create() {
         // Robot image
-        this.robotImage = this.scene.add.image(1529, 951, 'robot').setDepth(2);
+        this.robotImage = this.scene.add.image(1529, 1040, 'robot').setDepth(2);
 
         // Text object for displaying the dialog
         this.dialogText = this.scene.add.text(1529, 740, '', {
