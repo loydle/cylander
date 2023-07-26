@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "Cylander is a non profit association dedicated to provide and produce free Cyber Security Knowledge",
   "scripts": {
-    "start": "web-dev-server --config web-dev-server.config.mjs"
+    "start": "web-dev-server --config web-dev-server.config.mjs",
+    "format": "prettier --write \"src/**/*.js\""
   },
   "dependencies": {
     "phaser": "^3.60.0"
   },
   "devDependencies": {
-    "@web/dev-server": "^0.3.0"
+    "@web/dev-server": "^0.3.0",
+    "prettier": "^3.0.0"
   }
 }
