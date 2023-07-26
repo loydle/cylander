@@ -6,7 +6,7 @@ export class DefaultScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("logo", "assets/logo-cylander.svg");
+    this.load.image("logo", "src/assets/logo-cylander.svg");
   }
 
   create() {

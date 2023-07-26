@@ -6,7 +6,7 @@ export class Robot {
   }
 
   preload() {
-    this.scene.load.image("robot", "assets/robot.png");
+    this.scene.load.image("robot", "src/assets/robot.png");
   }
 
   create() {

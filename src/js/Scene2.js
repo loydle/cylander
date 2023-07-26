@@ -8,8 +8,8 @@ export class Scene2 extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("scene2", "assets/scene2.jpg");
-    this.load.image("key", "assets/key.png"); // Load the key image
+    this.load.image("scene2", "src/assets/scene2.jpg");
+    this.load.image("key", "src/assets/key.png"); // Load the key image
     this.robot = new Robot(this);
     this.robot.preload();
   }
