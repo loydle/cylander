@@ -4,7 +4,7 @@
   "description": "Cylander is a non-profit association dedicated to providing and producing free Cyber Security Knowledge",
   "scripts": {
     "start": "web-dev-server --config web-dev-server.config.mjs",
-    "format": "prettier --write \"js/**/*.js\"",
+    "format": "prettier --write \"src/**/*.js\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -19,7 +19,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:fix",
+      "pre-commit": "npm run lint:fix && npm run format",
       "pre-push": "npm run lint"
     }
   }
