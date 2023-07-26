@@ -1,4 +1,3 @@
-// Robot.js
 import * as Phaser from 'phaser';
 
 export class Robot {
@@ -13,11 +12,11 @@ export class Robot {
     }
 
     create() {
-        this.robotImage = this.scene.add.image(1529, 951, 'robot');
-        this.robotImage.setDepth(2);
+        // Robot image
+        this.robotImage = this.scene.add.image(1529, 951, 'robot').setDepth(2);
 
-        // Create a text object for displaying the dialog
-        this.dialogText = this.scene.add.text(1529, 760, '', {
+        // Text object for displaying the dialog
+        this.dialogText = this.scene.add.text(1529, 740, '', {
             fontFamily: 'Arial',
             fontSize: 24,
             color: '#ffffff',
@@ -26,18 +25,15 @@ export class Robot {
                 x: 20,
                 y: 10,
             },
-        });
-        this.dialogText.setOrigin(0.5);
-        this.dialogText.setDepth(2);
-        this.dialogText.setVisible(false); // Hide the dialog initially
+        }).setOrigin(0.5).setDepth(2).setVisible(false); // Hide the dialog initially
     }
 
-    showDialog(text) {
+    showDialog(text, delay = 2000) {
         if (this.dialogVisible) {
             // Hide existing dialog if it's already visible
             this.dialogText.setVisible(false);
             this.dialogVisible = false;
-            this.scene.time.delayedCall(2000, () => {
+            this.scene.time.delayedCall(delay, () => {
                 this.dialogText.setText(text);
                 this.dialogText.setVisible(true);
                 this.dialogVisible = true;
@@ -47,10 +43,15 @@ export class Robot {
             this.dialogText.setText(text);
             this.dialogText.setVisible(true);
             this.dialogVisible = true;
-            this.scene.time.delayedCall(2000, () => {
+            this.scene.time.delayedCall(delay, () => {
                 this.dialogText.setVisible(false);
                 this.dialogVisible = false;
             });
         }
+    }
+
+    // Function to move the position of the text
+    moveTextPosition(x, y) {
+        this.dialogText.setPosition(x, y);
     }
 }

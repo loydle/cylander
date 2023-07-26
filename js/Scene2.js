@@ -16,35 +16,30 @@ export class Scene2 extends Phaser.Scene {
 
     create(data) {
         this.add.image(0, 0, 'scene2').setOrigin(0);
-        let interactiveObject = this.add.image(data.x, data.y, 'key');
-        interactiveObject.setInteractive();
-        interactiveObject.setDepth(1);
+        this.key = this.add.image(data.x, data.y, 'key');
+        this.key.setInteractive();
+        this.key.setDepth(1);
 
-        this.input.setDraggable(interactiveObject);
-
-        // Add text to display the coordinates
-        const textCoordinates = this.add.text(interactiveObject.x, interactiveObject.y + 60, '', { fontFamily: 'Arial', fontSize: 16, color: '#ffffff', stroke: '#000000', strokeThickness: 4 });
-        textCoordinates.setOrigin(0.5);
-
-        // Listen for the 'drag' event to update the text when the key image is dragged
+        this.input.setDraggable(this.key);
         this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
             gameObject.x = dragX;
             gameObject.y = dragY;
-
-            textCoordinates.setText(`x: ${gameObject.x.toFixed(0)}, y: ${gameObject.y.toFixed(0)}`);
-            textCoordinates.setPosition(gameObject.x, gameObject.y + 60);
         });
 
-        // Add a exit door to Scene2
-        const exitDoor = this.add.rectangle(766, 520, 200, 300);
-        exitDoor.setInteractive();
-        exitDoor.setOrigin(0.5);
-        exitDoor.setDepth(0);
+        // Add an exit door to Scene2
+        this.exitDoor = this.add.rectangle(766, 520, 200, 300);
+        this.exitDoor.setInteractive();
+        this.exitDoor.setOrigin(0.5);
+        this.exitDoor.setDepth(0);
 
         // Add click event to the exit door
-        exitDoor.on('pointerup', function () {
+        this.exitDoor.on('pointerup', function () {
             // Switch back to the DefaultScene
-            this.scene.start('DefaultScene');
+            this.cameras.main.zoomTo(1.5, 1000, 'Linear', true, (camera, progress) => {
+                if (progress === 1) {
+                    this.scene.start('Scene1');
+                }
+            });
         }, this);
 
         // Add a text for collision display
@@ -57,9 +52,8 @@ export class Scene2 extends Phaser.Scene {
         });
         collisionText.setOrigin(0.5);
 
-        // Check for collision between the key and exit door in the update loop
-        this.events.on('update', function () {
-            if (Phaser.Geom.Rectangle.Overlaps(interactiveObject.getBounds(), exitDoor.getBounds())) {
+        this.events.on('update', () => {
+            if (Phaser.Geom.Rectangle.Overlaps(this.key.getBounds(), this.exitDoor.getBounds())) {
                 collisionText.setText('COLLISION');
             } else {
                 collisionText.setText('');
@@ -67,6 +61,18 @@ export class Scene2 extends Phaser.Scene {
         });
 
         this.robot.create();
+        this.robot.robotImage.setPosition(1055, 490);
+
+        this.tweens.add({
+            targets: this.robot.robotImage,
+            y: 530,
+            duration: 500,
+            ease: 'Linear',
+            yoyo: true,
+            repeat: -1,
+        });
+
+        this.robot.moveTextPosition(1055, 300); // Move the text to (1055, 300)
         this.robot.showDialog('Well done :)');
     }
 }
