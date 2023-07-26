@@ -7,10 +7,10 @@ export class Scene1 extends Phaser.Scene {
         super({ key: 'Scene1' });
         this.door = null;
         this.cactus = null;
-        this.arrow = null; // Reference for the arrow shape
-        this.hintText = null; // Reference for the hint text
-        this.clickCount = 0; // Counter to track clicks outside the door
-        this.hintShown = false; // Flag to keep track of whether the hint is shown
+        this.arrow = null;
+        this.hintText = null;
+        this.clickCount = 0;
+        this.hintShown = false;
     }
 
     preload() {
