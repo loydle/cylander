@@ -42,7 +42,7 @@ export class Scene1 extends Phaser.Scene {
             });
         }, this);
 
-        // Text for displaying the coordinates of the key image
+        // Text for displaying the coordinates of the key
         const textCoordinates = this.add.text(this.key.x, this.key.y + 60, '', {
             fontFamily: 'Arial',
             fontSize: 16,
@@ -83,14 +83,11 @@ export class Scene1 extends Phaser.Scene {
 
             const cactusBounds = this.cactus.getBounds();
             if (cactusBounds.contains(pointer.x, pointer.y)) {
-                // Clicked on the cactus, show the "Watch out! It's a cactus!" dialog
                 this.robot.showDialog('Watch out! It\'s a cactus!');
             } else {
-                // Clicked elsewhere, show the "Find the door" dialog and update click count
                 this.robot.showDialog('Hmmm, not the door! Keep exploring.');
                 this.clickCount++;
                 if (this.clickCount >= 5 && !this.hintShown) {
-                    // Show the hint arrow pointing to (580, 550) after 5 clicks
                     this.showHintArrow(580, 550);
                 }
             }
@@ -98,10 +95,9 @@ export class Scene1 extends Phaser.Scene {
     }
 
     showHintArrow(x, y) {
-        // Create a custom arrow shape using graphics
         this.arrow = this.add.graphics();
-        this.arrow.fillStyle(0xff0000, 0.8); // Set arrow color (red) and alpha
-        this.arrow.lineStyle(2, 0x000000, 1); // Set arrow border color and alpha
+        this.arrow.fillStyle(0xff0000, 0.8);
+        this.arrow.lineStyle(2, 0x000000, 1);
 
         const arrowWidth = 20;
         const arrowHeight = 40;
