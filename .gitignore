@@ -1,0 +1,30 @@
+# Node.js dependencies
+node_modules/
+
+# Build artifacts
+dist/
+build/
+*.js.map
+*.min.js
+*.min.js.map
+
+# Editor specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.sln
+*.suo
+*.user
+*.log
+*.tmp
+*.tmp.*
+*.bak
+*.swp
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Game specific files (adjust according to your project structure)
+*.log
