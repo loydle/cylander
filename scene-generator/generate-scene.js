@@ -38,14 +38,9 @@ export class ${sceneName} extends Phaser.Scene {
     this.robot.showDialog("${robot.defaultDialog}", 30000);
     this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
 
-    this.tweens.add({
-      targets: this.robot.robotImage,
-      y: 951,
-      duration: 300,
-      ease: "Linear",
-      yoyo: false,
-      repeat: 0,
-    });
+    ${robot?.animation ? `this.tweens.add({
+      targets: this.robot.robotImage,${robot.animation.options} })` : ''}
+
 
     // Set up actions for interactive elements
     ${actions
