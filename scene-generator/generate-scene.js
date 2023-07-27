@@ -7,9 +7,10 @@ function readSceneRequirements(sceneFilePath) {
 }
 
 function generateSceneClass(sceneName, sceneConfig) {
-  const { backgroundImage, actions } = sceneConfig;
+  const { backgroundImage, actions, robot } = sceneConfig;
   const sceneClass = `
 import * as Phaser from "phaser";
+import { Robot } from "../Robot.js";
 
 export class ${sceneName} extends Phaser.Scene {
   constructor() {
@@ -20,6 +21,8 @@ export class ${sceneName} extends Phaser.Scene {
 
   preload() {
     this.load.image("background", "src/assets/${backgroundImage}");
+    this.robot = new Robot(this);
+    this.robot.preload();
   }
 
   create() {
@@ -30,6 +33,19 @@ export class ${sceneName} extends Phaser.Scene {
       ({ name, position }) =>
         `this.${name} = this.add.rectangle(${position.x}, ${position.y}, 100, 100).setInteractive();`
     ).join('\n    ')}
+
+    this.robot.create();
+    this.robot.showDialog("${robot.defaultDialog}", 30000);
+    this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
+
+    this.tweens.add({
+      targets: this.robot.robotImage,
+      y: 951,
+      duration: 300,
+      ease: "Linear",
+      yoyo: false,
+      repeat: 0,
+    });
 
     // Set up actions for interactive elements
     ${actions
@@ -71,8 +87,8 @@ function writeSceneToFile(sceneName, sceneClass) {
 }
 
 function generateScenesForTemplate(sceneTemplate) {
-  const { title, actions } = sceneTemplate;
-  const sceneClass = generateSceneClass(title, { backgroundImage: sceneTemplate.backgroundImage, actions });
+  const { title, actions, robot } = sceneTemplate;
+  const sceneClass = generateSceneClass(title, { backgroundImage: sceneTemplate.backgroundImage, actions, robot });
   writeSceneToFile(title, sceneClass);
 }
 
