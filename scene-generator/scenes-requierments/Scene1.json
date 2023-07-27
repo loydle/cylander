@@ -1,0 +1,30 @@
+{
+  "title": "Scene1",
+  "backgroundImage": "scene1.jpg",
+  "actions": [
+    {
+      "name": "door",
+      "position": { "x": 637, "y": 544 },
+      "actions": [
+        {
+          "type": "pointerup",
+          "transitionTo": "Scene2",
+          "transition": "fadeOut",
+          "fadeOutDuration": 500,
+          "fadeOutRed": 0,
+          "fadeOutGreen": 0,
+          "fadeOutBlue": 0
+        }
+      ]
+    }
+  ],
+  "robot": {
+    "defaultDialog": "Hello, I am the robot!",
+    "animation": {
+      "key": "robotAnimation",
+      "frames": [0, 1, 2],
+      "frameRate": 10,
+      "repeat": -1
+    }
+  }
+}

@@ -6,7 +6,8 @@
     "start": "web-dev-server --config web-dev-server.config.mjs",
     "format": "prettier --write \"src/**/*.js\"",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "generate-scene": "node ./scene-generator/generate-scene.js"
   },
   "dependencies": {
     "phaser": "^3.60.0"
