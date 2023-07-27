@@ -15,7 +15,6 @@ export class DefaultScene extends Phaser.Scene {
       .setOrigin(0.5);
     this.logo.setScale(1, 1);
 
-    // Add animation for the logo to grow and scale back
     this.tweens.add({
       targets: this.logo,
       scaleX: 1.5,
@@ -29,7 +28,6 @@ export class DefaultScene extends Phaser.Scene {
     this.input.on(
       "pointerup",
       function () {
-        // Add a fade-out transition when transitioning to Scene1
         this.cameras.main.fadeOut(500, 0, 0, 0, (camera, progress) => {
           if (progress === 1) {
             this.scene.start("Scene1");

@@ -24,15 +24,12 @@ export class Scene1 extends Phaser.Scene {
   create() {
     this.add.image(0, 0, "background").setOrigin(0);
 
-    // Key image
     this.key = this.add.image(73, 900, "key");
     this.key.setInteractive().setDepth(1);
     this.input.setDraggable(this.key);
 
-    // Cactus object
     this.cactus = this.add.rectangle(444, 588, 100, 200).setInteractive();
 
-    // Door object
     this.door = this.add
       .rectangle(637, 544, 100, 100)
       .setInteractive()
@@ -50,7 +47,6 @@ export class Scene1 extends Phaser.Scene {
       this,
     );
 
-    // Text for displaying the coordinates of the key
     const textCoordinates = this.add
       .text(this.key.x, this.key.y + 60, "", {
         fontFamily: "Arial",
@@ -73,7 +69,6 @@ export class Scene1 extends Phaser.Scene {
       this.hideHint();
     });
 
-    // Robot
     this.robot.create();
     this.robot.showDialog("Find the door or explore your surroundings.", 30000);
 
@@ -85,11 +80,9 @@ export class Scene1 extends Phaser.Scene {
       yoyo: false,
       repeat: 0,
     });
-    // Click event to handle clicks outside the door and show the hint arrow after 5 clicks
     this.input.on("pointerup", (pointer) => {
       const doorBounds = this.door.getBounds();
       if (doorBounds.contains(pointer.x, pointer.y)) {
-        // Clicked on the door, reset click count and hide hint
         this.clickCount = 0;
         this.hideHint();
         return;
@@ -117,7 +110,6 @@ export class Scene1 extends Phaser.Scene {
     const arrowHeight = 40;
     const arrowOffsetX = 10;
 
-    // Draw the arrow triangle shape
     this.arrow.beginPath();
     this.arrow.moveTo(x - arrowOffsetX, y);
     this.arrow.lineTo(x - arrowOffsetX + arrowWidth, y + arrowHeight / 2);
@@ -126,7 +118,6 @@ export class Scene1 extends Phaser.Scene {
     this.arrow.fillPath();
     this.arrow.strokePath();
 
-    // Add a bounce animation to the arrow
     this.tweens.add({
       targets: this.arrow,
       y: "-=10",
@@ -136,7 +127,6 @@ export class Scene1 extends Phaser.Scene {
       repeat: -1,
     });
 
-    // Create and display the hint text
     const hintTextContent = "The door is that way!";
     this.hintText = this.add
       .text(x, y + 60, hintTextContent, {
