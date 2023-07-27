@@ -8,8 +8,6 @@ function readSceneRequirements(sceneFilePath) {
 
 function generateSceneClass(sceneName, sceneConfig) {
   const { backgroundImage, actions } = sceneConfig;
-  const defaultRobotDialog = "Hello, I am the robot!";
-
   const sceneClass = `
 import * as Phaser from "phaser";
 
@@ -22,7 +20,6 @@ export class ${sceneName} extends Phaser.Scene {
 
   preload() {
     this.load.image("background", "src/assets/${backgroundImage}");
-    this.load.spritesheet("robot", "src/assets/robot.png", { frameWidth: 32, frameHeight: 32 });
   }
 
   create() {
@@ -39,11 +36,11 @@ export class ${sceneName} extends Phaser.Scene {
       .map(({ name, actions }) => {
         return actions
           .map(
-            ({ type, transitionTo, transition, fadeOutDuration, fadeOutRed, fadeOutGreen, fadeOutBlue, hintPosition }) =>
+            ({ type, transitionTo, transition }) =>
               `this.${name}.on("${type.toLowerCase()}", () => {
                 ${
-                  transition === 'fadeOut'
-                    ? `this.cameras.main.fadeOut(${fadeOutDuration}, ${fadeOutRed}, ${fadeOutGreen}, ${fadeOutBlue}, (camera, progress) => {
+                  transition
+                    ? `this.cameras.main.${transition.type}(${transition.options}, (camera, progress) => {
                       if (progress === 1) {
                         this.scene.start("${transitionTo}");
                       }
@@ -55,14 +52,6 @@ export class ${sceneName} extends Phaser.Scene {
           .join('\n    ');
       })
       .join('\n    ')}
-
-    // Create the robot and its default dialog
-    this.robot = this.add.sprite(100, 200, "robot").setScale(2);
-    this.robotText = this.add.text(150, 200, "${defaultRobotDialog}", {
-      fontFamily: "Arial",
-      fontSize: 20,
-      color: "#ffffff",
-    });
   }
 }
 `;

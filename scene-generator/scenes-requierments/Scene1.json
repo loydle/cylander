@@ -9,11 +9,10 @@
         {
           "type": "pointerup",
           "transitionTo": "Scene2",
-          "transition": "fadeOut",
-          "fadeOutDuration": 500,
-          "fadeOutRed": 0,
-          "fadeOutGreen": 0,
-          "fadeOutBlue": 0
+          "transition": {
+            "type":"fadeOut",
+            "options": "500, 0, 0, 0"
+          }
         }
       ]
     }
