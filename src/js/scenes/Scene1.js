@@ -1,6 +1,6 @@
 // Scene1.js
 import * as Phaser from "phaser";
-import { Robot } from "./Robot.js";
+import { Robot } from "../Robot.js";
 
 export class Scene1 extends Phaser.Scene {
   constructor() {

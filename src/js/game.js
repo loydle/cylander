@@ -1,7 +1,7 @@
 import * as Phaser from "phaser";
-import { DefaultScene } from "./DefaultScene.js";
-import { Scene1 } from "./Scene1.js";
-import { Scene2 } from "./Scene2.js";
+import { DefaultScene } from "./scenes/DefaultScene.js";
+import { Scene1 } from "./scenes/Scene1.js";
+import { Scene2 } from "./scenes/Scene2.js";
 
 // Configuration for the game
 const config = {
