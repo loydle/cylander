@@ -10,10 +10,8 @@ export class Robot {
   }
 
   create() {
-    // Robot image
     this.robotImage = this.scene.add.image(1529, 1040, "robot").setDepth(2);
 
-    // Text object for displaying the dialog
     this.dialogText = this.scene.add
       .text(1529, 740, "", {
         fontFamily: "Arial",
@@ -27,12 +25,11 @@ export class Robot {
       })
       .setOrigin(0.5)
       .setDepth(2)
-      .setVisible(false); // Hide the dialog initially
+      .setVisible(false);
   }
 
   showDialog(text, delay = 2000) {
     if (this.dialogVisible) {
-      // Hide existing dialog if it's already visible
       this.dialogText.setVisible(false);
       this.dialogVisible = false;
       this.scene.time.delayedCall(delay, () => {
@@ -41,7 +38,6 @@ export class Robot {
         this.dialogVisible = true;
       });
     } else {
-      // Show dialog if it's not already visible
       this.dialogText.setText(text);
       this.dialogText.setVisible(true);
       this.dialogVisible = true;
@@ -52,7 +48,6 @@ export class Robot {
     }
   }
 
-  // Function to move the position of the text
   moveTextPosition(x, y) {
     this.dialogText.setPosition(x, y);
   }
