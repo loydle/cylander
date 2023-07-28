@@ -47,12 +47,7 @@ export class Scene2 extends Phaser.Scene {
           
           // Perform transition if provided
           
-          this.cameras.main.zoomTo({
-            duration: undefined,
-            red: undefined,
-            green: undefined,
-            blue: undefined
-          }, (camera, progress) => {
+          this.cameras.main.zoomTo(1.5, 1000, "Linear", true, (camera, progress) => {
             if (progress === 1) {
               this.scene.start("Scene1");
             }

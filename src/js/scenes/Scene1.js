@@ -50,12 +50,7 @@ export class Scene1 extends Phaser.Scene {
           
           // Perform transition if provided
           
-          this.cameras.main.fadeOut({
-            duration: undefined,
-            red: undefined,
-            green: undefined,
-            blue: undefined
-          }, (camera, progress) => {
+          this.cameras.main.fadeOut(500, 0,0,0, (camera, progress) => {
             if (progress === 1) {
               this.scene.start("Scene2");
             }
