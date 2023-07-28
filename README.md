@@ -1,5 +1,4 @@
-
-# Cylander - Cybersecurity Point and Click Web Based Game
+# Cylander - Point and Click Web Based Game
 
 Web-based point and click game aimed at raising awareness about cybersecurity threats. The game allows players to interact with objects and solve puzzles to progress through different scenes.
 
