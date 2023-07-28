@@ -71,12 +71,7 @@ export class ${sceneName} extends Phaser.Scene {
           ${robot && robot.dialog?.content ? `this.robot.showDialog("${robot.dialog?.content}", ${robot.dialog?.delay ? robot.dialog.delay : '3000'});` : ''}
           // Perform transition if provided
           ${transition ? `
-          this.cameras.main.${transition.type}({
-            duration: ${transition.duration},
-            red: ${transition.red},
-            green: ${transition.green},
-            blue: ${transition.blue}
-          }, (camera, progress) => {
+          this.cameras.main.${transition.type}(${transition?.options}, (camera, progress) => {
             if (progress === 1) {
               this.scene.start("${transitionTo}");
             }
