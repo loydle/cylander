@@ -4,7 +4,10 @@
   "actions": [
     {
       "name": "door",
+      "type": "hitbox",
       "position": { "x": 637, "y": 544 },
+      "width": 100,
+      "height": 100,
       "actions": [
         {
           "type": "pointerup",
@@ -12,6 +15,39 @@
           "transition": {
             "type":"fadeOut",
             "options": "500, 0, 0, 0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "cactus",
+      "type": "hitbox",
+      "position": { "x": 444, "y": 588 },
+      "width": 100,
+      "height": 200,
+      "background-color": "",
+      "actions": [
+        {
+          "type": "pointerup",
+          "robot": {
+            "dialog": "Watch out! It's a cactus!"
+          }
+        }
+      ]
+    },
+    {
+      "name": "key",
+      "type": "image",
+      "position": { "x": 444, "y": 588 },
+      "isDraggable": true,
+      "image": {
+        "url": "src/assets/key.png"
+      },
+      "actions": [
+        {
+          "type": "pointerup",
+          "robot": {
+            "dialog": "You have a key!"
           }
         }
       ]

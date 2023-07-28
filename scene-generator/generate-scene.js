@@ -23,18 +23,42 @@ export class ${sceneName} extends Phaser.Scene {
 
   preload() {
     this.load.image("background", "src/assets/${backgroundImage}");
+    ${actions
+      .map(({ name, type, image }) => {
+        return type === "image" ? `this.load.image("${name}", "${image.url}");` : '';
+      })
+      .join('\n    ')}
     this.robot = new Robot(this);
     this.robot.preload();
   }
 
   create() {
     this.add.image(0, 0, "background").setOrigin(0);
-
-    // Create interactive elements
     ${actions.map(
-      ({ name, position }) =>
-        `this.${name} = this.add.rectangle(${position.x}, ${position.y}, 100, 100).setInteractive();`
-    ).join('\n    ')}
+      ({ name, type, position, width, height, actions, isDraggable }) =>
+      `
+      ${type === "hitbox" ? `this.${name} = this.add.rectangle(${position.x}, ${position.y}, ${width}, ${height}).setInteractive();` : '' }
+      ${type === "image" ? `this.${name} = this.add.image(${position.x}, ${position.y}, "${name}").setInteractive();` : '' }
+      ${isDraggable ? `
+        this.input.setDraggable(this.${name});
+        this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+          gameObject.x = dragX;
+          gameObject.y = dragY;
+        });
+        ` : ''}
+      ${actions.map(({ type, transitionTo, transition, robot}) => { return `
+            this.${name}.on("${type.toLowerCase()}", () => {
+            ${robot && robot.dialog ? `this.robot.showDialog("${robot.dialog}");` : ''}
+            ${transition ?
+              `this.cameras.main.${transition.type}(${transition.options}, (camera, progress) => {
+                if (progress === 1) {
+                  this.scene.start("${transitionTo}");
+                }
+            });` : ''
+          }
+        });
+      `;
+    }).join('')}`).join('')}
 
     this.robot.create();
     this.robot.showDialog("${robot.defaultDialog}", 30000);
@@ -42,29 +66,6 @@ export class ${sceneName} extends Phaser.Scene {
 
     ${robot?.animation ? `this.tweens.add({
       targets: this.robot.robotImage,${robot.animation.options} })` : ''}
-
-
-    // Set up actions for interactive elements
-    ${actions
-      .map(({ name, actions }) => {
-        return actions
-          .map(
-            ({ type, transitionTo, transition }) =>
-              `this.${name}.on("${type.toLowerCase()}", () => {
-                ${
-                  transition
-                    ? `this.cameras.main.${transition.type}(${transition.options}, (camera, progress) => {
-                      if (progress === 1) {
-                        this.scene.start("${transitionTo}");
-                      }
-                    });`
-                    : ''
-                }
-              });`
-          )
-          .join('\n    ');
-      })
-      .join('\n    ')}
   }
 }
 `;
