@@ -24,7 +24,7 @@ export class DefaultScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.logo.on(
+    this.input.on(
       "pointerup",
       function () {
         this.cameras.main.fadeOut(500, 0, 0, 0, (camera, progress) => {

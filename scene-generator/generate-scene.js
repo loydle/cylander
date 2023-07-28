@@ -40,9 +40,9 @@ function generateSceneCreate(sceneName, sceneConfig) {
 
   actionableItems.forEach(({ name, type, position, width, height, actions, isDraggable, animation, backgroundColor }) => {
     if (type === "hitbox") {
-      createCode += `this.${name} = this.add.rectangle(${position.x}, ${position.y}, ${width}, ${height}, ${backgroundColor}).setInteractive();\n`;
+      createCode += `this.${name} = this.add.rectangle(${position?.x}, ${position?.y}, ${width}, ${height}, ${backgroundColor}).setInteractive();\n`;
     } else if (type === "image") {
-      createCode += `this.${name} = this.add.image(${position.x}, ${position.y}, "${name}").setInteractive();\n`;
+      createCode += `this.${name} = this.add.image(${position?.x}, ${position?.y}, "${name}").setInteractive();\n`;
     }
 
     if (animation) {
