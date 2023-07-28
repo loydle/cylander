@@ -1,6 +1,6 @@
 {
-  "title": "Scene1",
-  "backgroundImage": "scene1.jpg",
+  "title": "Scene2",
+  "backgroundImage": "scene2.jpg",
   "actions": [
     {
       "name": "door",

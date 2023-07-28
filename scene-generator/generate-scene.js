@@ -22,7 +22,8 @@ export class ${sceneName} extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "src/assets/${backgroundImage}");
+    ${backgroundImage ? `this.load.image("background", "src/assets/${backgroundImage}");`: ''}
+
     ${actions
       .map(({ name, type, image }) => {
         return type === "image" ? `this.load.image("${name}", "${image.url}");` : '';
@@ -33,12 +34,20 @@ export class ${sceneName} extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(0, 0, "background").setOrigin(0);
+    ${backgroundImage ? `this.add.image(0, 0, "background").setOrigin(0);`: ''}
+
     ${actions.map(
-      ({ name, type, position, width, height, actions, isDraggable }) =>
+      ({ name, type, position, width, height, actions, isDraggable, animation }) =>
       `
       ${type === "hitbox" ? `this.${name} = this.add.rectangle(${position.x}, ${position.y}, ${width}, ${height}).setInteractive();` : '' }
       ${type === "image" ? `this.${name} = this.add.image(${position.x}, ${position.y}, "${name}").setInteractive();` : '' }
+      ${animation  ? `
+      this.tweens.add({
+        targets: this.${name}, ${JSON.stringify(animation.options).replaceAll(/[{}]/g, '')}
+      });
+
+      `: ''}
+
       ${isDraggable ? `
         this.input.setDraggable(this.${name});
         this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
@@ -60,12 +69,14 @@ export class ${sceneName} extends Phaser.Scene {
       `;
     }).join('')}`).join('')}
 
+    ${robot ? `
     this.robot.create();
     this.robot.showDialog("${robot.defaultDialog}", 30000);
     this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
 
-    ${robot?.animation ? `this.tweens.add({
-      targets: this.robot.robotImage,${robot.animation.options} })` : ''}
+    ${robot?.animation ? `this.tweens.add({targets: this.robot.robotImage,${robot.animation.options} })` : ''}
+
+    ` : ''}
   }
 }
 `;
@@ -74,7 +85,7 @@ export class ${sceneName} extends Phaser.Scene {
 }
 
 function writeSceneToFile(sceneName, sceneClass) {
-  const scenesDir = path.join(__dirname, 'scenes');
+  const scenesDir = path.join(__dirname, '../src/js/scenes');
   if (!fs.existsSync(scenesDir)) {
     fs.mkdirSync(scenesDir);
   }

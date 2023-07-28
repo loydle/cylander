@@ -1,71 +1,79 @@
-// Scene2.js
+
 import * as Phaser from "phaser";
 import { Robot } from "../Robot.js";
 
 export class Scene2 extends Phaser.Scene {
   constructor() {
     super({ key: "Scene2" });
+    this.robot = null;
+    this.robotText = null;
   }
 
   preload() {
-    this.load.image("scene2", "src/assets/scene2.jpg");
+    this.load.image("background", "src/assets/scene2.jpg");
+
+    
+    
     this.load.image("key", "src/assets/key.png");
     this.robot = new Robot(this);
     this.robot.preload();
   }
 
-  create(data) {
-    this.add.image(0, 0, "scene2").setOrigin(0);
-    this.key = this.add.image(data.x, data.y, "key");
-    this.key.setInteractive();
-    this.key.setDepth(1);
+  create() {
+    this.add.image(0, 0, "background").setOrigin(0);
 
-    this.input.setDraggable(this.key);
-    this.input.on("drag", function (pointer, gameObject, dragX, dragY) {
-      gameObject.x = dragX;
-      gameObject.y = dragY;
-    });
+    
+      this.door = this.add.rectangle(637, 544, 100, 100).setInteractive();
+      
+      
 
-    this.exitDoor = this.add.rectangle(766, 520, 200, 300);
-    this.exitDoor.setInteractive();
-    this.exitDoor.setOrigin(0.5);
-    this.exitDoor.setDepth(0);
+      
+      
+            this.door.on("pointerup", () => {
+            
+            this.cameras.main.fadeOut(500, 0, 0, 0, (camera, progress) => {
+                if (progress === 1) {
+                  this.scene.start("Scene2");
+                }
+            });
+        });
+      
+      this.cactus = this.add.rectangle(444, 588, 100, 200).setInteractive();
+      
+      
 
-    this.exitDoor.on(
-      "pointerup",
-      function () {
-        this.cameras.main.zoomTo(
-          1.5,
-          1000,
-          "Linear",
-          true,
-          (camera, progress) => {
-            if (progress === 1) {
-              this.scene.start("Scene1");
-            }
-          },
-        );
-      },
-      this,
-    );
+      
+      
+            this.cactus.on("pointerup", () => {
+            this.robot.showDialog("Watch out! It's a cactus!");
+            
+        });
+      
+      
+      this.key = this.add.image(120, 920, "key").setInteractive();
+      
 
+      
+        this.input.setDraggable(this.key);
+        this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+          gameObject.x = dragX;
+          gameObject.y = dragY;
+        });
+        
+      
+            this.key.on("pointerup", () => {
+            this.robot.showDialog("You have a key!");
+            
+        });
+      
+
+    
     this.robot.create();
-    this.robot.robotImage.setPosition(1055, 490);
+    this.robot.showDialog("Find the door or explore your surroundings.", 30000);
+    this.robot.robotImage.setPosition(1529, 1040);
 
-    this.tweens.add({
-      targets: this.robot.robotImage,
-      y: 530,
-      duration: 500,
-      ease: "Linear",
-      yoyo: true,
-      repeat: -1,
-    });
+    this.tweens.add({targets: this.robot.robotImage,y: 951, duration: 300, ease: 'Linear', yoyo: false, repeat: 0, })
 
-    this.robot.moveTextPosition(1055, 300);
-
-    this.robot.showDialog(
-      "Well done! You found the door!\nNow, explore further and find the exit!",
-      30000,
-    );
+    
   }
 }
