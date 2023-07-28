@@ -35,6 +35,27 @@ export class Scene2 extends Phaser.Scene {
       },
       this,
     );
+    this.exitDoor2 = this.add
+      .rectangle(844, 988, 100, 100, 0xfff00ff)
+      .setInteractive();
+
+    this.exitDoor2.on(
+      "pointerup",
+      function () {
+        this.cameras.main.zoomTo(
+          1.5,
+          1000,
+          "Linear",
+          true,
+          (camera, progress) => {
+            if (progress === 1) {
+              this.scene.start("DefaultScene");
+            }
+          },
+        );
+      },
+      this,
+    );
     this.somehitbox = this.add
       .rectangle(644, 988, 100, 100, 0xfffff00)
       .setInteractive();
