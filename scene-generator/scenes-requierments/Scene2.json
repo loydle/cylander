@@ -1,66 +1,55 @@
 {
   "title": "Scene2",
   "backgroundImage": "scene2.jpg",
-  "actions": [
+  "actionableItems": [
     {
-      "name": "door",
+      "name": "exitDoor",
       "type": "hitbox",
-      "position": { "x": 637, "y": 544 },
+      "position": { "x": 766, "y": 520 },
+      "width": 200,
+      "height": 300,
+      "backgroundColor": "",
+      "actions": [
+        {
+          "type": "pointerup",
+          "transitionTo": "Scene1",
+          "transition": {
+            "type": "zoomTo",
+            "options": "1.5, 1000, \"Linear\", true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "somehitbox",
+      "type": "hitbox",
+      "position": { "x": 644, "y": 988 },
       "width": 100,
       "height": 100,
-      "actions": [
-        {
-          "type": "pointerup",
-          "transitionTo": "Scene2",
-          "transition": {
-            "type":"fadeOut",
-            "options": "500, 0, 0, 0"
-          }
-        }
-      ]
-    },
-    {
-      "name": "cactus",
-      "type": "hitbox",
-      "position": { "x": 444, "y": 588 },
-      "width": 100,
-      "height": 200,
-      "background-color": "",
+      "backgroundColor": "0xfffff00",
       "actions": [
         {
           "type": "pointerup",
           "robot": {
-            "dialog": "Watch out! It's a cactus!"
-          }
-        }
-      ]
-    },
-    {
-      "name": "key",
-      "type": "image",
-      "position": { "x": 120, "y": 920 },
-      "isDraggable": true,
-      "image": {
-        "url": "src/assets/key.png"
-      },
-      "actions": [
-        {
-          "type": "pointerup",
-          "robot": {
-            "dialog": "You have a key!"
+            "dialog": {
+              "content": "This is just a visible hitbox!"
+            }
           }
         }
       ]
     }
   ],
   "robot": {
-    "defaultDialog": "Find the door or explore your surroundings.",
-    "position": {
-     "x": 1529,
-     "y": 1040
-    },
+    "defaultDialog": "Well done!",
+    "position": { "x": 1055, "y": 488 },
     "animation": {
-      "options": "y: 951, duration: 300, ease: 'Linear', yoyo: false, repeat: 0,"
+      "options": {
+        "y": 530,
+        "duration": 500,
+        "ease": "Linear",
+        "yoyo": true,
+        "repeat": -1
+      }
     }
   }
 }

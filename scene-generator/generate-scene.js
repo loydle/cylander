@@ -3,13 +3,17 @@
 const fs = require('fs');
 const path = require('path');
 
+// Helper function to read scene requirements from JSON file
 function readSceneRequirements(sceneFilePath) {
   const sceneRequirements = fs.readFileSync(sceneFilePath, 'utf-8');
   return JSON.parse(sceneRequirements);
 }
 
+// Function to generate the scene class based on the scene configuration
 function generateSceneClass(sceneName, sceneConfig) {
-  const { backgroundImage, actions, robot } = sceneConfig;
+  // Destructure the sceneConfig object
+  const { backgroundImage, actionableItems, robot } = sceneConfig;
+  // Generate the scene class as a template string
   const sceneClass = `
 import * as Phaser from "phaser";
 import { Robot } from "../Robot.js";
@@ -21,61 +25,79 @@ export class ${sceneName} extends Phaser.Scene {
     this.robotText = null;
   }
 
+  // Preload assets required for the scene
   preload() {
-    ${backgroundImage ? `this.load.image("background", "src/assets/${backgroundImage}");`: ''}
-
-    ${actions
-      .map(({ name, type, image }) => {
-        return type === "image" ? `this.load.image("${name}", "${image.url}");` : '';
-      })
-      .join('\n    ')}
+    // Preload background image if provided
+    ${backgroundImage ? `this.load.image("background-${sceneName.toLowerCase()}", "src/assets/${backgroundImage}");` : ''}
+    // Preload actionable items (images) if provided
+    ${actionableItems.map(({ name, type, image }) => `
+      ${type === "image" ? `this.load.image("${name}", "${image.url}");` : ''}
+    `).join('\n    ')}
+    // Preload the Robot class assets
     this.robot = new Robot(this);
     this.robot.preload();
   }
 
+  // Create the scene and add elements to it
   create() {
-    ${backgroundImage ? `this.add.image(0, 0, "background").setOrigin(0);`: ''}
+    // Add background image if provided
+    ${backgroundImage ? `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);` : ''}
+    // Add actionable items to the scene
+    ${actionableItems.map(({ name, type, position, width, height, actions, isDraggable, animation, backgroundColor }) => `
+      ${type === "hitbox" ? `this.${name} = this.add.rectangle(${position.x}, ${position.y}, ${width}, ${height}, ${backgroundColor}).setInteractive();` : ''}
+      ${type === "image" ? `this.${name} = this.add.image(${position.x}, ${position.y}, "${name}").setInteractive();` : ''}
 
-    ${actions.map(
-      ({ name, type, position, width, height, actions, isDraggable, animation }) =>
-      `
-      ${type === "hitbox" ? `this.${name} = this.add.rectangle(${position.x}, ${position.y}, ${width}, ${height}).setInteractive();` : '' }
-      ${type === "image" ? `this.${name} = this.add.image(${position.x}, ${position.y}, "${name}").setInteractive();` : '' }
-      ${animation  ? `
+      // Add animation to the item if provided
+      ${animation ? `
       this.tweens.add({
-        targets: this.${name}, ${JSON.stringify(animation.options).replaceAll(/[{}]/g, '')}
+        targets: this.${name},
+        ${Object.entries(animation.options).map(([key, value]) => `${key}: ${typeof value === 'string' ? `'${value}'` : value}`).join(',')}
       });
+      ` : ''}
 
-      `: ''}
-
+      // Make the item draggable if required
       ${isDraggable ? `
         this.input.setDraggable(this.${name});
         this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
           gameObject.x = dragX;
           gameObject.y = dragY;
         });
-        ` : ''}
-      ${actions.map(({ type, transitionTo, transition, robot}) => { return `
-            this.${name}.on("${type.toLowerCase()}", () => {
-            ${robot && robot.dialog ? `this.robot.showDialog("${robot.dialog}");` : ''}
-            ${transition ?
-              `this.cameras.main.${transition.type}(${transition.options}, (camera, progress) => {
-                if (progress === 1) {
-                  this.scene.start("${transitionTo}");
-                }
-            });` : ''
-          }
-        });
-      `;
-    }).join('')}`).join('')}
+      ` : ''}
 
+      // Set up actions for the item
+      ${actions.map(({ type, transitionTo, transition, robot }) => `
+        this.${name}.on("${type.toLowerCase()}", function () {
+          // Show Robot dialog if provided
+          ${robot && robot.dialog?.content ? `this.robot.showDialog("${robot.dialog?.content}", ${robot.dialog?.delay ? robot.dialog.delay : '3000'});` : ''}
+          // Perform transition if provided
+          ${transition ? `
+          this.cameras.main.${transition.type}({
+            duration: ${transition.duration},
+            red: ${transition.red},
+            green: ${transition.green},
+            blue: ${transition.blue}
+          }, (camera, progress) => {
+            if (progress === 1) {
+              this.scene.start("${transitionTo}");
+            }
+          });
+          ` : ''}
+        }, this);
+      `).join('\n      ')}
+    `).join('\n    ')}
+
+    // Set up the Robot if provided
     ${robot ? `
     this.robot.create();
     this.robot.showDialog("${robot.defaultDialog}", 30000);
     this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
+    this.robot.moveTextPosition(${robot.position.x}, ${robot.dialogMargin?.top ? `${robot.position.y} - this.robot.robotImage.height  + ${robot.dialogMargin.top}`  : `${robot.position.y} - this.robot.robotImage.height / 2`});
 
-    ${robot?.animation ? `this.tweens.add({targets: this.robot.robotImage,${robot.animation.options} })` : ''}
-
+    // Add Robot animation if provided
+    ${robot?.animation ? `this.tweens.add({
+      targets: this.robot.robotImage,
+      ${Object.entries(robot.animation.options).map(([key, value]) => `${key}: ${typeof value === 'string' ? `'${value}'` : value}`).join(',')}
+    });` : ''}
     ` : ''}
   }
 }
@@ -84,6 +106,7 @@ export class ${sceneName} extends Phaser.Scene {
   return sceneClass;
 }
 
+// Helper function to write the scene class to a file
 function writeSceneToFile(sceneName, sceneClass) {
   const scenesDir = path.join(__dirname, '../src/js/scenes');
   if (!fs.existsSync(scenesDir)) {
@@ -92,21 +115,45 @@ function writeSceneToFile(sceneName, sceneClass) {
 
   const sceneFilePath = path.join(scenesDir, `${sceneName}.js`);
   fs.writeFileSync(sceneFilePath, sceneClass, 'utf-8');
-  console.log(`Scene "${sceneName}" generated and saved to file.`);
+  console.log(`\x1b[32mScene "${sceneName}" generated and saved to file.\x1b[0m`);
 }
 
-function generateScenesForTemplate(sceneTemplate) {
-  const { title, actions, robot } = sceneTemplate;
-  const sceneClass = generateSceneClass(title, { backgroundImage: sceneTemplate.backgroundImage, actions, robot });
-  writeSceneToFile(title, sceneClass);
-}
+function deleteSceneFiles() {
+  const scenesDir = path.join(__dirname, '../src/js/scenes');
+  if (!fs.existsSync(scenesDir)) {
+    return;
+  }
 
-function generateAllScenes(sceneTemplates) {
-  sceneTemplates.forEach((sceneTemplate) => {
-    generateScenesForTemplate(sceneTemplate);
+  const sceneFiles = fs.readdirSync(scenesDir).filter((file) => file.endsWith('.js'));
+  sceneFiles.forEach((file) => {
+    const filePath = path.join(scenesDir, file);
+    fs.unlinkSync(filePath);
+    console.log(`Deleted scene file: ${file}`);
   });
 }
 
+// Generate scenes based on scene templates
+function generateScenesForTemplate(sceneTemplate) {
+  const { title, actionableItems, robot } = sceneTemplate;
+  const sceneClass = generateSceneClass(title, {
+    backgroundImage: sceneTemplate.backgroundImage,
+    actionableItems,
+    robot,
+  });
+  writeSceneToFile(title, sceneClass);
+}
+
+// Generate all scenes from scene templates
+function generateAllScenes(sceneTemplates) {
+  console.log('\x1b[33mGenerating scenes...\x1b[0m');
+  deleteSceneFiles();
+  sceneTemplates.forEach((sceneTemplate) => {
+    generateScenesForTemplate(sceneTemplate);
+  });
+  console.log('\x1b[33mAll scenes generated successfully.\x1b[0m');
+}
+
+// Directory containing scene templates in JSON format
 const sceneTemplatesDir = path.join(__dirname, 'scenes-requierments');
 const sceneTemplates = fs
   .readdirSync(sceneTemplatesDir)
@@ -116,4 +163,5 @@ const sceneTemplates = fs
     return readSceneRequirements(sceneFilePath);
   });
 
+// Generate scenes based on the templates
 generateAllScenes(sceneTemplates);

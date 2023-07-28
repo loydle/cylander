@@ -9,71 +9,120 @@ export class Scene1 extends Phaser.Scene {
     this.robotText = null;
   }
 
+  // Preload assets required for the scene
   preload() {
-    this.load.image("background", "src/assets/scene1.jpg");
-
+    // Preload background image if provided
+    this.load.image("background-scene1", "src/assets/scene1.jpg");
+    // Preload actionable items (images) if provided
+    
+      
     
     
-    this.load.image("key", "src/assets/key.png");
+      
+    
+    
+      this.load.image("key", "src/assets/key.png");
+    
+    // Preload the Robot class assets
     this.robot = new Robot(this);
     this.robot.preload();
   }
 
+  // Create the scene and add elements to it
   create() {
-    this.add.image(0, 0, "background").setOrigin(0);
-
+    // Add background image if provided
+    this.add.image(0, 0, "background-scene1").setOrigin(0);
+    // Add actionable items to the scene
     
-      this.door = this.add.rectangle(637, 544, 100, 100).setInteractive();
-      
-      
-
-      
-      
-            this.door.on("pointerup", () => {
-            
-            this.cameras.main.fadeOut(500, 0, 0, 0, (camera, progress) => {
-                if (progress === 1) {
-                  this.scene.start("Scene2");
-                }
-            });
-        });
-      
-      this.cactus = this.add.rectangle(444, 588, 100, 200).setInteractive();
-      
+      this.door = this.add.rectangle(637, 544, 100, 100, undefined).setInteractive();
       
 
+      // Add animation to the item if provided
       
+
+      // Make the item draggable if required
       
-            this.cactus.on("pointerup", () => {
-            this.robot.showDialog("Watch out! It's a cactus!");
-            
-        });
+
+      // Set up actions for the item
       
+        this.door.on("pointerup", function () {
+          // Show Robot dialog if provided
+          
+          // Perform transition if provided
+          
+          this.cameras.main.fadeOut({
+            duration: undefined,
+            red: undefined,
+            green: undefined,
+            blue: undefined
+          }, (camera, progress) => {
+            if (progress === 1) {
+              this.scene.start("Scene2");
+            }
+          });
+          
+        }, this);
+      
+    
+    
+      this.cactus = this.add.rectangle(444, 588, 100, 200, undefined).setInteractive();
+      
+
+      // Add animation to the item if provided
+      
+
+      // Make the item draggable if required
+      
+
+      // Set up actions for the item
+      
+        this.cactus.on("pointerup", function () {
+          // Show Robot dialog if provided
+          this.robot.showDialog("Watch out! It's a cactus!", 3000);
+          // Perform transition if provided
+          
+        }, this);
+      
+    
+    
       
       this.key = this.add.image(120, 920, "key").setInteractive();
+
+      // Add animation to the item if provided
       
 
+      // Make the item draggable if required
       
         this.input.setDraggable(this.key);
         this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
           gameObject.x = dragX;
           gameObject.y = dragY;
         });
-        
-      
-            this.key.on("pointerup", () => {
-            this.robot.showDialog("You have a key!");
-            
-        });
       
 
+      // Set up actions for the item
+      
+        this.key.on("pointerup", function () {
+          // Show Robot dialog if provided
+          this.robot.showDialog("You have a key!", 1000);
+          // Perform transition if provided
+          
+        }, this);
+      
+    
+
+    // Set up the Robot if provided
     
     this.robot.create();
     this.robot.showDialog("Find the door or explore your surroundings.", 30000);
     this.robot.robotImage.setPosition(1529, 1040);
+    this.robot.moveTextPosition(1529, 1040 - this.robot.robotImage.height  + 20);
 
-    this.tweens.add({targets: this.robot.robotImage,y: 951, duration: 300, ease: 'Linear', yoyo: false, repeat: 0, })
-
+    // Add Robot animation if provided
+    this.tweens.add({
+      targets: this.robot.robotImage,
+      y: 900,duration: 300,ease: 'Linear',yoyo: false,repeat: 0
+    });
     
   }
 }

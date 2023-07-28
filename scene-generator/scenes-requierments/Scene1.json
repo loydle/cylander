@@ -1,7 +1,7 @@
 {
   "title": "Scene1",
   "backgroundImage": "scene1.jpg",
-  "actions": [
+  "actionableItems": [
     {
       "name": "door",
       "type": "hitbox",
@@ -13,8 +13,8 @@
           "type": "pointerup",
           "transitionTo": "Scene2",
           "transition": {
-            "type":"fadeOut",
-            "options": "500, 0, 0, 0"
+            "type": "fadeOut",
+            "options": "500, 0,0,0"
           }
         }
       ]
@@ -25,12 +25,13 @@
       "position": { "x": 444, "y": 588 },
       "width": 100,
       "height": 200,
-      "background-color": "",
       "actions": [
         {
           "type": "pointerup",
           "robot": {
-            "dialog": "Watch out! It's a cactus!"
+            "dialog": {
+              "content": "Watch out! It's a cactus!"
+            }
           }
         }
       ]
@@ -47,7 +48,10 @@
         {
           "type": "pointerup",
           "robot": {
-            "dialog": "You have a key!"
+            "dialog": {
+              "content": "You have a key!",
+              "delay": 1000
+            }
           }
         }
       ]
@@ -55,12 +59,21 @@
   ],
   "robot": {
     "defaultDialog": "Find the door or explore your surroundings.",
+    "dialogMargin": {
+      "top": 20
+    },
     "position": {
-     "x": 1529,
-     "y": 1040
+      "x": 1529,
+      "y": 1040
     },
     "animation": {
-      "options": "y: 951, duration: 300, ease: 'Linear', yoyo: false, repeat: 0,"
+      "options": {
+        "y": 900,
+        "duration": 300,
+        "ease": "Linear",
+        "yoyo": false,
+        "repeat": 0
+      }
     }
   }
 }
