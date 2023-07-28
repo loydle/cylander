@@ -1,4 +1,3 @@
-
 import * as Phaser from "phaser";
 import { Robot } from "../Robot.js";
 
@@ -11,32 +10,43 @@ export class Scene2 extends Phaser.Scene {
 
   preload() {
     this.load.image("background-scene2", "src/assets/scene2.jpg");
-this.robot = new Robot(this);
-this.robot.preload();
-
+    this.robot = new Robot(this);
+    this.robot.preload();
   }
 
   create() {
     this.add.image(0, 0, "background-scene2").setOrigin(0);
-this.exitDoor = this.add.rectangle(766, 520, 200, 300, ).setInteractive();
+    this.exitDoor = this.add.rectangle(766, 520, 200, 300).setInteractive();
 
-        this.exitDoor.on("pointerup", function () {
-          
-          
-          this.cameras.main.zoomTo(1.5, 1000, "Linear", true, (camera, progress) => {
+    this.exitDoor.on(
+      "pointerup",
+      function () {
+        this.cameras.main.zoomTo(
+          1.5,
+          1000,
+          "Linear",
+          true,
+          (camera, progress) => {
             if (progress === 1) {
               this.scene.start("Scene1");
             }
-          });
-          
-        }, this);
-      this.somehitbox = this.add.rectangle(644, 988, 100, 100, 0xfffff00).setInteractive();
+          },
+        );
+      },
+      this,
+    );
+    this.somehitbox = this.add
+      .rectangle(644, 988, 100, 100, 0xfffff00)
+      .setInteractive();
 
-        this.somehitbox.on("pointerup", function () {
-          this.robot.showDialog("This is just a visible hitbox!", 3000);
-          
-        }, this);
-      
+    this.somehitbox.on(
+      "pointerup",
+      function () {
+        this.robot.showDialog("This is just a visible hitbox!", 3000);
+      },
+      this,
+    );
+
     this.robot.create();
     this.robot.showDialog("Well done!", 30000);
     this.robot.robotImage.setPosition(1055, 488);
@@ -44,8 +54,11 @@ this.exitDoor = this.add.rectangle(766, 520, 200, 300, ).setInteractive();
 
     this.tweens.add({
       targets: this.robot.robotImage,
-      y: 530,duration: 500,ease: 'Linear',yoyo: true,repeat: -1
+      y: 530,
+      duration: 500,
+      ease: "Linear",
+      yoyo: true,
+      repeat: -1,
     });
-    
   }
 }
