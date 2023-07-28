@@ -25,29 +25,21 @@ export class ${sceneName} extends Phaser.Scene {
     this.robotText = null;
   }
 
-  // Preload assets required for the scene
   preload() {
-    // Preload background image if provided
     ${backgroundImage ? `this.load.image("background-${sceneName.toLowerCase()}", "src/assets/${backgroundImage}");` : ''}
-    // Preload actionable items (images) if provided
     ${actionableItems.map(({ name, type, image }) => `
       ${type === "image" ? `this.load.image("${name}", "${image.url}");` : ''}
     `).join('\n    ')}
-    // Preload the Robot class assets
     this.robot = new Robot(this);
     this.robot.preload();
   }
 
-  // Create the scene and add elements to it
   create() {
-    // Add background image if provided
     ${backgroundImage ? `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);` : ''}
-    // Add actionable items to the scene
     ${actionableItems.map(({ name, type, position, width, height, actions, isDraggable, animation, backgroundColor }) => `
       ${type === "hitbox" ? `this.${name} = this.add.rectangle(${position.x}, ${position.y}, ${width}, ${height}, ${backgroundColor}).setInteractive();` : ''}
       ${type === "image" ? `this.${name} = this.add.image(${position.x}, ${position.y}, "${name}").setInteractive();` : ''}
 
-      // Add animation to the item if provided
       ${animation ? `
       this.tweens.add({
         targets: this.${name},
@@ -55,7 +47,6 @@ export class ${sceneName} extends Phaser.Scene {
       });
       ` : ''}
 
-      // Make the item draggable if required
       ${isDraggable ? `
         this.input.setDraggable(this.${name});
         this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
@@ -64,12 +55,9 @@ export class ${sceneName} extends Phaser.Scene {
         });
       ` : ''}
 
-      // Set up actions for the item
       ${actions.map(({ type, transitionTo, transition, robot }) => `
         this.${name}.on("${type.toLowerCase()}", function () {
-          // Show Robot dialog if provided
           ${robot && robot.dialog?.content ? `this.robot.showDialog("${robot.dialog?.content}", ${robot.dialog?.delay ? robot.dialog.delay : '3000'});` : ''}
-          // Perform transition if provided
           ${transition ? `
           this.cameras.main.${transition.type}(${transition?.options}, (camera, progress) => {
             if (progress === 1) {
@@ -81,14 +69,12 @@ export class ${sceneName} extends Phaser.Scene {
       `).join('\n      ')}
     `).join('\n    ')}
 
-    // Set up the Robot if provided
     ${robot ? `
     this.robot.create();
     this.robot.showDialog("${robot.defaultDialog}", 30000);
     this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
     this.robot.moveTextPosition(${robot.position.x}, ${robot.dialogMargin?.top ? `${robot.position.y} - this.robot.robotImage.height  + ${robot.dialogMargin.top}`  : `${robot.position.y} - this.robot.robotImage.height / 2`});
 
-    // Add Robot animation if provided
     ${robot?.animation ? `this.tweens.add({
       targets: this.robot.robotImage,
       ${Object.entries(robot.animation.options).map(([key, value]) => `${key}: ${typeof value === 'string' ? `'${value}'` : value}`).join(',')}
