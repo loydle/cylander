@@ -9,53 +9,63 @@ function readSceneRequirements(sceneFilePath) {
   return JSON.parse(sceneRequirements);
 }
 
-// Function to generate the scene class based on the scene configuration
-function generateSceneClass(sceneName, sceneConfig) {
-  // Destructure the sceneConfig object
+function generateScenePreload(sceneName, sceneConfig) {
   const { backgroundImage, actionableItems, robot } = sceneConfig;
-  // Generate the scene class as a template string
-  const sceneClass = `
-import * as Phaser from "phaser";
-import { Robot } from "../Robot.js";
+  let preloadCode = '';
 
-export class ${sceneName} extends Phaser.Scene {
-  constructor() {
-    super({ key: "${sceneName}" });
-    this.robot = null;
-    this.robotText = null;
+  if (backgroundImage) {
+    preloadCode += `this.load.image("background-${sceneName.toLowerCase()}", "src/assets/${backgroundImage}");\n`;
   }
 
-  preload() {
-    ${backgroundImage ? `this.load.image("background-${sceneName.toLowerCase()}", "src/assets/${backgroundImage}");` : ''}
-    ${actionableItems.map(({ name, type, image }) => `
-      ${type === "image" ? `this.load.image("${name}", "${image.url}");` : ''}
-    `).join('\n    ')}
-    this.robot = new Robot(this);
-    this.robot.preload();
+  actionableItems.forEach(({ name, type, image }) => {
+    if (type === "image") {
+      preloadCode += `this.load.image("${name}", "${image.url}");\n`;
+    }
+  });
+
+  if (robot) {
+    preloadCode += `this.robot = new Robot(this);\nthis.robot.preload();\n`;
   }
 
-  create() {
-    ${backgroundImage ? `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);` : ''}
-    ${actionableItems.map(({ name, type, position, width, height, actions, isDraggable, animation, backgroundColor }) => `
-      ${type === "hitbox" ? `this.${name} = this.add.rectangle(${position.x}, ${position.y}, ${width}, ${height}, ${backgroundColor}).setInteractive();` : ''}
-      ${type === "image" ? `this.${name} = this.add.image(${position.x}, ${position.y}, "${name}").setInteractive();` : ''}
+  return preloadCode;
+}
 
-      ${animation ? `
+function generateSceneCreate(sceneName, sceneConfig) {
+  const { backgroundImage, actionableItems, robot } = sceneConfig;
+  let createCode = '';
+
+  if (backgroundImage) {
+    createCode += `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);\n`;
+  }
+
+  actionableItems.forEach(({ name, type, position, width, height, actions, isDraggable, animation, backgroundColor }) => {
+    if (type === "hitbox") {
+      createCode += `this.${name} = this.add.rectangle(${position.x}, ${position.y}, ${width}, ${height}, ${backgroundColor}).setInteractive();\n`;
+    } else if (type === "image") {
+      createCode += `this.${name} = this.add.image(${position.x}, ${position.y}, "${name}").setInteractive();\n`;
+    }
+
+    if (animation) {
+      createCode += `
       this.tweens.add({
         targets: this.${name},
         ${Object.entries(animation.options).map(([key, value]) => `${key}: ${typeof value === 'string' ? `'${value}'` : value}`).join(',')}
       });
-      ` : ''}
+      `;
+    }
 
-      ${isDraggable ? `
+    if (isDraggable) {
+      createCode += `
         this.input.setDraggable(this.${name});
         this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
           gameObject.x = dragX;
           gameObject.y = dragY;
         });
-      ` : ''}
+      `;
+    }
 
-      ${actions.map(({ type, transitionTo, transition, robot }) => `
+    actions.forEach(({ type, transitionTo, transition, robot }) => {
+      createCode += `
         this.${name}.on("${type.toLowerCase()}", function () {
           ${robot && robot.dialog?.content ? `this.robot.showDialog("${robot.dialog?.content}", ${robot.dialog?.delay ? robot.dialog.delay : '3000'});` : ''}
           ${transition ? `
@@ -66,10 +76,12 @@ export class ${sceneName} extends Phaser.Scene {
           });
           ` : ''}
         }, this);
-      `).join('\n      ')}
-    `).join('\n    ')}
+      `;
+    });
+  });
 
-    ${robot ? `
+  if (robot) {
+    createCode += `
     this.robot.create();
     this.robot.showDialog("${robot.defaultDialog}", 30000);
     this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
@@ -79,7 +91,32 @@ export class ${sceneName} extends Phaser.Scene {
       targets: this.robot.robotImage,
       ${Object.entries(robot.animation.options).map(([key, value]) => `${key}: ${typeof value === 'string' ? `'${value}'` : value}`).join(',')}
     });` : ''}
-    ` : ''}
+    `;
+  }
+
+  return createCode;
+}
+
+function generateSceneClass(sceneName, sceneConfig) {
+  const preloadCode = generateScenePreload(sceneName, sceneConfig);
+  const createCode = generateSceneCreate(sceneName, sceneConfig);
+
+  const sceneClass = `
+import * as Phaser from "phaser";
+${sceneConfig.robot ? `import { Robot } from "../Robot.js";` : ''}
+
+export class ${sceneName} extends Phaser.Scene {
+  constructor() {
+    super({ key: "${sceneName}" });
+    ${sceneConfig.robot ? 'this.robot = null;\n    this.robotText = null;' : ''}
+  }
+
+  preload() {
+    ${preloadCode}
+  }
+
+  create() {
+    ${createCode}
   }
 }
 `;

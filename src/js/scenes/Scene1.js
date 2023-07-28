@@ -11,30 +11,16 @@ export class Scene1 extends Phaser.Scene {
 
   preload() {
     this.load.image("background-scene1", "src/assets/scene1.jpg");
-    
-      
-    
-    
-      
-    
-    
-      this.load.image("key", "src/assets/key.png");
-    
-    this.robot = new Robot(this);
-    this.robot.preload();
+this.load.image("key", "src/assets/key.png");
+this.robot = new Robot(this);
+this.robot.preload();
+
   }
 
   create() {
     this.add.image(0, 0, "background-scene1").setOrigin(0);
-    
-      this.door = this.add.rectangle(637, 544, 100, 100, undefined).setInteractive();
-      
+this.door = this.add.rectangle(637, 544, 100, 100, undefined).setInteractive();
 
-      
-
-      
-
-      
         this.door.on("pointerup", function () {
           
           
@@ -45,46 +31,25 @@ export class Scene1 extends Phaser.Scene {
           });
           
         }, this);
-      
-    
-    
       this.cactus = this.add.rectangle(444, 588, 100, 200, undefined).setInteractive();
-      
 
-      
-
-      
-
-      
         this.cactus.on("pointerup", function () {
           this.robot.showDialog("Watch out! It's a cactus!", 3000);
           
         }, this);
-      
-    
-    
-      
       this.key = this.add.image(120, 920, "key").setInteractive();
 
-      
-
-      
         this.input.setDraggable(this.key);
         this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
           gameObject.x = dragX;
           gameObject.y = dragY;
         });
       
-
-      
         this.key.on("pointerup", function () {
           this.robot.showDialog("You have a key!", 1000);
           
         }, this);
       
-    
-
-    
     this.robot.create();
     this.robot.showDialog("Find the door or explore your surroundings.", 30000);
     this.robot.robotImage.setPosition(1529, 1040);
