@@ -24,7 +24,7 @@ For detailed documentation on the scene templates and their properties, please r
 ### Usage
 
 1. Define scene templates in JSON format in the 'scenes-requierments' directory.
-2. Run the generator script: `npm run generate-scene`
+2. Run the generator script: `npm run generate:all`
 3. The scene classes will be automatically generated and saved to the 'src/js/scenes' directory.
 
 ## How to Play
