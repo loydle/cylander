@@ -1,39 +1,39 @@
 {
- "title": "DefaultScene",
- "actionableItems": [
-  {
-   "name": "logo",
-   "type": "image",
-   "image": {
-     "url": "src/assets/logo-cylander.svg",
-     "scale": 1
-   },
-   "position": { "x": "this.cameras.main.centerX", "y": "this.cameras.main.centerY" },
-   "actions": [],
-   "animation": {
-     "options": {
-       "scaleX": 1.5,
-       "scaleY": 1.5,
-       "ease": "Linear",
-       "duration": 800,
-       "yoyo": true,
-       "repeat": -1
-     }
-   }
- },
- {
-  "name": "input",
-  "type": "",
-  "actions": [
+  "title": "DefaultScene",
+  "actionableItems": [
     {
-      "type": "pointerup",
-      "transitionTo": "Scene1",
-      "transition": {
-        "type": "fadeOut",
-        "options": "500, 0,0,0"
+      "name": "logo",
+      "type": "image",
+      "image": {
+        "url": "src/assets/logo-cylander.svg",
+        "scale": 1
+      },
+      "position": { "x": "this.cameras.main.centerX", "y": "this.cameras.main.centerY" },
+      "actions": [],
+      "animation": {
+        "options": {
+          "scaleX": 1.5,
+          "scaleY": 1.5,
+          "ease": "Linear",
+          "duration": 800,
+          "yoyo": true,
+          "repeat": -1
+        }
       }
+    },
+    {
+      "name": "input",
+      "type": "",
+      "actions": [
+        {
+          "type": "pointerup",
+          "transitionTo": "Scene1",
+          "transition": {
+            "type": "fadeOut",
+            "options": "500, 0,0,0"
+          }
+        }
+      ]
     }
   ]
-}
- ]
 }
