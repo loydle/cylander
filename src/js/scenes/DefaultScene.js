@@ -1,39 +1,39 @@
-import * as Phaser from "phaser";
+import * as Phaser from 'phaser';
 
 export class DefaultScene extends Phaser.Scene {
   constructor() {
-    super({ key: "DefaultScene" });
+    super({ key: 'DefaultScene' });
   }
 
   preload() {
-    this.load.image("logo", "src/assets/logo-cylander.svg");
+    this.load.image('logo', 'src/assets/logo-cylander.svg');
   }
 
   create() {
     this.logo = this.add
-      .image(this.cameras.main.centerX, this.cameras.main.centerY, "logo")
+      .image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo')
       .setInteractive();
 
     this.tweens.add({
       targets: this.logo,
       scaleX: 1.5,
       scaleY: 1.5,
-      ease: "Linear",
+      ease: 'Linear',
       duration: 800,
       yoyo: true,
       repeat: -1,
     });
 
     this.input.on(
-      "pointerup",
+      'pointerup',
       function () {
         this.cameras.main.fadeOut(500, 0, 0, 0, (camera, progress) => {
           if (progress === 1) {
-            this.scene.start("Scene1");
+            this.scene.start('Scene1');
           }
         });
       },
-      this,
+      this
     );
   }
 }

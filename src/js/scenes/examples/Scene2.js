@@ -1,27 +1,27 @@
 // Scene2.js
-import * as Phaser from "phaser";
-import { Robot } from "../Robot.js";
+import * as Phaser from 'phaser';
+import { Robot } from '../Robot.js';
 
 export class Scene2 extends Phaser.Scene {
   constructor() {
-    super({ key: "Scene2" });
+    super({ key: 'Scene2' });
   }
 
   preload() {
-    this.load.image("scene2", "src/assets/scene2.jpg");
-    this.load.image("key", "src/assets/key.png");
+    this.load.image('scene2', 'src/assets/scene2.jpg');
+    this.load.image('key', 'src/assets/key.png');
     this.robot = new Robot(this);
     this.robot.preload();
   }
 
   create(data) {
-    this.add.image(0, 0, "scene2").setOrigin(0);
-    this.key = this.add.image(data.x, data.y, "key");
+    this.add.image(0, 0, 'scene2').setOrigin(0);
+    this.key = this.add.image(data.x, data.y, 'key');
     this.key.setInteractive();
     this.key.setDepth(1);
 
     this.input.setDraggable(this.key);
-    this.input.on("drag", function (pointer, gameObject, dragX, dragY) {
+    this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
@@ -32,21 +32,21 @@ export class Scene2 extends Phaser.Scene {
     this.exitDoor.setDepth(0);
 
     this.exitDoor.on(
-      "pointerup",
+      'pointerup',
       function () {
         this.cameras.main.zoomTo(
           1.5,
           1000,
-          "Linear",
+          'Linear',
           true,
           (camera, progress) => {
             if (progress === 1) {
-              this.scene.start("Scene1");
+              this.scene.start('Scene1');
             }
-          },
+          }
         );
       },
-      this,
+      this
     );
 
     this.robot.create();
@@ -56,7 +56,7 @@ export class Scene2 extends Phaser.Scene {
       targets: this.robot.robotImage,
       y: 530,
       duration: 500,
-      ease: "Linear",
+      ease: 'Linear',
       yoyo: true,
       repeat: -1,
     });
@@ -64,8 +64,8 @@ export class Scene2 extends Phaser.Scene {
     this.robot.moveTextPosition(1055, 300);
 
     this.robot.showDialog(
-      "Well done! You found the door!\nNow, explore further and find the exit!",
-      30000,
+      'Well done! You found the door!\nNow, explore further and find the exit!',
+      30000
     );
   }
 }

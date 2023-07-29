@@ -2,6 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
+const prettier = require('prettier');
+const prettierConfig = require('../.prettierrc.json');
 
 function readSceneRequirements(sceneFilePath) {
   const sceneRequirements = fs.readFileSync(sceneFilePath, 'utf-8');
@@ -17,7 +19,7 @@ function generateScenePreload(sceneName, sceneConfig) {
   }
 
   actionableItems.forEach(({ name, type, image }) => {
-    if (type === "image") {
+    if (type === 'image') {
       preloadCode += `this.load.image("${name}", "${image.url}");\n`;
     }
   });
@@ -37,59 +39,98 @@ function generateSceneCreate(sceneName, sceneConfig) {
     createCode += `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);\n`;
   }
 
-  actionableItems.forEach(({ name, type, position, size, actions, isDraggable, animation, backgroundColor }) => {
-    if (type === "hitbox") {
-      createCode += `this.${name} = this.add.rectangle(${position?.x}, ${position?.y}, ${size.width}, ${size.height}, ${backgroundColor}).setInteractive();\n`;
-    } else if (type === "image") {
-      createCode += `this.${name} = this.add.image(${position?.x}, ${position?.y}, "${name}").setInteractive();\n`;
-    }
+  actionableItems.forEach(
+    ({
+      name,
+      type,
+      position,
+      size,
+      actions,
+      isDraggable,
+      animation,
+      backgroundColor,
+    }) => {
+      if (type === 'hitbox') {
+        createCode += `this.${name} = this.add.rectangle(${position?.x}, ${position?.y}, ${size.width}, ${size.height}, ${backgroundColor}).setInteractive();\n`;
+      } else if (type === 'image') {
+        createCode += `this.${name} = this.add.image(${position?.x}, ${position?.y}, "${name}").setInteractive();\n`;
+      }
 
-    if (animation) {
-      createCode += `
+      if (animation) {
+        createCode += `
       this.tweens.add({
         targets: this.${name},
-        ${Object.entries(animation.options).map(([key, value]) => `${key}: ${typeof value === 'string' ? `'${value}'` : value}`).join(',')}
+        ${Object.entries(animation.options)
+          .map(
+            ([key, value]) =>
+              `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
+          )
+          .join(',')}
       });
       `;
-    }
+      }
 
-    if (isDraggable) {
-      createCode += `
+      if (isDraggable) {
+        createCode += `
         this.input.setDraggable(this.${name});
         this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
           gameObject.x = dragX;
           gameObject.y = dragY;
         });
       `;
-    }
+      }
 
-    actions.forEach(({ type, transitionTo, transition, robot }) => {
-      createCode += `
+      actions.forEach(({ type, transitionTo, transition, robot }) => {
+        createCode += `
         this.${name}.on("${type.toLowerCase()}", function () {
-          ${robot && robot.dialog?.content ? `this.robot.showDialog("${robot.dialog?.content}", ${robot.dialog?.delay ? robot.dialog.delay : '3000'});` : ''}
-          ${transition ? `
+          ${
+            robot && robot.dialog?.content
+              ? `this.robot.showDialog("${robot.dialog?.content}", ${
+                  robot.dialog?.delay ? robot.dialog.delay : '3000'
+                });`
+              : ''
+          }
+          ${
+            transition
+              ? `
           this.cameras.main.${transition.type}(${transition?.options}, (camera, progress) => {
             if (progress === 1) {
               this.scene.start("${transitionTo}");
             }
           });
-          ` : ''}
+          `
+              : ''
+          }
         }, this);
       `;
-    });
-  });
+      });
+    }
+  );
 
   if (robot) {
     createCode += `
     this.robot.create();
     this.robot.showDialog("${robot.defaultDialog}", 30000);
     this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
-    this.robot.moveTextPosition(${robot.position.x}, ${robot.dialogMargin?.top ? `${robot.position.y} - this.robot.robotImage.height  + ${robot.dialogMargin.top}`  : `${robot.position.y} - this.robot.robotImage.height / 2`});
+    this.robot.moveTextPosition(${robot.position.x}, ${
+      robot.dialogMargin?.top
+        ? `${robot.position.y} - this.robot.robotImage.height  + ${robot.dialogMargin.top}`
+        : `${robot.position.y} - this.robot.robotImage.height / 2`
+    });
 
-    ${robot?.animation ? `this.tweens.add({
+    ${
+      robot?.animation
+        ? `this.tweens.add({
       targets: this.robot.robotImage,
-      ${Object.entries(robot.animation.options).map(([key, value]) => `${key}: ${typeof value === 'string' ? `'${value}'` : value}`).join(',')}
-    });` : ''}
+      ${Object.entries(robot.animation.options)
+        .map(
+          ([key, value]) =>
+            `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
+        )
+        .join(',')}
+    });`
+        : ''
+    }
     `;
   }
 
@@ -123,15 +164,29 @@ export class ${sceneName} extends Phaser.Scene {
   return sceneClass;
 }
 
-function writeSceneToFile(sceneName, sceneClass) {
+async function writeSceneToFile(sceneName, sceneClass) {
   const scenesDir = path.join(__dirname, '../src/js/scenes');
   if (!fs.existsSync(scenesDir)) {
     fs.mkdirSync(scenesDir);
   }
 
   const sceneFilePath = path.join(scenesDir, `${sceneName}.js`);
-  fs.writeFileSync(sceneFilePath, sceneClass, 'utf-8');
-  console.log(`\x1b[32mScene "${sceneName}" generated and saved to file.\x1b[0m`);
+
+  try {
+    const formattedSceneClass = await prettier.format(sceneClass, {
+      ...prettierConfig,
+    });
+
+    fs.writeFileSync(sceneFilePath, formattedSceneClass, 'utf-8');
+    console.log(
+      `\x1b[32mScene "${sceneName}" generated and saved to file.\x1b[0m`
+    );
+  } catch (error) {
+    console.error(
+      `Error formatting and writing scene "${sceneName}" to file:`,
+      error
+    );
+  }
 }
 
 function deleteSceneFiles() {
@@ -140,7 +195,9 @@ function deleteSceneFiles() {
     return;
   }
 
-  const sceneFiles = fs.readdirSync(scenesDir).filter((file) => file.endsWith('.js'));
+  const sceneFiles = fs
+    .readdirSync(scenesDir)
+    .filter((file) => file.endsWith('.js'));
   sceneFiles.forEach((file) => {
     const filePath = path.join(scenesDir, file);
     fs.unlinkSync(filePath);

@@ -6,18 +6,18 @@ export class Robot {
   }
 
   preload() {
-    this.scene.load.image("robot", "src/assets/robot.png");
+    this.scene.load.image('robot', 'src/assets/robot.png');
   }
 
   create() {
-    this.robotImage = this.scene.add.image(1529, 1040, "robot").setDepth(2);
+    this.robotImage = this.scene.add.image(1529, 1040, 'robot').setDepth(2);
 
     this.dialogText = this.scene.add
-      .text(1529, 740, "", {
-        fontFamily: "Arial",
+      .text(1529, 740, '', {
+        fontFamily: 'Arial',
         fontSize: 24,
-        color: "#ffffff",
-        backgroundColor: "#000000",
+        color: '#ffffff',
+        backgroundColor: '#000000',
         padding: {
           x: 20,
           y: 10,
