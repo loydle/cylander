@@ -6,8 +6,10 @@
       "name": "door",
       "type": "hitbox",
       "position": { "x": 637, "y": 544 },
-      "width": 100,
-      "height": 100,
+      "size": {
+        "width": 100,
+        "height": 100
+      },
       "actions": [
         {
           "type": "pointerup",
@@ -23,8 +25,10 @@
       "name": "cactus",
       "type": "hitbox",
       "position": { "x": 444, "y": 588 },
-      "width": 100,
-      "height": 200,
+      "size": {
+        "width": 100,
+        "height": 200
+      },
       "actions": [
         {
           "type": "pointerup",

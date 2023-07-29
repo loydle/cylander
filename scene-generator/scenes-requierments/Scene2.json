@@ -6,8 +6,10 @@
       "name": "exitDoor",
       "type": "hitbox",
       "position": { "x": 766, "y": 520 },
-      "width": 200,
-      "height": 300,
+      "size": {
+        "width": 200,
+        "height": 300
+      },
       "backgroundColor": "",
       "actions": [
         {
@@ -25,8 +27,10 @@
       "type": "hitbox",
       "position": { "x": 844, "y": 988 },
       "backgroundColor": "0xfff00ff",
-      "width": 100,
-      "height": 100,
+      "size": {
+        "width": 100,
+        "height": 100
+      },
       "actions": [
         {
           "type": "pointerup",
@@ -42,8 +46,10 @@
       "name": "somehitbox",
       "type": "hitbox",
       "position": { "x": 644, "y": 988 },
-      "width": 100,
-      "height": 100,
+      "size": {
+        "width": 100,
+        "height": 100
+      },
       "backgroundColor": "0xfffff00",
       "actions": [
         {

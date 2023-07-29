@@ -3,7 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Helper function to read scene requirements from JSON file
 function readSceneRequirements(sceneFilePath) {
   const sceneRequirements = fs.readFileSync(sceneFilePath, 'utf-8');
   return JSON.parse(sceneRequirements);
@@ -38,9 +37,9 @@ function generateSceneCreate(sceneName, sceneConfig) {
     createCode += `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);\n`;
   }
 
-  actionableItems.forEach(({ name, type, position, width, height, actions, isDraggable, animation, backgroundColor }) => {
+  actionableItems.forEach(({ name, type, position, size, actions, isDraggable, animation, backgroundColor }) => {
     if (type === "hitbox") {
-      createCode += `this.${name} = this.add.rectangle(${position?.x}, ${position?.y}, ${width}, ${height}, ${backgroundColor}).setInteractive();\n`;
+      createCode += `this.${name} = this.add.rectangle(${position?.x}, ${position?.y}, ${size.width}, ${size.height}, ${backgroundColor}).setInteractive();\n`;
     } else if (type === "image") {
       createCode += `this.${name} = this.add.image(${position?.x}, ${position?.y}, "${name}").setInteractive();\n`;
     }
@@ -124,7 +123,6 @@ export class ${sceneName} extends Phaser.Scene {
   return sceneClass;
 }
 
-// Helper function to write the scene class to a file
 function writeSceneToFile(sceneName, sceneClass) {
   const scenesDir = path.join(__dirname, '../src/js/scenes');
   if (!fs.existsSync(scenesDir)) {
@@ -150,7 +148,6 @@ function deleteSceneFiles() {
   });
 }
 
-// Generate scenes based on scene templates
 function generateScenesForTemplate(sceneTemplate) {
   const { title, actionableItems, robot } = sceneTemplate;
   const sceneClass = generateSceneClass(title, {
@@ -161,7 +158,6 @@ function generateScenesForTemplate(sceneTemplate) {
   writeSceneToFile(title, sceneClass);
 }
 
-// Generate all scenes from scene templates
 function generateAllScenes(sceneTemplates) {
   console.log('\x1b[33mGenerating scenes...\x1b[0m');
   deleteSceneFiles();
@@ -171,7 +167,6 @@ function generateAllScenes(sceneTemplates) {
   console.log('\x1b[33mAll scenes generated successfully.\x1b[0m');
 }
 
-// Directory containing scene templates in JSON format
 const sceneTemplatesDir = path.join(__dirname, 'scenes-requierments');
 const sceneTemplates = fs
   .readdirSync(sceneTemplatesDir)
