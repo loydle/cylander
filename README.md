@@ -17,10 +17,6 @@ This project is currently in development and is a first draft aimed at testing t
 
 The scene generator is a script that automatically generates scene classes for the game based on scene templates defined in JSON format. It uses the Phaser game framework and allows for easy creation of scenes with interactive elements, background images, and robot dialogues.
 
-### Scene Template Documentation
-
-For detailed documentation on the scene templates and their properties, please refer to the [Scene Template Documentation](./scene-generator/SCENE_TEMPLATE_DOCUMENTATION.md).
-
 ### Usage
 
 1. Define scene templates in JSON format in the 'scenes-requierments' directory.
