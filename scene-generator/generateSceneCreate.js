@@ -57,23 +57,26 @@ function generateSceneCreate(sceneName, sceneConfig) {
 
       actions.forEach(({ type, transitionTo, transition, robot }) => {
         createCode += `
-       this.${name}.on("${type.toLowerCase()}", function () {
+        this.${name}.on("${type.toLowerCase()}", function () {
          ${
            robot && robot.dialog?.content
-             ? `this.robot.showDialog("${robot.dialog?.content}", ${
-                 robot.dialog?.delay ? robot.dialog.delay : '3000'
-               });`
+             ? `
+           this.robot.dialogContent = "${robot.dialog.content}"; // Update dialog content
+           this.robot.showDialog(this.robot.dialogContent, ${
+               robot.dialog?.delay ? robot.dialog.delay : '3000'
+             });
+           `
              : ''
          }
          ${
            transition
              ? `
-         this.cameras.main.${transition.type}(${transition?.options}, (camera, progress) => {
-           if (progress === 1) {
-             this.scene.start("${transitionTo}");
-           }
-         });
-         `
+           this.cameras.main.${transition.type}(${transition?.options}, (camera, progress) => {
+             if (progress === 1) {
+               this.scene.start("${transitionTo}");
+             }
+           });
+           `
              : ''
          }
        }, this);
@@ -83,11 +86,12 @@ function generateSceneCreate(sceneName, sceneConfig) {
   );
 
   if (robot) {
-    createCode += `
-   this.robot.create();
-   this.robot.showDialog("${robot.defaultDialog}", 30000);
-   this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
-   this.robot.moveTextPosition(${robot.position.x}, ${
+   createCode += `
+     this.robot.create();
+     this.robot.dialogContent = ""; // Initialize the dialog content to an empty string
+     this.robot.showDialog("${robot.defaultDialog}", 30000);
+     this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
+     this.robot.moveTextPosition(${robot.position.x}, ${
      robot.dialogMargin?.top
        ? `${robot.position.y} - this.robot.robotImage.height  + ${robot.dialogMargin.top}`
        : `${robot.position.y} - this.robot.robotImage.height / 2`
@@ -96,20 +100,20 @@ function generateSceneCreate(sceneName, sceneConfig) {
    ${
      robot?.animation
        ? `this.tweens.add({
-     targets: this.robot.robotImage,
-     ${Object.entries(robot.animation.options)
-       .map(
-         ([key, value]) =>
-           `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
-       )
-       .join(',')}
-   });`
+           targets: this.robot.robotImage,
+           ${Object.entries(robot.animation.options)
+             .map(
+               ([key, value]) =>
+                 `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
+             )
+             .join(',')}
+         });`
        : ''
    }
    `;
-  }
+ }
 
-  return createCode;
+ return createCode;
 }
 
 module.exports = generateSceneCreate;

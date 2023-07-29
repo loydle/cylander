@@ -28,8 +28,8 @@ export class Robot {
         robotConfig.dialog.initialPosition.y,
         '',
         {
-          fontFamily: robotConfig.dialog.fontFamily,
-          fontSize: robotConfig.dialog.fontSize,
+          fontFamily: robotConfig.dialog.font.family,
+          fontSize: robotConfig.dialog.font.size,
           color: robotConfig.dialog.textColor,
           backgroundColor: robotConfig.dialog.backgroundColor,
           padding: robotConfig.dialog.padding,
@@ -40,24 +40,14 @@ export class Robot {
       .setVisible(false);
   }
 
-  showDialog(text, delay = robotConfig.dialog.defaultDuration) {
-    if (this.dialogVisible) {
+  showDialog(text, duration = robotConfig.dialog.defaultDuration) {
+    this.dialogText.setText(text);
+    this.dialogText.setVisible(true);
+    this.dialogVisible = true;
+    this.scene.time.delayedCall(duration, () => {
       this.dialogText.setVisible(false);
       this.dialogVisible = false;
-      this.scene.time.delayedCall(delay, () => {
-        this.dialogText.setText(text);
-        this.dialogText.setVisible(true);
-        this.dialogVisible = true;
-      });
-    } else {
-      this.dialogText.setText(text);
-      this.dialogText.setVisible(true);
-      this.dialogVisible = true;
-      this.scene.time.delayedCall(delay, () => {
-        this.dialogText.setVisible(false);
-        this.dialogVisible = false;
-      });
-    }
+    });
   }
 
   moveTextPosition(x, y) {

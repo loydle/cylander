@@ -4,7 +4,10 @@ export const robotConfig = {
   initialScale: 1,
   dialog: {
     initialPosition: { x: 1529, y: 740 },
-    fontFamily: 'Arial',
+    font: {
+      family: 'monospace',
+      size: 24,
+    },
     fontSize: 24,
     textColor: '#ffffff',
     backgroundColor: '#000000',
