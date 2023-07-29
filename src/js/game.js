@@ -10,7 +10,7 @@ const config = {
   scene: [DefaultScene, Scene1, Scene2],
 };
 
-const game = new Phaser.Game({...config, ...gameConfig});
+const game = new Phaser.Game({ ...config, ...gameConfig });
 
 function resizeGame() {
   const canvas = document.querySelector('canvas');

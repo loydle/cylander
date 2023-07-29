@@ -1,6 +1,4 @@
-
 import { robotConfig } from '../configs/robotConfig.js';
-
 
 export class Robot {
   constructor(scene) {
@@ -15,7 +13,11 @@ export class Robot {
 
   create() {
     this.robotImage = this.scene.add
-      .image(robotConfig.initialPosition.x, robotConfig.initialPosition.y, 'robot')
+      .image(
+        robotConfig.initialPosition.x,
+        robotConfig.initialPosition.y,
+        'robot'
+      )
       .setDepth(2);
 
     this.robotImage.setScale(robotConfig.initialScale);

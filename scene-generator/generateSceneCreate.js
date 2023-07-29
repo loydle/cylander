@@ -1,38 +1,38 @@
 /* eslint-env node */
 
 function generateSceneCreate(sceneName, sceneConfig) {
- const { backgroundImage, actionableItems, robot } = sceneConfig;
- let createCode = '';
+  const { backgroundImage, actionableItems, robot } = sceneConfig;
+  let createCode = '';
 
- if (backgroundImage) {
-   createCode += `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);\n`;
- }
+  if (backgroundImage) {
+    createCode += `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);\n`;
+  }
 
- actionableItems.forEach(
-   ({
-     name,
-     type,
-     position,
-     size,
-     actions,
-     isDraggable,
-     animation,
-     backgroundColor,
-     image,
-   }) => {
-     if (type === 'hitbox') {
-       createCode += `this.${name} = this.add.rectangle(${position?.x}, ${position?.y}, ${size.width}, ${size.height}, ${backgroundColor}).setInteractive();\n`;
-     }
+  actionableItems.forEach(
+    ({
+      name,
+      type,
+      position,
+      size,
+      actions,
+      isDraggable,
+      animation,
+      backgroundColor,
+      image,
+    }) => {
+      if (type === 'hitbox') {
+        createCode += `this.${name} = this.add.rectangle(${position?.x}, ${position?.y}, ${size.width}, ${size.height}, ${backgroundColor}).setInteractive();\n`;
+      }
 
-     if (type === 'image') {
-       createCode += `this.${name} = this.add.image(${position?.x}, ${position?.y}, "${name}").setInteractive();\n`;
-       if (image && image.scale) {
-         createCode += `this.${name}.setScale(${image.scale});\n`;
-       }
-     }
+      if (type === 'image') {
+        createCode += `this.${name} = this.add.image(${position?.x}, ${position?.y}, "${name}").setInteractive();\n`;
+        if (image && image.scale) {
+          createCode += `this.${name}.setScale(${image.scale});\n`;
+        }
+      }
 
-     if (animation) {
-       createCode += `
+      if (animation) {
+        createCode += `
      this.tweens.add({
        targets: this.${name},
        ${Object.entries(animation.options)
@@ -43,20 +43,20 @@ function generateSceneCreate(sceneName, sceneConfig) {
          .join(',')}
      });
      `;
-     }
+      }
 
-     if (isDraggable) {
-       createCode += `
+      if (isDraggable) {
+        createCode += `
        this.input.setDraggable(this.${name});
        this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
          gameObject.x = dragX;
          gameObject.y = dragY;
        });
      `;
-     }
+      }
 
-     actions.forEach(({ type, transitionTo, transition, robot }) => {
-       createCode += `
+      actions.forEach(({ type, transitionTo, transition, robot }) => {
+        createCode += `
        this.${name}.on("${type.toLowerCase()}", function () {
          ${
            robot && robot.dialog?.content
@@ -78,12 +78,12 @@ function generateSceneCreate(sceneName, sceneConfig) {
          }
        }, this);
      `;
-     });
-   }
- );
+      });
+    }
+  );
 
- if (robot) {
-   createCode += `
+  if (robot) {
+    createCode += `
    this.robot.create();
    this.robot.showDialog("${robot.defaultDialog}", 30000);
    this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
@@ -107,9 +107,9 @@ function generateSceneCreate(sceneName, sceneConfig) {
        : ''
    }
    `;
- }
+  }
 
- return createCode;
+  return createCode;
 }
 
 module.exports = generateSceneCreate;
