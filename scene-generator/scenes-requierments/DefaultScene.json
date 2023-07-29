@@ -5,7 +5,8 @@
    "name": "logo",
    "type": "image",
    "image": {
-     "url": "src/assets/logo-cylander.svg"
+     "url": "src/assets/logo-cylander.svg",
+     "scale": 1
    },
    "position": { "x": "this.cameras.main.centerX", "y": "this.cameras.main.centerY" },
    "actions": [],

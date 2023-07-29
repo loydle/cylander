@@ -13,6 +13,7 @@ export class DefaultScene extends Phaser.Scene {
     this.logo = this.add
       .image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo')
       .setInteractive();
+    this.logo.setScale(1);
 
     this.tweens.add({
       targets: this.logo,

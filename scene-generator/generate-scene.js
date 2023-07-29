@@ -49,11 +49,17 @@ function generateSceneCreate(sceneName, sceneConfig) {
       isDraggable,
       animation,
       backgroundColor,
+      image,
     }) => {
       if (type === 'hitbox') {
         createCode += `this.${name} = this.add.rectangle(${position?.x}, ${position?.y}, ${size.width}, ${size.height}, ${backgroundColor}).setInteractive();\n`;
-      } else if (type === 'image') {
+      }
+
+      if (type === 'image') {
         createCode += `this.${name} = this.add.image(${position?.x}, ${position?.y}, "${name}").setInteractive();\n`;
+        if (image && image.scale) {
+          createCode += `this.${name}.setScale(${image.scale});\n`;
+        }
       }
 
       if (animation) {

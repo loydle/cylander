@@ -46,7 +46,8 @@
       "position": { "x": 120, "y": 920 },
       "isDraggable": true,
       "image": {
-        "url": "src/assets/key.png"
+        "url": "src/assets/key.png",
+        "scale": 0.6
       },
       "actions": [
         {

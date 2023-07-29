@@ -44,6 +44,7 @@ export class Scene1 extends Phaser.Scene {
       this
     );
     this.key = this.add.image(120, 920, 'key').setInteractive();
+    this.key.setScale(0.6);
 
     this.input.setDraggable(this.key);
     this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
