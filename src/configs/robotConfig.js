@@ -12,6 +12,6 @@ export const robotConfig = {
     textColor: '#ffffff',
     backgroundColor: '#000000',
     padding: { x: 20, y: 10 },
-    defaultDuration: 2000,
+    defaultDuration: 5000,
   },
 };
