@@ -1,3 +1,7 @@
+
+import { robotConfig } from '../configs/robotConfig.js';
+
+
 export class Robot {
   constructor(scene) {
     this.scene = scene;
@@ -6,29 +10,35 @@ export class Robot {
   }
 
   preload() {
-    this.scene.load.image('robot', 'src/assets/robot.png');
+    this.scene.load.image('robot', robotConfig.imageFilePath);
   }
 
   create() {
-    this.robotImage = this.scene.add.image(1529, 1040, 'robot').setDepth(2);
+    this.robotImage = this.scene.add
+      .image(robotConfig.initialPosition.x, robotConfig.initialPosition.y, 'robot')
+      .setDepth(2);
+
+    this.robotImage.setScale(robotConfig.initialScale);
 
     this.dialogText = this.scene.add
-      .text(1529, 740, '', {
-        fontFamily: 'Arial',
-        fontSize: 24,
-        color: '#ffffff',
-        backgroundColor: '#000000',
-        padding: {
-          x: 20,
-          y: 10,
-        },
-      })
+      .text(
+        robotConfig.dialog.initialPosition.x,
+        robotConfig.dialog.initialPosition.y,
+        '',
+        {
+          fontFamily: robotConfig.dialog.fontFamily,
+          fontSize: robotConfig.dialog.fontSize,
+          color: robotConfig.dialog.textColor,
+          backgroundColor: robotConfig.dialog.backgroundColor,
+          padding: robotConfig.dialog.padding,
+        }
+      )
       .setOrigin(0.5)
       .setDepth(2)
       .setVisible(false);
   }
 
-  showDialog(text, delay = 2000) {
+  showDialog(text, delay = robotConfig.dialog.defaultDuration) {
     if (this.dialogVisible) {
       this.dialogText.setVisible(false);
       this.dialogVisible = false;

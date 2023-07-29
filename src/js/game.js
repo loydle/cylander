@@ -1,17 +1,16 @@
 import * as Phaser from 'phaser';
+import { gameConfig } from '../configs/gameConfig.js';
 import { DefaultScene } from './scenes/DefaultScene.js';
 import { Scene1 } from './scenes/Scene1.js';
 import { Scene2 } from './scenes/Scene2.js';
 
 const config = {
   type: Phaser.AUTO,
-  width: 1920,
-  height: 1080,
   parent: 'game-container',
   scene: [DefaultScene, Scene1, Scene2],
 };
 
-const game = new Phaser.Game(config);
+const game = new Phaser.Game({...config, ...gameConfig});
 
 function resizeGame() {
   const canvas = document.querySelector('canvas');
