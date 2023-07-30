@@ -13,13 +13,13 @@ function generateSceneCreate(sceneName, sceneConfig) {
 
   actionableItems.forEach((actionableItem) => {
     if (actionableItem?.type === 'hitbox') {
-      createCode += `this.${actionableItem?.name} = this.add.rectangle(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, ${actionableItem?.size.width}, ${actionableItem?.size.height}, ${actionableItem?.backgroundColor}).setInteractive();\n`;
+      createCode += `this.${actionableItem?.name} = this.add.rectangle(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, ${actionableItem?.size?.width}, ${actionableItem?.size?.height}, ${actionableItem?.backgroundColor}).setInteractive();\n`;
     }
 
     if (actionableItem?.type === 'image') {
       createCode += `this.${actionableItem?.name} = this.add.image(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, "${actionableItem?.name}").setInteractive();\n`;
-      if (actionableItem?.image && actionableItem?.image.scale) {
-        createCode += `this.${actionableItem?.name}.setScale(${actionableItem?.image.scale});\n`;
+      if (actionableItem?.image && actionableItem?.image?.scale) {
+        createCode += `this.${actionableItem?.name}.setScale(${actionableItem?.image?.scale});\n`;
       }
     }
 
@@ -33,22 +33,22 @@ function generateSceneCreate(sceneName, sceneConfig) {
                 `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
             )
             .join(',')}
-            });
-            `;
+        });
+      `;
     }
 
     if (actionableItem?.isDraggable) {
       createCode += `
-            this.input.setDraggable(this.${actionableItem?.name});
-            this.${actionableItem?.name}.on('pointerdown', function () {
-              this.scene.children.bringToTop(this);
-            });
+        this.input.setDraggable(this.${actionableItem?.name});
+        this.${actionableItem?.name}.on('pointerdown', function () {
+          this.scene.children.bringToTop(this);
+        });
 
-            this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
-              gameObject.x = dragX;
-              gameObject.y = dragY;
-            });
-            `;
+        this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+          gameObject.x = dragX;
+          gameObject.y = dragY;
+        });
+      `;
     }
 
     if (actionableItem?.hasPhysicsEnabled) {
@@ -69,41 +69,41 @@ function generateSceneCreate(sceneName, sceneConfig) {
       if (eventType === 'collide') {
         actions.forEach(({ actionType, action }) => {
           content += `
-          this.physics.add.overlap(this.${name}, this.${eventTarget}, () => {
-            ${
-              actionType === 'mainNPCDialog'
-                ? generateMainNPCDialogAction(action)
-                : ''
-            }
-          });
-        `;
+            this.physics.add.overlap(this.${name}, this.${eventTarget}, () => {
+              ${
+                actionType === 'mainNPCDialog'
+                  ? generateMainNPCDialogAction(action)
+                  : ''
+              }
+            });
+          `;
         });
       } else {
         actions.forEach(({ actionType, action }) => {
           content += `
-                this.${name}.on("${eventType.toLowerCase()}", function () {
-                  ${
-                    actionType === 'sceneTransition'
-                      ? `
-                    if (!isTransitionInProgress) {
-                      isTransitionInProgress = true;
-                      this.cameras.main.${action?.transition?.effect}(${action?.transition?.options}, (camera, progress) => {
-                        if (progress === 1) {
-                          isTransitionInProgress = false;
-                          this.scene.start("${action?.transition?.to}");
-                        }
-                      });
+            this.${name}.on("${eventType.toLowerCase()}", function () {
+              ${
+                actionType === 'sceneTransition'
+                  ? `
+                if (!isTransitionInProgress) {
+                  isTransitionInProgress = true;
+                  this.cameras.main.${action?.transition?.effect}(${action?.transition?.options}, (camera, progress) => {
+                    if (progress === 1) {
+                      isTransitionInProgress = false;
+                      this.scene.start("${action?.transition?.to}");
                     }
-                    `
-                      : ''
-                  }
-                  ${
-                    actionType === 'mainNPCDialog'
-                      ? generateMainNPCDialogAction(action)
-                      : ''
-                  }
-                }, this);
-                `;
+                  });
+                }
+                `
+                  : ''
+              }
+              ${
+                actionType === 'mainNPCDialog'
+                  ? generateMainNPCDialogAction(action)
+                  : ''
+              }
+            }, this);
+          `;
         });
       }
       return content;
@@ -158,9 +158,9 @@ function generateSceneCreate(sceneName, sceneConfig) {
             } - this.mainNPC.mainNPCImage.height / 2`
       });
 
-    ${
-      mainNPC?.animation
-        ? `this.tweens.add({
+      ${
+        mainNPC?.animation
+          ? `this.tweens.add({
         targets: this.mainNPC.mainNPCImage,
         ${Object.entries(mainNPC.animation.options)
           .map(
@@ -168,9 +168,9 @@ function generateSceneCreate(sceneName, sceneConfig) {
               `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
           )
           .join(',')},
-        });`
-        : ''
-    }
+      });`
+          : ''
+      }
     `;
   }
 
