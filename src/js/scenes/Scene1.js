@@ -64,7 +64,7 @@ export class Scene1 extends Phaser.Scene {
 
     this.robot.create();
     this.robot.dialogContent = '';
-    this.robot.showDialog('Find the door or explore your surroundings.', 30000);
+    this.robot.showDialog('Find the door or explore your surroundings.', 5000);
     this.robot.robotImage.setPosition(1529, 1040);
     this.robot.moveTextPosition(1529, 1040 - this.robot.robotImage.height + 20);
 

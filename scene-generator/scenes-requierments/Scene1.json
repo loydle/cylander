@@ -55,7 +55,7 @@
           "robot": {
             "dialog": {
               "content": "You have a key!",
-              "delay": 1000
+              "duration": 1000
             }
           }
         }
@@ -63,9 +63,12 @@
     }
   ],
   "robot": {
-    "defaultDialog": "Find the door or explore your surroundings.",
-    "dialogMargin": {
-      "top": 20
+    "dialog": {
+      "content": "Find the door or explore your surroundings.",
+      "duration": 5000,
+      "position": {
+        "top": 20
+      }
     },
     "position": {
       "x": 1529,

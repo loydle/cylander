@@ -98,7 +98,7 @@ export class Scene2 extends Phaser.Scene {
 
     this.robot.create();
     this.robot.dialogContent = '';
-    this.robot.showDialog('Well done!', 30000);
+    this.robot.showDialog('Welcome to Scene 2!', 3000);
     this.robot.robotImage.setPosition(1055, 488);
     this.robot.moveTextPosition(1055, 488 - this.robot.robotImage.height / 2);
 

@@ -66,7 +66,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
         return `
           this.robot.dialogContent = "${robot.dialog.content}";
           this.robot.showDialog(this.robot.dialogContent, ${
-            robot.dialog?.delay ? robot.dialog.delay : '3000'
+            robot.dialog?.duration || 3000
           });
         `;
       }
@@ -130,13 +130,13 @@ function generateSceneCreate(sceneName, sceneConfig) {
     createCode += `
           this.robot.create();
           this.robot.dialogContent = "";
-          this.robot.showDialog("${robot.defaultDialog}", 30000);
+          this.robot.showDialog("${robot?.dialog?.content}", ${robot?.dialog?.duration || 3000});
           this.robot.robotImage.setPosition(${robot.position.x}, ${
             robot.position.y
           });
           this.robot.moveTextPosition(${robot.position.x}, ${
-            robot.dialogMargin?.top
-              ? `${robot.position.y} - this.robot.robotImage.height  + ${robot.dialogMargin.top}`
+            robot.dialog?.position?.top
+              ? `${robot.position.y} - this.robot.robotImage.height  + ${robot.dialog?.position?.top}`
               : `${robot.position.y} - this.robot.robotImage.height / 2`
           });
 

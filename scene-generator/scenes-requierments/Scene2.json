@@ -80,7 +80,7 @@
           "robot": {
             "dialog": {
               "content": "Find something to interact with!",
-              "delay": 1000
+              "duration": 1000
             }
           }
         },
@@ -90,7 +90,7 @@
           "robot": {
             "dialog": {
               "content": "Something happend!",
-              "delay": 5000
+              "duration": 5000
             }
           }
         }
@@ -98,7 +98,9 @@
     }
   ],
   "robot": {
-    "defaultDialog": "Well done!",
+    "dialog": {
+      "content": "Welcome to Scene 2!"
+    },
     "position": { "x": 1055, "y": 488 },
     "animation": {
       "options": {
