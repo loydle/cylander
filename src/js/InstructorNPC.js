@@ -5,6 +5,7 @@ export class InstructorNPC {
     this.scene = scene;
     this.dialogVisible = false;
     this.dialogText = null;
+    this.dialogContent = '';
   }
 
   preload() {
@@ -12,7 +13,7 @@ export class InstructorNPC {
   }
 
   create() {
-    this.robotImage = this.scene.add
+    this.instructorNPCImage = this.scene.add
       .image(
         instructorNPCConfig.initialPosition.x,
         instructorNPCConfig.initialPosition.y,
@@ -20,7 +21,7 @@ export class InstructorNPC {
       )
       .setDepth(2);
 
-    this.robotImage.setScale(instructorNPCConfig.initialScale);
+    this.instructorNPCImage.setScale(instructorNPCConfig.initialScale);
 
     this.dialogText = this.scene.add
       .text(
@@ -40,14 +41,20 @@ export class InstructorNPC {
       .setVisible(false);
   }
 
-  showDialog(text, duration = instructorNPCConfig.dialog.defaultDuration) {
-    this.dialogText.setText(text);
-    this.dialogText.setVisible(true);
-    this.dialogVisible = true;
-    this.scene.time.delayedCall(duration, () => {
-      this.dialogText.setVisible(false);
-      this.dialogVisible = false;
-    });
+  showDialog(content, duration) {
+    -this.dialogText.setText(content);
+    this.dialogText.visible = true;
+
+    if (duration) {
+      this.scene.time.delayedCall(duration, () => {
+        this.hideDialog();
+      });
+    }
+  }
+
+  hideDialog() {
+    // Hide the dialog box
+    this.dialogText.visible = false;
   }
 
   moveTextPosition(x, y) {

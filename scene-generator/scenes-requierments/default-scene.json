@@ -4,12 +4,12 @@
     {
       "name": "logo",
       "type": "image",
+      "position": { "x": "this.cameras.main.centerX", "y": "this.cameras.main.centerY" },
       "image": {
         "url": "src/assets/logo-cylander.svg",
         "scale": 1
       },
-      "position": { "x": "this.cameras.main.centerX", "y": "this.cameras.main.centerY" },
-      "actions": [],
+      "events": [],
       "animation": {
         "options": {
           "scaleX": 1.5,
@@ -23,17 +23,23 @@
     },
     {
       "name": "input",
-      "type": "",
-      "actions": [
+      "itemType": "",
+      "events": [
         {
-          "type": "pointerup",
-          "transitionTo": "Scene1",
-          "transition": {
-            "type": "fadeOut",
-            "options": "500, 0,0,0"
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "sceneTransition",
+              "action": {
+                "transition": {
+                  "to": "Scene1",
+                  "effect": "fadeOut",
+                  "options": "500, 0,0,0"}
+                }
+              }
+            ]
           }
-        }
-      ]
-    }
-  ]
-}
+        ]
+      }
+    ]
+  }

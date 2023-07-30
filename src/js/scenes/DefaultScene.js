@@ -10,6 +10,7 @@ export class DefaultScene extends Phaser.Scene {
   }
 
   create() {
+    let isTransitionInProgress = false;
     this.logo = this.add
       .image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo')
       .setInteractive();
@@ -28,11 +29,15 @@ export class DefaultScene extends Phaser.Scene {
     this.input.on(
       'pointerup',
       function () {
-        this.cameras.main.fadeOut(500, 0, 0, 0, (camera, progress) => {
-          if (progress === 1) {
-            this.scene.start('Scene1');
-          }
-        });
+        if (!isTransitionInProgress) {
+          isTransitionInProgress = true;
+          this.cameras.main.fadeOut(500, 0, 0, 0, (camera, progress) => {
+            if (progress === 1) {
+              isTransitionInProgress = false;
+              this.scene.start('Scene1');
+            }
+          });
+        }
       },
       this
     );

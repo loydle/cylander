@@ -10,14 +10,20 @@
         "width": 100,
         "height": 100
       },
-      "actions": [
+      "events": [
         {
-          "type": "pointerup",
-          "transitionTo": "Scene2",
-          "transition": {
-            "type": "fadeOut",
-            "options": "500, 0,0,0"
-          }
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "sceneTransition",
+              "action": {
+                "transition": {
+                  "to": "Scene2",
+                  "effect": "fadeOut",
+                  "options": "500, 0,0,0"}
+                }
+              }
+            ]
         }
       ]
     },
@@ -29,14 +35,19 @@
         "width": 100,
         "height": 200
       },
-      "actions": [
+      "events": [
         {
-          "type": "pointerup",
-          "instructorNPC": {
-            "dialog": {
-              "content": "Watch out! It's a cactus!"
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "instructorNPCDialog",
+              "action": {
+                "dialog": {
+                  "content": "Watch out! It's a cactus!"
+                }
+              }
             }
-          }
+          ]
         }
       ]
     },
@@ -49,15 +60,19 @@
         "url": "src/assets/key.png",
         "scale": 0.6
       },
-      "actions": [
+      "events": [
         {
-          "type": "pointerup",
-          "instructorNPC": {
-            "dialog": {
-              "content": "You have a key!",
-              "duration": 1000
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "instructorNPCDialog",
+              "action": {
+                "dialog": {
+                  "content": "You found a key!"
+                }
+              }
             }
-          }
+          ]
         }
       ]
     }

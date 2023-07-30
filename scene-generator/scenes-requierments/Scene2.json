@@ -12,14 +12,21 @@
         "height": 300
       },
       "backgroundColor": "",
-      "actions": [
+      "events": [
         {
-          "type": "pointerup",
-          "transitionTo": "Scene1",
-          "transition": {
-            "type": "zoomTo",
-            "options": "1.5, 1000, \"Linear\", true"
-          }
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "sceneTransition",
+              "action": {
+                "transition": {
+                  "to": "Scene1",
+                  "effect": "zoomTo",
+                  "options": "1.5, 1000, \"Linear\", true"
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -32,34 +39,47 @@
         "width": 100,
         "height": 100
       },
-      "actions": [
+      "events": [
         {
-          "type": "pointerup",
-          "transitionTo": "DefaultScene",
-          "transition": {
-            "type": "zoomTo",
-            "options": "1.5, 1000, \"Linear\", true"
-          }
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "sceneTransition",
+              "action": {
+                "transition": {
+                  "to": "DefaultScene",
+                  "effect": "zoomTo",
+                  "options": "1.5, 1000, \"Linear\", true"
+                }
+              }
+            }
+          ]
         }
       ]
     },
     {
       "name": "somehitbox",
       "type": "hitbox",
+      "isPhysics": true,
       "position": { "x": 644, "y": 988 },
       "size": {
         "width": 100,
         "height": 100
       },
       "backgroundColor": "0xfffff00",
-      "actions": [
+      "events": [
         {
-          "type": "pointerup",
-          "instructorNPC": {
-            "dialog": {
-              "content": "This is just a visible hitbox!"
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "instructorNPCDialog",
+              "action": {
+                "dialog": {
+                  "content": "This is just a visible hitbox!"
+                }
+              }
             }
-          }
+          ]
         }
       ]
     },
@@ -74,42 +94,66 @@
         "width": 100,
         "height": 100
       },
-      "actions": [
+      "events": [
         {
-          "type": "pointerup",
-          "instructorNPC": {
-            "dialog": {
-              "content": "Find something to interact with!",
-              "duration": 1000
-            }
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "instructorNPCDialog",
+              "action": {
+                "dialog": {
+                  "content": "Find something to interact with!",
+                  "duration": 1000                }
+                }
+              }
+            ]
+          },
+          {
+            "eventType": "collide",
+            "target": "exitDoor",
+            "actions": [
+              {
+                "actionType": "instructorNPCDialog",
+                "action": {
+                  "dialog": {
+                    "content": "Something happend!",
+                    "duration": 5000
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "eventType": "collide",
+            "target": "somehitbox",
+            "actions": [
+              {
+                "actionType": "instructorNPCDialog",
+                "action": {
+                  "dialog": {
+                    "content": "Boom!",
+                    "duration": 5000
+                  }
+                }
+              }
+            ]
           }
-        },
-        {
-          "type": "collide",
-          "collideWith": "exitDoor",
-          "instructorNPC": {
-            "dialog": {
-              "content": "Something happend!",
-              "duration": 5000
-            }
-          }
+        ]
+      }
+    ],
+    "instructorNPC": {
+      "dialog": {
+        "content": "Welcome to Scene 2!"
+      },
+      "position": { "x": 1055, "y": 488 },
+      "animation": {
+        "options": {
+          "y": 530,
+          "duration": 500,
+          "ease": "Linear",
+          "yoyo": true,
+          "repeat": -1
         }
-      ]
-    }
-  ],
-  "instructorNPC": {
-    "dialog": {
-      "content": "Welcome to Scene 2!"
-    },
-    "position": { "x": 1055, "y": 488 },
-    "animation": {
-      "options": {
-        "y": 530,
-        "duration": 500,
-        "ease": "Linear",
-        "yoyo": true,
-        "repeat": -1
       }
     }
   }
-}

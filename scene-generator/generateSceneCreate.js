@@ -3,6 +3,7 @@
 function generateSceneCreate(sceneName, sceneConfig) {
   const { backgroundImage, actionableItems, instructorNPC } = sceneConfig;
   let createCode = '';
+  createCode += 'let isTransitionInProgress = false;\n';
 
   if (backgroundImage) {
     createCode += `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);\n`;
@@ -14,7 +15,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
       type,
       position,
       size,
-      actions,
+      events,
       isDraggable,
       isPhysics,
       animation,
@@ -57,107 +58,104 @@ function generateSceneCreate(sceneName, sceneConfig) {
       }
 
       if (isPhysics) {
-        createCode += `
-              this.physics.world.enable(this.${name});
-            `;
+        createCode += `this.physics.world.enable(this.${name});`;
       }
 
-      function generateRobotDialogAction(instructorNPC) {
+      function generateInstructorNPCDialogAction(action) {
         return `
-          this.instructorNPC.dialogContent = "${instructorNPC.dialog.content}";
-          this.instructorNPC.showDialog(this.instructorNPC.dialogContent, ${
-            instructorNPC.dialog?.duration || 3000
+        this.instructorNPC.dialogContent = "${action.dialog.content}";
+        this.instructorNPC.showDialog(this.instructorNPC.dialogContent, ${
+          action.dialog?.duration || 3000
+        });
+
+        // Delay hiding the dialog to prevent conflicts with other dialogs
+        this.time.delayedCall(${
+          action.dialog?.duration || 3000
+        }, () => { this.instructorNPC.hideDialog(); });
+      `;
+      }
+
+      function generateActions(name, eventType, target, actions) {
+        let content = '';
+        if (eventType === 'collide') {
+          actions.forEach(({ actionType, action }) => {
+            content += `
+          this.physics.add.collider(this.${name}, this.${target}, () => {
+            ${
+              actionType === 'instructorNPCDialog'
+                ? generateInstructorNPCDialogAction(action)
+                : ''
+            }
           });
         `;
-      }
-
-      function generateTransitionAction(
-        name,
-        type,
-        transitionTo,
-        transition,
-        instructorNPC
-      ) {
-        return `
-          this.${name}.on("${type.toLowerCase()}", function () {
-            ${
-              instructorNPC && instructorNPC.dialog?.content
-                ? generateRobotDialogAction(instructorNPC)
-                : ''
-            }
-            ${
-              transition
-                ? `
-              this.cameras.main.${transition.type}(${transition?.options}, (camera, progress) => {
-                if (progress === 1) {
-                  this.scene.start("${transitionTo}");
-                }
-              });
-              `
-                : ''
-            }
-          }, this);
-        `;
-      }
-
-      actions.forEach(
-        ({ type, transitionTo, transition, instructorNPC, collideWith }) => {
-          if (type === 'collide') {
-            createCode += `
-            this.physics.add.collider(this.${name}, this.${collideWith}, () => {
-              ${
-                instructorNPC && instructorNPC.dialog?.content
-                  ? generateRobotDialogAction(instructorNPC)
-                  : ''
-              }
-            });
-          `;
-          } else {
-            createCode += generateTransitionAction(
-              name,
-              type,
-              transitionTo,
-              transition,
-              instructorNPC
-            );
-          }
+          });
+        } else {
+          actions.forEach(({ actionType, action }) => {
+            content += `
+                this.${name}.on("${eventType.toLowerCase()}", function () {
+                  ${
+                    actionType === 'sceneTransition'
+                      ? `
+                    if (!isTransitionInProgress) {
+                      isTransitionInProgress = true;
+                      this.cameras.main.${action?.transition?.effect}(${action?.transition?.options}, (camera, progress) => {
+                        if (progress === 1) {
+                          isTransitionInProgress = false;
+                          this.scene.start("${action?.transition?.to}");
+                        }
+                      });
+                    }
+                    `
+                      : ''
+                  }
+                  ${
+                    actionType === 'instructorNPCDialog'
+                      ? generateInstructorNPCDialogAction(action)
+                      : ''
+                  }
+                }, this);
+                `;
+          });
         }
-      );
+        return content;
+      }
+
+      events.forEach(({ eventType, actions, target }) => {
+        createCode += generateActions(name, eventType, target, actions);
+      });
     }
   );
 
   if (instructorNPC) {
     createCode += `
-          this.instructorNPC.create();
-          this.instructorNPC.dialogContent = "";
-          this.instructorNPC.showDialog("${instructorNPC?.dialog?.content}", ${
-            instructorNPC?.dialog?.duration || 3000
-          });
-          this.instructorNPC.robotImage.setPosition(${
-            instructorNPC.position.x
-          }, ${instructorNPC.position.y});
-          this.instructorNPC.moveTextPosition(${instructorNPC.position.x}, ${
-            instructorNPC.dialog?.position?.top
-              ? `${instructorNPC.position.y} - this.instructorNPC.robotImage.height  + ${instructorNPC.dialog?.position?.top}`
-              : `${instructorNPC.position.y} - this.instructorNPC.robotImage.height / 2`
-          });
+      this.instructorNPC.create();
+      this.instructorNPC.dialogContent = "";
+      this.instructorNPC.showDialog("${instructorNPC?.dialog?.content}", ${
+        instructorNPC?.dialog?.duration || 3000
+      });
+      this.instructorNPC.instructorNPCImage.setPosition(${
+        instructorNPC.position.x
+      }, ${instructorNPC.position.y});
+      this.instructorNPC.moveTextPosition(${instructorNPC.position.x}, ${
+        instructorNPC.dialog?.position?.top
+          ? `${instructorNPC.position.y} - this.instructorNPC.instructorNPCImage.height  + ${instructorNPC.dialog?.position?.top}`
+          : `${instructorNPC.position.y} - this.instructorNPC.instructorNPCImage.height / 2`
+      });
 
-          ${
-            instructorNPC?.animation
-              ? `this.tweens.add({
-              targets: this.instructorNPC.robotImage,
-              ${Object.entries(instructorNPC.animation.options)
-                .map(
-                  ([key, value]) =>
-                    `${key}: ${
-                      typeof value === 'string' ? `'${value}'` : value
-                    }`
-                )
-                .join(',')}
-                });`
-              : ''
-          }
-              `;
+    ${
+      instructorNPC?.animation
+        ? `this.tweens.add({
+        targets: this.instructorNPC.instructorNPCImage,
+        ${Object.entries(instructorNPC.animation.options)
+          .map(
+            ([key, value]) =>
+              `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
+          )
+          .join(',')},
+        });`
+        : ''
+    }
+    `;
   }
 
   return createCode;

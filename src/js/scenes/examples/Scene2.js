@@ -50,10 +50,10 @@ export class Scene2 extends Phaser.Scene {
     );
 
     this.instructorNPC.create();
-    this.instructorNPC.robotImage.setPosition(1055, 490);
+    this.instructorNPC.instructorNPCImage.setPosition(1055, 490);
 
     this.tweens.add({
-      targets: this.instructorNPC.robotImage,
+      targets: this.instructorNPC.instructorNPCImage,
       y: 530,
       duration: 500,
       ease: 'Linear',

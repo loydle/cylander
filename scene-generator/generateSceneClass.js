@@ -20,7 +20,7 @@ export class ${sceneName} extends Phaser.Scene {
     super({ key: "${sceneName}" });
     ${
       sceneConfig.instructorNPC
-        ? 'this.instructorNPC = null;\n    this.robotText = null;'
+        ? 'this.instructorNPC = null;\n    this.instructorNPCText = null;'
         : ''
     }
   }

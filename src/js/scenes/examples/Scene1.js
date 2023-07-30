@@ -76,7 +76,7 @@ export class Scene1 extends Phaser.Scene {
     );
 
     this.tweens.add({
-      targets: this.instructorNPC.robotImage,
+      targets: this.instructorNPC.instructorNPCImage,
       y: 951,
       duration: 300,
       ease: 'Linear',
