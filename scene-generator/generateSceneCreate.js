@@ -123,9 +123,9 @@ function generateSceneCreate(sceneName, sceneConfig) {
       this.mainNPC.showDialog("${mainNPC?.dialog?.content}", ${
         mainNPC?.dialog?.duration || 3000
       });
-      this.mainNPC.mainNPCImage.setPosition(${
-        mainNPC?.position?.x
-      }, ${mainNPC?.position?.y});
+      this.mainNPC.mainNPCImage.setPosition(${mainNPC?.position?.x}, ${
+        mainNPC?.position?.y
+      });
       this.mainNPC.moveTextPosition(${mainNPC?.position?.x}, ${
         mainNPC.dialog?.position?.top
           ? `${mainNPC?.position?.y} - this.mainNPC.mainNPCImage.height  + ${mainNPC.dialog?.position?.top}`
