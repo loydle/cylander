@@ -62,52 +62,47 @@ function generateSceneCreate(sceneName, sceneConfig) {
             `;
       }
 
-      actions.forEach(
-        ({ type, transitionTo, transition, robot, collideWith }) => {
-          if (type === 'collide') {
-            createCode += `
-                this.physics.add.collider(this.${name}, this.${collideWith}, () => {
-                  ${
-                    robot && robot.dialog?.content
-                      ? `
-                    this.robot.dialogContent = "${robot.dialog.content}";
-                    this.robot.showDialog(this.robot.dialogContent, ${
-                      robot.dialog?.delay ? robot.dialog.delay : '3000'
-                    });
-                    `
-                      : ''
-                  }
-                });
-              `;
-          } else {
-            createCode += `
-              this.${name}.on("${type.toLowerCase()}", function () {
-                ${
-                  robot && robot.dialog?.content
-                    ? `
-                  this.robot.dialogContent = "${robot.dialog.content}";
-                  this.robot.showDialog(this.robot.dialogContent, ${
-                    robot.dialog?.delay ? robot.dialog.delay : '3000'
-                  });
-                  `
-                    : ''
+      function generateRobotDialogAction(robot) {
+        return `
+          this.robot.dialogContent = "${robot.dialog.content}";
+          this.robot.showDialog(this.robot.dialogContent, ${
+            robot.dialog?.delay ? robot.dialog.delay : '3000'
+          });
+        `;
+      }
+
+      function generateTransitionAction(name, type, transitionTo, transition, robot) {
+        return `
+          this.${name}.on("${type.toLowerCase()}", function () {
+            ${
+              robot && robot.dialog?.content ? generateRobotDialogAction(robot) : ''
+            }
+            ${
+              transition
+                ? `
+              this.cameras.main.${transition.type}(${transition?.options}, (camera, progress) => {
+                if (progress === 1) {
+                  this.scene.start("${transitionTo}");
                 }
-                ${
-                  transition
-                    ? `
-                  this.cameras.main.${transition.type}(${transition?.options}, (camera, progress) => {
-                    if (progress === 1) {
-                      this.scene.start("${transitionTo}");
-                    }
-                  });
-                  `
-                    : ''
-                }
-              }, this);
-              `;
-          }
+              });
+              `
+                : ''
+            }
+          }, this);
+        `;
+      }
+
+      actions.forEach(({ type, transitionTo, transition, robot, collideWith }) => {
+        if (type === 'collide') {
+          createCode += `
+            this.physics.add.collider(this.${name}, this.${collideWith}, () => {
+              ${robot && robot.dialog?.content ? generateRobotDialogAction(robot) : ''}
+            });
+          `;
+        } else {
+          createCode += generateTransitionAction(name, type, transitionTo, transition, robot);
         }
-      );
+      });
     }
   );
 
