@@ -4,6 +4,7 @@
   "description": "Cylander is a non-profit association dedicated to providing and producing free Cyber Security Knowledge",
   "scripts": {
     "start": "web-dev-server --config web-dev-server.config.mjs",
+    "start:watch": "concurrently 'npm run start' 'npx nodemon --watch ./scene-generator --exec \"npm run generate:all\"'",
     "format": "prettier --write \"**/**/*.js\" --config .prettierrc.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "@web/dev-server": "^0.3.0",
+    "concurrently": "^8.2.0",
     "eslint": "^8.45.0",
     "husky": "^8.0.3",
     "prettier": "^3.0.0"
