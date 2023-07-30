@@ -16,6 +16,16 @@ function generateSceneCreate(sceneName, sceneConfig) {
       createCode += `this.${actionableItem?.name} = this.add.rectangle(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, ${actionableItem?.size?.width}, ${actionableItem?.size?.height}, ${actionableItem?.backgroundColor}).setInteractive();\n`;
     }
 
+    if (actionableItem?.type === 'text') {
+      createCode += `this.${actionableItem?.name} = this.add.text(${
+        actionableItem?.position?.x
+      }, ${actionableItem?.position?.y}, "${
+        actionableItem?.text?.content
+      }", ${JSON.stringify(actionableItem?.text?.styles)}).setOrigin(${
+        actionableItem?.text?.origin || 0.5
+      }).setScale(${actionableItem?.text?.scale || 1})\n`;
+    }
+
     if (actionableItem?.type === 'image') {
       createCode += `this.${actionableItem?.name} = this.add.image(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, "${actionableItem?.name}").setInteractive();\n`;
       if (actionableItem?.image && actionableItem?.image?.scale) {

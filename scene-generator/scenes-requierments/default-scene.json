@@ -10,19 +10,35 @@
       "position": { "x": "this.cameras.main.centerX", "y": "this.cameras.main.centerY" },
       "image": {
         "url": "src/assets/logo-cylander.svg",
-        "scale": 1
+        "scale": 1.5
       },
       "events": [],
       "animation": {
         "options": {
-          "scaleX": 1.5,
-          "scaleY": 1.5,
+          "scaleX": 2,
+          "scaleY": 2,
           "ease": "Linear",
           "duration": 800,
           "yoyo": true,
           "repeat": -1
         }
       }
+    },
+    {
+      "name": "logo2",
+      "type": "text",
+      "position": { "x": "this.cameras.main.centerX", "y": "750" },
+      "text": {
+        "content": "Click anywhere to start!",
+        "styles": {
+          "font": "36px monospace",
+          "fill": "#ffffff",
+          "backgroundColor": "#333",
+          "padding": { "x": 10, "y": 10 }
+        },
+        "origin": 0.5
+      },
+      "events": []
     },
     {
       "name": "input",
