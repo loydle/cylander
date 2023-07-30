@@ -3,6 +3,7 @@ import { gameConfig } from '../configs/gameConfig.js';
 import { DefaultScene } from './scenes/DefaultScene.js';
 import { Scene1 } from './scenes/Scene1.js';
 import { Scene2 } from './scenes/Scene2.js';
+import { Scene3 } from './scenes/Scene3.js';
 
 const config = {
   type: Phaser.AUTO,
@@ -13,7 +14,7 @@ const config = {
       // debug: true
     },
   },
-  scene: [DefaultScene, Scene1, Scene2],
+  scene: [DefaultScene, Scene1, Scene2, Scene3],
 };
 
 const game = new Phaser.Game({ ...config, ...gameConfig });

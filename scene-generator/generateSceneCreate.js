@@ -109,6 +109,22 @@ function generateSceneCreate(sceneName, sceneConfig) {
       return content;
     }
 
+    if (actionableItem?.label) {
+      createCode += `
+        this.add.text(
+          ${actionableItem.position.x},
+          ${actionableItem.position.y - actionableItem.size.height},
+          "${actionableItem.label}",
+          {
+            font: "20px Arial",
+            fill: "#ffffff",
+            backgroundColor: "#000000",
+            padding: { x: 5, y: 5 },
+          }
+        ).setOrigin(0.5);
+      `;
+    }
+
     actionableItem?.events.forEach(({ eventType, actions, eventTarget }) => {
       createCode += generateActions(
         actionableItem?.name,
@@ -125,13 +141,21 @@ function generateSceneCreate(sceneName, sceneConfig) {
       this.mainNPC.showDialog("${mainNPC?.dialog?.content}", ${
         mainNPC?.dialog?.duration || 3000
       });
-      this.mainNPC.mainNPCImage.setPosition(${mainNPC?.position?.x}, ${
-        mainNPC?.position?.y
-      });
-      this.mainNPC.moveTextPosition(${mainNPC?.position?.x}, ${
+      this.mainNPC.mainNPCImage.setPosition(${
+        mainNPC?.position?.x || `this.mainNPC.initialPosition.x`
+      }, ${mainNPC?.position?.y || `this.mainNPC.initialPosition.y`});
+      this.mainNPC.moveTextPosition(${
+        mainNPC?.position?.x || `this.mainNPC.initialPosition.x`
+      }, ${
         mainNPC.dialog?.position?.top
-          ? `${mainNPC?.position?.y} - this.mainNPC.mainNPCImage.height  + ${mainNPC.dialog?.position?.top}`
-          : `${mainNPC?.position?.y} - this.mainNPC.mainNPCImage.height / 2`
+          ? `${
+              mainNPC?.position?.y || `this.mainNPC.initialPosition.y`
+            } - this.mainNPC.mainNPCImage.height  + ${
+              mainNPC.dialog?.position?.top
+            }`
+          : `${
+              mainNPC?.position?.y || `this.mainNPC.initialPosition.y`
+            } - this.mainNPC.mainNPCImage.height / 2`
       });
 
     ${

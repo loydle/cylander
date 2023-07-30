@@ -42,9 +42,52 @@ export class Scene2 extends Phaser.Scene {
       },
       this
     );
+    this.redHitbox = this.add
+      .rectangle(1244, 988, 100, 100, 0xfff0000)
+      .setInteractive();
+
+    this.add
+      .text(1244, 888, 'Scene3', {
+        font: '20px Arial',
+        fill: '#ffffff',
+        backgroundColor: '#000000',
+        padding: { x: 5, y: 5 },
+      })
+      .setOrigin(0.5);
+
+    this.redHitbox.on(
+      'pointerup',
+      function () {
+        if (!isTransitionInProgress) {
+          isTransitionInProgress = true;
+          this.cameras.main.zoomTo(
+            1.5,
+            1000,
+            'Linear',
+            true,
+            (camera, progress) => {
+              if (progress === 1) {
+                isTransitionInProgress = false;
+                this.scene.start('Scene3');
+              }
+            }
+          );
+        }
+      },
+      this
+    );
     this.purpleHitbox = this.add
       .rectangle(844, 988, 100, 100, 0xfff00ff)
       .setInteractive();
+
+    this.add
+      .text(844, 888, 'Scene2', {
+        font: '20px Arial',
+        fill: '#ffffff',
+        backgroundColor: '#000000',
+        padding: { x: 5, y: 5 },
+      })
+      .setOrigin(0.5);
 
     this.purpleHitbox.on(
       'pointerup',
@@ -81,6 +124,15 @@ export class Scene2 extends Phaser.Scene {
       gameObject.y = dragY;
     });
     this.physics.world.enable(this.yellowHitbox);
+    this.add
+      .text(644, 888, 'Label', {
+        font: '20px Arial',
+        fill: '#ffffff',
+        backgroundColor: '#000000',
+        padding: { x: 5, y: 5 },
+      })
+      .setOrigin(0.5);
+
     this.yellowHitbox.on(
       'pointerup',
       function () {
@@ -103,6 +155,15 @@ export class Scene2 extends Phaser.Scene {
       gameObject.y = dragY;
     });
     this.physics.world.enable(this.whiteObject);
+    this.add
+      .text(1044, 888, 'Label', {
+        font: '20px Arial',
+        fill: '#ffffff',
+        backgroundColor: '#000000',
+        padding: { x: 5, y: 5 },
+      })
+      .setOrigin(0.5);
+
     this.whiteObject.on(
       'pointerup',
       function () {

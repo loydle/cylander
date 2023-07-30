@@ -33,8 +33,37 @@
       ]
     },
     {
+      "name": "redHitbox",
+      "type": "hitbox",
+      "label": "Scene3",
+      "position": { "x": 1244, "y": 988 },
+      "backgroundColor": "0xfff0000",
+      "size": {
+        "width": 100,
+        "height": 100
+      },
+      "events": [
+        {
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "sceneTransition",
+              "action": {
+                "transition": {
+                  "to": "Scene3",
+                  "effect": "zoomTo",
+                  "options": "1.5, 1000, \"Linear\", true"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "purpleHitbox",
       "type": "hitbox",
+      "label": "Scene2",
       "position": { "x": 844, "y": 988 },
       "backgroundColor": "0xfff00ff",
       "size": {
@@ -62,6 +91,7 @@
     {
       "name": "yellowHitbox",
       "type": "hitbox",
+      "label": "Label",
       "hasPhysicsEnabled": true,
       "isDraggable": true,
       "position": { "x": 644, "y": 988 },
@@ -89,6 +119,7 @@
     {
       "name": "whiteObject",
       "type": "hitbox",
+      "label": "Label",
       "position": { "x": 1044, "y": 988 },
       "backgroundColor": "0xfffffff",
       "isDraggable": true,

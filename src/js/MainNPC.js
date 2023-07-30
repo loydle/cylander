@@ -5,6 +5,7 @@ export class MainNPC {
     this.scene = scene;
     this.dialogVisible = false;
     this.dialogText = null;
+    this.initialPosition = mainNPCConfig.initialPosition;
   }
 
   preload() {

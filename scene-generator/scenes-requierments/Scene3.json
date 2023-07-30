@@ -1,0 +1,43 @@
+{
+  "title": "Scene3",
+  "background": {
+    "image": {
+      "fileName": "scene3.jpg"
+    }
+  },
+  "actionableItems": [
+    {
+      "name": "purpleHitbox",
+      "type": "hitbox",
+      "label": "Default",
+      "position": { "x": 844, "y": 988 },
+      "backgroundColor": "0xfff00ff",
+      "size": {
+        "width": 100,
+        "height": 100
+      },
+      "events": [
+        {
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "sceneTransition",
+              "action": {
+                "transition": {
+                  "to": "Scene2",
+                  "effect": "zoomTo",
+                  "options": "1.5, 1000, \"Linear\", true"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "mainNPC": {
+    "dialog": {
+      "content": "Welcome to Scene 3!"
+    }
+  }
+}
