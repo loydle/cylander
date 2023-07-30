@@ -130,7 +130,9 @@ function generateSceneCreate(sceneName, sceneConfig) {
     createCode += `
           this.robot.create();
           this.robot.dialogContent = "";
-          this.robot.showDialog("${robot?.dialog?.content}", ${robot?.dialog?.duration || 3000});
+          this.robot.showDialog("${robot?.dialog?.content}", ${
+            robot?.dialog?.duration || 3000
+          });
           this.robot.robotImage.setPosition(${robot.position.x}, ${
             robot.position.y
           });
