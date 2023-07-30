@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 function generateScenePreload(sceneName, sceneConfig) {
-  const { backgroundImage, actionableItems, instructorNPC } = sceneConfig;
+  const { backgroundImage, actionableItems, mainNPC } = sceneConfig;
   let preloadCode = '';
 
   if (backgroundImage) {
@@ -14,8 +14,8 @@ function generateScenePreload(sceneName, sceneConfig) {
     }
   });
 
-  if (instructorNPC) {
-    preloadCode += `this.instructorNPC = new InstructorNPC(this);\nthis.instructorNPC.preload();\n`;
+  if (mainNPC) {
+    preloadCode += `this.mainNPC = new MainNPC(this);\nthis.mainNPC.preload();\n`;
   }
 
   return preloadCode;

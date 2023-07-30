@@ -1,23 +1,25 @@
 import * as Phaser from 'phaser';
-import { InstructorNPC } from '../InstructorNPC.js';
+import { MainNPC } from '../MainNPC.js';
 
 export class Scene2 extends Phaser.Scene {
   constructor() {
     super({ key: 'Scene2' });
-    this.instructorNPC = null;
-    this.instructorNPCText = null;
+    this.mainNPC = null;
+    this.mainNPCText = null;
   }
 
   preload() {
     this.load.image('background-scene2', 'src/assets/scene2.jpg');
-    this.instructorNPC = new InstructorNPC(this);
-    this.instructorNPC.preload();
+    this.mainNPC = new MainNPC(this);
+    this.mainNPC.preload();
   }
 
   create() {
     let isTransitionInProgress = false;
     this.add.image(0, 0, 'background-scene2').setOrigin(0);
-    this.exitDoor = this.add.rectangle(766, 520, 200, 300).setInteractive();
+    this.exitDoor = this.add
+      .rectangle(766, 520, 200, 300, undefined)
+      .setInteractive();
     this.physics.world.enable(this.exitDoor);
     this.exitDoor.on(
       'pointerup',
@@ -40,11 +42,11 @@ export class Scene2 extends Phaser.Scene {
       },
       this
     );
-    this.exitDoor2 = this.add
+    this.purpleHitbox = this.add
       .rectangle(844, 988, 100, 100, 0xfff00ff)
       .setInteractive();
 
-    this.exitDoor2.on(
+    this.purpleHitbox.on(
       'pointerup',
       function () {
         if (!isTransitionInProgress) {
@@ -65,20 +67,25 @@ export class Scene2 extends Phaser.Scene {
       },
       this
     );
-    this.somehitbox = this.add
+    this.yellowHitbox = this.add
       .rectangle(644, 988, 100, 100, 0xfffff00)
       .setInteractive();
-    this.physics.world.enable(this.somehitbox);
-    this.somehitbox.on(
+
+    this.input.setDraggable(this.yellowHitbox);
+    this.yellowHitbox.on('pointerdown', function () {
+      this.scene.children.bringToTop(this);
+    });
+
+    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+      gameObject.x = dragX;
+      gameObject.y = dragY;
+    });
+    this.physics.world.enable(this.yellowHitbox);
+    this.yellowHitbox.on(
       'pointerup',
       function () {
-        this.instructorNPC.dialogContent = 'This is just a visible hitbox!';
-        this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 3000);
-
-        // Delay hiding the dialog to prevent conflicts with other dialogs
-        this.time.delayedCall(3000, () => {
-          this.instructorNPC.hideDialog();
-        });
+        this.mainNPC.dialogContent = 'This is just a visible hitbox!';
+        this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
       },
       this
     );
@@ -87,6 +94,10 @@ export class Scene2 extends Phaser.Scene {
       .setInteractive();
 
     this.input.setDraggable(this.whiteObject);
+    this.whiteObject.on('pointerdown', function () {
+      this.scene.children.bringToTop(this);
+    });
+
     this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
       gameObject.x = dragX;
       gameObject.y = dragY;
@@ -95,48 +106,32 @@ export class Scene2 extends Phaser.Scene {
     this.whiteObject.on(
       'pointerup',
       function () {
-        this.instructorNPC.dialogContent = 'Find something to interact with!';
-        this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 1000);
-
-        // Delay hiding the dialog to prevent conflicts with other dialogs
-        this.time.delayedCall(1000, () => {
-          this.instructorNPC.hideDialog();
-        });
+        this.mainNPC.dialogContent = 'Find something to interact with!';
+        this.mainNPC.showDialog(this.mainNPC.dialogContent, 1000);
       },
       this
     );
 
-    this.physics.add.collider(this.whiteObject, this.exitDoor, () => {
-      this.instructorNPC.dialogContent = 'Something happend!';
-      this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 5000);
-
-      // Delay hiding the dialog to prevent conflicts with other dialogs
-      this.time.delayedCall(5000, () => {
-        this.instructorNPC.hideDialog();
-      });
+    this.physics.add.overlap(this.whiteObject, this.exitDoor, () => {
+      this.mainNPC.dialogContent = 'Something happend!';
+      this.mainNPC.showDialog(this.mainNPC.dialogContent, 5000);
     });
 
-    this.physics.add.collider(this.whiteObject, this.somehitbox, () => {
-      this.instructorNPC.dialogContent = 'Boom!';
-      this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 5000);
-
-      // Delay hiding the dialog to prevent conflicts with other dialogs
-      this.time.delayedCall(5000, () => {
-        this.instructorNPC.hideDialog();
-      });
+    this.physics.add.overlap(this.whiteObject, this.yellowHitbox, () => {
+      this.mainNPC.dialogContent = 'Boom!';
+      this.mainNPC.showDialog(this.mainNPC.dialogContent, 5000);
     });
 
-    this.instructorNPC.create();
-    this.instructorNPC.dialogContent = '';
-    this.instructorNPC.showDialog('Welcome to Scene 2!', 3000);
-    this.instructorNPC.instructorNPCImage.setPosition(1055, 488);
-    this.instructorNPC.moveTextPosition(
+    this.mainNPC.create();
+    this.mainNPC.showDialog('Welcome to Scene 2!', 3000);
+    this.mainNPC.mainNPCImage.setPosition(1055, 488);
+    this.mainNPC.moveTextPosition(
       1055,
-      488 - this.instructorNPC.instructorNPCImage.height / 2
+      488 - this.mainNPC.mainNPCImage.height / 2
     );
 
     this.tweens.add({
-      targets: this.instructorNPC.instructorNPCImage,
+      targets: this.mainNPC.mainNPCImage,
       y: 530,
       duration: 500,
       ease: 'Linear',

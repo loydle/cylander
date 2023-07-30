@@ -1,18 +1,18 @@
 import * as Phaser from 'phaser';
-import { InstructorNPC } from '../InstructorNPC.js';
+import { MainNPC } from '../MainNPC.js';
 
 export class Scene1 extends Phaser.Scene {
   constructor() {
     super({ key: 'Scene1' });
-    this.instructorNPC = null;
-    this.instructorNPCText = null;
+    this.mainNPC = null;
+    this.mainNPCText = null;
   }
 
   preload() {
     this.load.image('background-scene1', 'src/assets/scene1.jpg');
     this.load.image('key', 'src/assets/key.png');
-    this.instructorNPC = new InstructorNPC(this);
-    this.instructorNPC.preload();
+    this.mainNPC = new MainNPC(this);
+    this.mainNPC.preload();
   }
 
   create() {
@@ -44,13 +44,8 @@ export class Scene1 extends Phaser.Scene {
     this.cactus.on(
       'pointerup',
       function () {
-        this.instructorNPC.dialogContent = "Watch out! It's a cactus!";
-        this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 3000);
-
-        // Delay hiding the dialog to prevent conflicts with other dialogs
-        this.time.delayedCall(3000, () => {
-          this.instructorNPC.hideDialog();
-        });
+        this.mainNPC.dialogContent = "Watch out! It's a cactus!";
+        this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
       },
       this
     );
@@ -58,6 +53,10 @@ export class Scene1 extends Phaser.Scene {
     this.key.setScale(0.6);
 
     this.input.setDraggable(this.key);
+    this.key.on('pointerdown', function () {
+      this.scene.children.bringToTop(this);
+    });
+
     this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
       gameObject.x = dragX;
       gameObject.y = dragY;
@@ -66,31 +65,25 @@ export class Scene1 extends Phaser.Scene {
     this.key.on(
       'pointerup',
       function () {
-        this.instructorNPC.dialogContent = 'You found a key!';
-        this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 3000);
-
-        // Delay hiding the dialog to prevent conflicts with other dialogs
-        this.time.delayedCall(3000, () => {
-          this.instructorNPC.hideDialog();
-        });
+        this.mainNPC.dialogContent = 'You found a key!';
+        this.mainNPC.showDialog(this.mainNPC.dialogContent, 5000);
       },
       this
     );
 
-    this.instructorNPC.create();
-    this.instructorNPC.dialogContent = '';
-    this.instructorNPC.showDialog(
+    this.mainNPC.create();
+    this.mainNPC.showDialog(
       'Find the door or explore your surroundings.',
       5000
     );
-    this.instructorNPC.instructorNPCImage.setPosition(1529, 1040);
-    this.instructorNPC.moveTextPosition(
+    this.mainNPC.mainNPCImage.setPosition(1529, 1040);
+    this.mainNPC.moveTextPosition(
       1529,
-      1040 - this.instructorNPC.instructorNPCImage.height + 20
+      1040 - this.mainNPC.mainNPCImage.height + 20
     );
 
     this.tweens.add({
-      targets: this.instructorNPC.instructorNPCImage,
+      targets: this.mainNPC.mainNPCImage,
       y: 900,
       duration: 300,
       ease: 'Linear',

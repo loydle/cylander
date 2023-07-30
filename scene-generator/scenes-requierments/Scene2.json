@@ -5,13 +5,12 @@
     {
       "name": "exitDoor",
       "type": "hitbox",
-      "isPhysics": true,
+      "hasPhysicsEnabled": true,
       "position": { "x": 766, "y": 520 },
       "size": {
         "width": 200,
         "height": 300
       },
-      "backgroundColor": "",
       "events": [
         {
           "eventType": "pointerup",
@@ -31,7 +30,7 @@
       ]
     },
     {
-      "name": "exitDoor2",
+      "name": "purpleHitbox",
       "type": "hitbox",
       "position": { "x": 844, "y": 988 },
       "backgroundColor": "0xfff00ff",
@@ -58,9 +57,10 @@
       ]
     },
     {
-      "name": "somehitbox",
+      "name": "yellowHitbox",
       "type": "hitbox",
-      "isPhysics": true,
+      "hasPhysicsEnabled": true,
+      "isDraggable": true,
       "position": { "x": 644, "y": 988 },
       "size": {
         "width": 100,
@@ -72,7 +72,7 @@
           "eventType": "pointerup",
           "actions": [
             {
-              "actionType": "instructorNPCDialog",
+              "actionType": "mainNPCDialog",
               "action": {
                 "dialog": {
                   "content": "This is just a visible hitbox!"
@@ -89,7 +89,7 @@
       "position": { "x": 1044, "y": 988 },
       "backgroundColor": "0xfffffff",
       "isDraggable": true,
-      "isPhysics": true,
+      "hasPhysicsEnabled": true,
       "size": {
         "width": 100,
         "height": 100
@@ -99,7 +99,7 @@
           "eventType": "pointerup",
           "actions": [
             {
-              "actionType": "instructorNPCDialog",
+              "actionType": "mainNPCDialog",
               "action": {
                 "dialog": {
                   "content": "Find something to interact with!",
@@ -110,10 +110,10 @@
           },
           {
             "eventType": "collide",
-            "target": "exitDoor",
+            "eventTarget": "exitDoor",
             "actions": [
               {
-                "actionType": "instructorNPCDialog",
+                "actionType": "mainNPCDialog",
                 "action": {
                   "dialog": {
                     "content": "Something happend!",
@@ -125,10 +125,10 @@
           },
           {
             "eventType": "collide",
-            "target": "somehitbox",
+            "eventTarget": "yellowHitbox",
             "actions": [
               {
-                "actionType": "instructorNPCDialog",
+                "actionType": "mainNPCDialog",
                 "action": {
                   "dialog": {
                     "content": "Boom!",
@@ -141,7 +141,7 @@
         ]
       }
     ],
-    "instructorNPC": {
+    "mainNPC": {
       "dialog": {
         "content": "Welcome to Scene 2!"
       },

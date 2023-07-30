@@ -1,7 +1,7 @@
 * [ ] Rrefactor JSON struture
   * [x] move width & height to size object
 * [ ] Dev toolbox with for example visible hitboxes
-* [ ] Moving sprites (ex: animate the InstructorNPC)
+* [ ] Moving sprites (ex: animate the MainNPC)
 * [ ] Sound Effects and Background Music
 * [ ] Accessibility
 * [ ] Responsiveness

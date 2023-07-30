@@ -1,5 +1,5 @@
-export const instructorNPCConfig = {
-  imageFilePath: 'src/assets/instructorNPC.png',
+export const mainNPCConfig = {
+  imageFilePath: 'src/assets/mainNPC.png',
   initialPosition: { x: 1529, y: 1040 },
   initialScale: 1,
   dialog: {

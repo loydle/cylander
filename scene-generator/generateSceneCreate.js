@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 function generateSceneCreate(sceneName, sceneConfig) {
-  const { backgroundImage, actionableItems, instructorNPC } = sceneConfig;
+  const { backgroundImage, actionableItems, mainNPC } = sceneConfig;
   let createCode = '';
   createCode += 'let isTransitionInProgress = false;\n';
 
@@ -9,35 +9,23 @@ function generateSceneCreate(sceneName, sceneConfig) {
     createCode += `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);\n`;
   }
 
-  actionableItems.forEach(
-    ({
-      name,
-      type,
-      position,
-      size,
-      events,
-      isDraggable,
-      isPhysics,
-      animation,
-      backgroundColor,
-      image,
-    }) => {
-      if (type === 'hitbox') {
-        createCode += `this.${name} = this.add.rectangle(${position?.x}, ${position?.y}, ${size.width}, ${size.height}, ${backgroundColor}).setInteractive();\n`;
-      }
+  actionableItems.forEach((actionableItem) => {
+    if (actionableItem?.type === 'hitbox') {
+      createCode += `this.${actionableItem?.name} = this.add.rectangle(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, ${actionableItem?.size.width}, ${actionableItem?.size.height}, ${actionableItem?.backgroundColor}).setInteractive();\n`;
+    }
 
-      if (type === 'image') {
-        createCode += `this.${name} = this.add.image(${position?.x}, ${position?.y}, "${name}").setInteractive();\n`;
-        if (image && image.scale) {
-          createCode += `this.${name}.setScale(${image.scale});\n`;
-        }
+    if (actionableItem?.type === 'image') {
+      createCode += `this.${actionableItem?.name} = this.add.image(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, "${actionableItem?.name}").setInteractive();\n`;
+      if (actionableItem?.image && actionableItem?.image.scale) {
+        createCode += `this.${actionableItem?.name}.setScale(${actionableItem?.image.scale});\n`;
       }
+    }
 
-      if (animation) {
-        createCode += `
+    if (actionableItem?.animation) {
+      createCode += `
         this.tweens.add({
-          targets: this.${name},
-          ${Object.entries(animation.options)
+          targets: this.${actionableItem?.name},
+          ${Object.entries(actionableItem?.animation?.options)
             .map(
               ([key, value]) =>
                 `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
@@ -45,53 +33,52 @@ function generateSceneCreate(sceneName, sceneConfig) {
             .join(',')}
             });
             `;
-      }
+    }
 
-      if (isDraggable) {
-        createCode += `
-            this.input.setDraggable(this.${name});
+    if (actionableItem?.isDraggable) {
+      createCode += `
+            this.input.setDraggable(this.${actionableItem?.name});
+            this.${actionableItem?.name}.on('pointerdown', function () {
+              this.scene.children.bringToTop(this);
+            });
+
             this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
               gameObject.x = dragX;
               gameObject.y = dragY;
             });
             `;
-      }
+    }
 
-      if (isPhysics) {
-        createCode += `this.physics.world.enable(this.${name});`;
-      }
+    if (actionableItem?.hasPhysicsEnabled) {
+      createCode += `this.physics.world.enable(this.${actionableItem?.name});`;
+    }
 
-      function generateInstructorNPCDialogAction(action) {
-        return `
-        this.instructorNPC.dialogContent = "${action.dialog.content}";
-        this.instructorNPC.showDialog(this.instructorNPC.dialogContent, ${
+    function generateMainNPCDialogAction(action) {
+      return `
+        this.mainNPC.dialogContent = "${action.dialog?.content}";
+        this.mainNPC.showDialog(this.mainNPC.dialogContent, ${
           action.dialog?.duration || 3000
         });
-
-        // Delay hiding the dialog to prevent conflicts with other dialogs
-        this.time.delayedCall(${
-          action.dialog?.duration || 3000
-        }, () => { this.instructorNPC.hideDialog(); });
       `;
-      }
+    }
 
-      function generateActions(name, eventType, target, actions) {
-        let content = '';
-        if (eventType === 'collide') {
-          actions.forEach(({ actionType, action }) => {
-            content += `
-          this.physics.add.collider(this.${name}, this.${target}, () => {
+    function generateActions(name, eventType, eventTarget, actions) {
+      let content = '';
+      if (eventType === 'collide') {
+        actions.forEach(({ actionType, action }) => {
+          content += `
+          this.physics.add.overlap(this.${name}, this.${eventTarget}, () => {
             ${
-              actionType === 'instructorNPCDialog'
-                ? generateInstructorNPCDialogAction(action)
+              actionType === 'mainNPCDialog'
+                ? generateMainNPCDialogAction(action)
                 : ''
             }
           });
         `;
-          });
-        } else {
-          actions.forEach(({ actionType, action }) => {
-            content += `
+        });
+      } else {
+        actions.forEach(({ actionType, action }) => {
+          content += `
                 this.${name}.on("${eventType.toLowerCase()}", function () {
                   ${
                     actionType === 'sceneTransition'
@@ -109,44 +96,47 @@ function generateSceneCreate(sceneName, sceneConfig) {
                       : ''
                   }
                   ${
-                    actionType === 'instructorNPCDialog'
-                      ? generateInstructorNPCDialogAction(action)
+                    actionType === 'mainNPCDialog'
+                      ? generateMainNPCDialogAction(action)
                       : ''
                   }
                 }, this);
                 `;
-          });
-        }
-        return content;
+        });
       }
-
-      events.forEach(({ eventType, actions, target }) => {
-        createCode += generateActions(name, eventType, target, actions);
-      });
+      return content;
     }
-  );
 
-  if (instructorNPC) {
+    actionableItem?.events.forEach(({ eventType, actions, eventTarget }) => {
+      createCode += generateActions(
+        actionableItem?.name,
+        eventType,
+        eventTarget,
+        actions
+      );
+    });
+  });
+
+  if (mainNPC) {
     createCode += `
-      this.instructorNPC.create();
-      this.instructorNPC.dialogContent = "";
-      this.instructorNPC.showDialog("${instructorNPC?.dialog?.content}", ${
-        instructorNPC?.dialog?.duration || 3000
+      this.mainNPC.create();
+      this.mainNPC.showDialog("${mainNPC?.dialog?.content}", ${
+        mainNPC?.dialog?.duration || 3000
       });
-      this.instructorNPC.instructorNPCImage.setPosition(${
-        instructorNPC.position.x
-      }, ${instructorNPC.position.y});
-      this.instructorNPC.moveTextPosition(${instructorNPC.position.x}, ${
-        instructorNPC.dialog?.position?.top
-          ? `${instructorNPC.position.y} - this.instructorNPC.instructorNPCImage.height  + ${instructorNPC.dialog?.position?.top}`
-          : `${instructorNPC.position.y} - this.instructorNPC.instructorNPCImage.height / 2`
+      this.mainNPC.mainNPCImage.setPosition(${
+        mainNPC?.position?.x
+      }, ${mainNPC?.position?.y});
+      this.mainNPC.moveTextPosition(${mainNPC?.position?.x}, ${
+        mainNPC.dialog?.position?.top
+          ? `${mainNPC?.position?.y} - this.mainNPC.mainNPCImage.height  + ${mainNPC.dialog?.position?.top}`
+          : `${mainNPC?.position?.y} - this.mainNPC.mainNPCImage.height / 2`
       });
 
     ${
-      instructorNPC?.animation
+      mainNPC?.animation
         ? `this.tweens.add({
-        targets: this.instructorNPC.instructorNPCImage,
-        ${Object.entries(instructorNPC.animation.options)
+        targets: this.mainNPC.mainNPCImage,
+        ${Object.entries(mainNPC.animation.options)
           .map(
             ([key, value]) =>
               `${key}: ${typeof value === 'string' ? `'${value}'` : value}`

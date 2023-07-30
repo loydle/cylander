@@ -53,11 +53,11 @@ function deleteSceneFiles() {
 }
 
 function generateScenesForTemplate(sceneTemplate) {
-  const { title, actionableItems, instructorNPC } = sceneTemplate;
+  const { title, actionableItems, mainNPC } = sceneTemplate;
   const sceneClass = generateSceneClass(title, {
     backgroundImage: sceneTemplate.backgroundImage,
     actionableItems,
-    instructorNPC,
+    mainNPC,
   });
   writeSceneToFile(title, sceneClass);
 }
