@@ -61,7 +61,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
          ${
            robot && robot.dialog?.content
              ? `
-           this.robot.dialogContent = "${robot.dialog.content}"; // Update dialog content
+           this.robot.dialogContent = "${robot.dialog.content}";
            this.robot.showDialog(this.robot.dialogContent, ${
                robot.dialog?.delay ? robot.dialog.delay : '3000'
              });
@@ -88,7 +88,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
   if (robot) {
    createCode += `
      this.robot.create();
-     this.robot.dialogContent = ""; // Initialize the dialog content to an empty string
+     this.robot.dialogContent = "";
      this.robot.showDialog("${robot.defaultDialog}", 30000);
      this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
      this.robot.moveTextPosition(${robot.position.x}, ${
