@@ -55,7 +55,7 @@
       "actions": [
         {
           "type": "pointerup",
-          "robot": {
+          "instructorNPC": {
             "dialog": {
               "content": "This is just a visible hitbox!"
             }
@@ -77,7 +77,7 @@
       "actions": [
         {
           "type": "pointerup",
-          "robot": {
+          "instructorNPC": {
             "dialog": {
               "content": "Find something to interact with!",
               "duration": 1000
@@ -87,7 +87,7 @@
         {
           "type": "collide",
           "collideWith": "exitDoor",
-          "robot": {
+          "instructorNPC": {
             "dialog": {
               "content": "Something happend!",
               "duration": 5000
@@ -97,7 +97,7 @@
       ]
     }
   ],
-  "robot": {
+  "instructorNPC": {
     "dialog": {
       "content": "Welcome to Scene 2!"
     },

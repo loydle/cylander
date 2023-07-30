@@ -1,5 +1,5 @@
-export const robotConfig = {
-  imageFilePath: 'src/assets/robot.png',
+export const instructorNPCConfig = {
+  imageFilePath: 'src/assets/instructorNPC.png',
   initialPosition: { x: 1529, y: 1040 },
   initialScale: 1,
   dialog: {

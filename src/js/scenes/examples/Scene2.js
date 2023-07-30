@@ -1,6 +1,6 @@
 // Scene2.js
 import * as Phaser from 'phaser';
-import { Robot } from '../Robot.js';
+import { InstructorNPC } from '../InstructorNPC.js';
 
 export class Scene2 extends Phaser.Scene {
   constructor() {
@@ -10,8 +10,8 @@ export class Scene2 extends Phaser.Scene {
   preload() {
     this.load.image('scene2', 'src/assets/scene2.jpg');
     this.load.image('key', 'src/assets/key.png');
-    this.robot = new Robot(this);
-    this.robot.preload();
+    this.instructorNPC = new InstructorNPC(this);
+    this.instructorNPC.preload();
   }
 
   create(data) {
@@ -49,11 +49,11 @@ export class Scene2 extends Phaser.Scene {
       this
     );
 
-    this.robot.create();
-    this.robot.robotImage.setPosition(1055, 490);
+    this.instructorNPC.create();
+    this.instructorNPC.robotImage.setPosition(1055, 490);
 
     this.tweens.add({
-      targets: this.robot.robotImage,
+      targets: this.instructorNPC.robotImage,
       y: 530,
       duration: 500,
       ease: 'Linear',
@@ -61,9 +61,9 @@ export class Scene2 extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.robot.moveTextPosition(1055, 300);
+    this.instructorNPC.moveTextPosition(1055, 300);
 
-    this.robot.showDialog(
+    this.instructorNPC.showDialog(
       'Well done! You found the door!\nNow, explore further and find the exit!',
       30000
     );

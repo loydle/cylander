@@ -1,17 +1,17 @@
 import * as Phaser from 'phaser';
-import { Robot } from '../Robot.js';
+import { InstructorNPC } from '../InstructorNPC.js';
 
 export class Scene2 extends Phaser.Scene {
   constructor() {
     super({ key: 'Scene2' });
-    this.robot = null;
+    this.instructorNPC = null;
     this.robotText = null;
   }
 
   preload() {
     this.load.image('background-scene2', 'src/assets/scene2.jpg');
-    this.robot = new Robot(this);
-    this.robot.preload();
+    this.instructorNPC = new InstructorNPC(this);
+    this.instructorNPC.preload();
   }
 
   create() {
@@ -65,8 +65,8 @@ export class Scene2 extends Phaser.Scene {
     this.somehitbox.on(
       'pointerup',
       function () {
-        this.robot.dialogContent = 'This is just a visible hitbox!';
-        this.robot.showDialog(this.robot.dialogContent, 3000);
+        this.instructorNPC.dialogContent = 'This is just a visible hitbox!';
+        this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 3000);
       },
       this
     );
@@ -85,25 +85,28 @@ export class Scene2 extends Phaser.Scene {
     this.whiteObject.on(
       'pointerup',
       function () {
-        this.robot.dialogContent = 'Find something to interact with!';
-        this.robot.showDialog(this.robot.dialogContent, 1000);
+        this.instructorNPC.dialogContent = 'Find something to interact with!';
+        this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 1000);
       },
       this
     );
 
     this.physics.add.collider(this.whiteObject, this.exitDoor, () => {
-      this.robot.dialogContent = 'Something happend!';
-      this.robot.showDialog(this.robot.dialogContent, 5000);
+      this.instructorNPC.dialogContent = 'Something happend!';
+      this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 5000);
     });
 
-    this.robot.create();
-    this.robot.dialogContent = '';
-    this.robot.showDialog('Welcome to Scene 2!', 3000);
-    this.robot.robotImage.setPosition(1055, 488);
-    this.robot.moveTextPosition(1055, 488 - this.robot.robotImage.height / 2);
+    this.instructorNPC.create();
+    this.instructorNPC.dialogContent = '';
+    this.instructorNPC.showDialog('Welcome to Scene 2!', 3000);
+    this.instructorNPC.robotImage.setPosition(1055, 488);
+    this.instructorNPC.moveTextPosition(
+      1055,
+      488 - this.instructorNPC.robotImage.height / 2
+    );
 
     this.tweens.add({
-      targets: this.robot.robotImage,
+      targets: this.instructorNPC.robotImage,
       y: 530,
       duration: 500,
       ease: 'Linear',

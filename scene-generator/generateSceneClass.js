@@ -9,12 +9,20 @@ function generateSceneClass(sceneName, sceneConfig) {
 
   const sceneClass = `
 import * as Phaser from "phaser";
-${sceneConfig.robot ? `import { Robot } from "../Robot.js";` : ''}
+${
+  sceneConfig.instructorNPC
+    ? `import { InstructorNPC } from "../InstructorNPC.js";`
+    : ''
+}
 
 export class ${sceneName} extends Phaser.Scene {
   constructor() {
     super({ key: "${sceneName}" });
-    ${sceneConfig.robot ? 'this.robot = null;\n    this.robotText = null;' : ''}
+    ${
+      sceneConfig.instructorNPC
+        ? 'this.instructorNPC = null;\n    this.robotText = null;'
+        : ''
+    }
   }
 
   preload() {

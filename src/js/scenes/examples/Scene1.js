@@ -1,6 +1,6 @@
 // Scene1.js
 import * as Phaser from 'phaser';
-import { Robot } from '../Robot.js';
+import { InstructorNPC } from '../InstructorNPC.js';
 
 export class Scene1 extends Phaser.Scene {
   constructor() {
@@ -17,8 +17,8 @@ export class Scene1 extends Phaser.Scene {
     this.load.image('background', 'src/assets/scene1.jpg');
     this.load.image('scene2', 'src/assets/scene2.jpg');
     this.load.image('key', 'src/assets/key.png');
-    this.robot = new Robot(this);
-    this.robot.preload();
+    this.instructorNPC = new InstructorNPC(this);
+    this.instructorNPC.preload();
   }
 
   create() {
@@ -69,11 +69,14 @@ export class Scene1 extends Phaser.Scene {
       this.hideHint();
     });
 
-    this.robot.create();
-    this.robot.showDialog('Find the door or explore your surroundings.', 30000);
+    this.instructorNPC.create();
+    this.instructorNPC.showDialog(
+      'Find the door or explore your surroundings.',
+      30000
+    );
 
     this.tweens.add({
-      targets: this.robot.robotImage,
+      targets: this.instructorNPC.robotImage,
       y: 951,
       duration: 300,
       ease: 'Linear',
@@ -90,9 +93,9 @@ export class Scene1 extends Phaser.Scene {
 
       const cactusBounds = this.cactus.getBounds();
       if (cactusBounds.contains(pointer.x, pointer.y)) {
-        this.robot.showDialog("Watch out! It's a cactus!");
+        this.instructorNPC.showDialog("Watch out! It's a cactus!");
       } else {
-        this.robot.showDialog('Hmmm, not the door! Keep exploring.');
+        this.instructorNPC.showDialog('Hmmm, not the door! Keep exploring.');
         this.clickCount++;
         if (this.clickCount >= 5 && !this.hintShown) {
           this.showHintArrow(580, 550);

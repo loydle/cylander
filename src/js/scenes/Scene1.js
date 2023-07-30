@@ -1,18 +1,18 @@
 import * as Phaser from 'phaser';
-import { Robot } from '../Robot.js';
+import { InstructorNPC } from '../InstructorNPC.js';
 
 export class Scene1 extends Phaser.Scene {
   constructor() {
     super({ key: 'Scene1' });
-    this.robot = null;
+    this.instructorNPC = null;
     this.robotText = null;
   }
 
   preload() {
     this.load.image('background-scene1', 'src/assets/scene1.jpg');
     this.load.image('key', 'src/assets/key.png');
-    this.robot = new Robot(this);
-    this.robot.preload();
+    this.instructorNPC = new InstructorNPC(this);
+    this.instructorNPC.preload();
   }
 
   create() {
@@ -39,8 +39,8 @@ export class Scene1 extends Phaser.Scene {
     this.cactus.on(
       'pointerup',
       function () {
-        this.robot.dialogContent = "Watch out! It's a cactus!";
-        this.robot.showDialog(this.robot.dialogContent, 3000);
+        this.instructorNPC.dialogContent = "Watch out! It's a cactus!";
+        this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 3000);
       },
       this
     );
@@ -56,20 +56,26 @@ export class Scene1 extends Phaser.Scene {
     this.key.on(
       'pointerup',
       function () {
-        this.robot.dialogContent = 'You have a key!';
-        this.robot.showDialog(this.robot.dialogContent, 1000);
+        this.instructorNPC.dialogContent = 'You have a key!';
+        this.instructorNPC.showDialog(this.instructorNPC.dialogContent, 1000);
       },
       this
     );
 
-    this.robot.create();
-    this.robot.dialogContent = '';
-    this.robot.showDialog('Find the door or explore your surroundings.', 5000);
-    this.robot.robotImage.setPosition(1529, 1040);
-    this.robot.moveTextPosition(1529, 1040 - this.robot.robotImage.height + 20);
+    this.instructorNPC.create();
+    this.instructorNPC.dialogContent = '';
+    this.instructorNPC.showDialog(
+      'Find the door or explore your surroundings.',
+      5000
+    );
+    this.instructorNPC.robotImage.setPosition(1529, 1040);
+    this.instructorNPC.moveTextPosition(
+      1529,
+      1040 - this.instructorNPC.robotImage.height + 20
+    );
 
     this.tweens.add({
-      targets: this.robot.robotImage,
+      targets: this.instructorNPC.robotImage,
       y: 900,
       duration: 300,
       ease: 'Linear',

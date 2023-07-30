@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 function generateSceneCreate(sceneName, sceneConfig) {
-  const { backgroundImage, actionableItems, robot } = sceneConfig;
+  const { backgroundImage, actionableItems, instructorNPC } = sceneConfig;
   let createCode = '';
 
   if (backgroundImage) {
@@ -62,11 +62,11 @@ function generateSceneCreate(sceneName, sceneConfig) {
             `;
       }
 
-      function generateRobotDialogAction(robot) {
+      function generateRobotDialogAction(instructorNPC) {
         return `
-          this.robot.dialogContent = "${robot.dialog.content}";
-          this.robot.showDialog(this.robot.dialogContent, ${
-            robot.dialog?.duration || 3000
+          this.instructorNPC.dialogContent = "${instructorNPC.dialog.content}";
+          this.instructorNPC.showDialog(this.instructorNPC.dialogContent, ${
+            instructorNPC.dialog?.duration || 3000
           });
         `;
       }
@@ -76,13 +76,13 @@ function generateSceneCreate(sceneName, sceneConfig) {
         type,
         transitionTo,
         transition,
-        robot
+        instructorNPC
       ) {
         return `
           this.${name}.on("${type.toLowerCase()}", function () {
             ${
-              robot && robot.dialog?.content
-                ? generateRobotDialogAction(robot)
+              instructorNPC && instructorNPC.dialog?.content
+                ? generateRobotDialogAction(instructorNPC)
                 : ''
             }
             ${
@@ -101,13 +101,13 @@ function generateSceneCreate(sceneName, sceneConfig) {
       }
 
       actions.forEach(
-        ({ type, transitionTo, transition, robot, collideWith }) => {
+        ({ type, transitionTo, transition, instructorNPC, collideWith }) => {
           if (type === 'collide') {
             createCode += `
             this.physics.add.collider(this.${name}, this.${collideWith}, () => {
               ${
-                robot && robot.dialog?.content
-                  ? generateRobotDialogAction(robot)
+                instructorNPC && instructorNPC.dialog?.content
+                  ? generateRobotDialogAction(instructorNPC)
                   : ''
               }
             });
@@ -118,7 +118,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
               type,
               transitionTo,
               transition,
-              robot
+              instructorNPC
             );
           }
         }
@@ -126,27 +126,27 @@ function generateSceneCreate(sceneName, sceneConfig) {
     }
   );
 
-  if (robot) {
+  if (instructorNPC) {
     createCode += `
-          this.robot.create();
-          this.robot.dialogContent = "";
-          this.robot.showDialog("${robot?.dialog?.content}", ${
-            robot?.dialog?.duration || 3000
+          this.instructorNPC.create();
+          this.instructorNPC.dialogContent = "";
+          this.instructorNPC.showDialog("${instructorNPC?.dialog?.content}", ${
+            instructorNPC?.dialog?.duration || 3000
           });
-          this.robot.robotImage.setPosition(${robot.position.x}, ${
-            robot.position.y
-          });
-          this.robot.moveTextPosition(${robot.position.x}, ${
-            robot.dialog?.position?.top
-              ? `${robot.position.y} - this.robot.robotImage.height  + ${robot.dialog?.position?.top}`
-              : `${robot.position.y} - this.robot.robotImage.height / 2`
+          this.instructorNPC.robotImage.setPosition(${
+            instructorNPC.position.x
+          }, ${instructorNPC.position.y});
+          this.instructorNPC.moveTextPosition(${instructorNPC.position.x}, ${
+            instructorNPC.dialog?.position?.top
+              ? `${instructorNPC.position.y} - this.instructorNPC.robotImage.height  + ${instructorNPC.dialog?.position?.top}`
+              : `${instructorNPC.position.y} - this.instructorNPC.robotImage.height / 2`
           });
 
           ${
-            robot?.animation
+            instructorNPC?.animation
               ? `this.tweens.add({
-              targets: this.robot.robotImage,
-              ${Object.entries(robot.animation.options)
+              targets: this.instructorNPC.robotImage,
+              ${Object.entries(instructorNPC.animation.options)
                 .map(
                   ([key, value]) =>
                     `${key}: ${
