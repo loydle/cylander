@@ -39,7 +39,7 @@ export class Scene1 extends Phaser.Scene {
     this.cactus.on(
       'pointerup',
       function () {
-        this.robot.dialogContent = "Watch out! It's a cactus!"; // Update dialog content
+        this.robot.dialogContent = "Watch out! It's a cactus!";
         this.robot.showDialog(this.robot.dialogContent, 3000);
       },
       this
@@ -56,14 +56,14 @@ export class Scene1 extends Phaser.Scene {
     this.key.on(
       'pointerup',
       function () {
-        this.robot.dialogContent = 'You have a key!'; // Update dialog content
+        this.robot.dialogContent = 'You have a key!';
         this.robot.showDialog(this.robot.dialogContent, 1000);
       },
       this
     );
 
     this.robot.create();
-    this.robot.dialogContent = ''; // Initialize the dialog content to an empty string
+    this.robot.dialogContent = '';
     this.robot.showDialog('Find the door or explore your surroundings.', 30000);
     this.robot.robotImage.setPosition(1529, 1040);
     this.robot.moveTextPosition(1529, 1040 - this.robot.robotImage.height + 20);

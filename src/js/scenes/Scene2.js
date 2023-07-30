@@ -63,14 +63,14 @@ export class Scene2 extends Phaser.Scene {
     this.somehitbox.on(
       'pointerup',
       function () {
-        this.robot.dialogContent = 'This is just a visible hitbox!'; // Update dialog content
+        this.robot.dialogContent = 'This is just a visible hitbox!';
         this.robot.showDialog(this.robot.dialogContent, 3000);
       },
       this
     );
 
     this.robot.create();
-    this.robot.dialogContent = ''; // Initialize the dialog content to an empty string
+    this.robot.dialogContent = '';
     this.robot.showDialog('Well done!', 30000);
     this.robot.robotImage.setPosition(1055, 488);
     this.robot.moveTextPosition(1055, 488 - this.robot.robotImage.height / 2);
