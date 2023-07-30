@@ -71,11 +71,19 @@ function generateSceneCreate(sceneName, sceneConfig) {
         `;
       }
 
-      function generateTransitionAction(name, type, transitionTo, transition, robot) {
+      function generateTransitionAction(
+        name,
+        type,
+        transitionTo,
+        transition,
+        robot
+      ) {
         return `
           this.${name}.on("${type.toLowerCase()}", function () {
             ${
-              robot && robot.dialog?.content ? generateRobotDialogAction(robot) : ''
+              robot && robot.dialog?.content
+                ? generateRobotDialogAction(robot)
+                : ''
             }
             ${
               transition
@@ -92,17 +100,29 @@ function generateSceneCreate(sceneName, sceneConfig) {
         `;
       }
 
-      actions.forEach(({ type, transitionTo, transition, robot, collideWith }) => {
-        if (type === 'collide') {
-          createCode += `
+      actions.forEach(
+        ({ type, transitionTo, transition, robot, collideWith }) => {
+          if (type === 'collide') {
+            createCode += `
             this.physics.add.collider(this.${name}, this.${collideWith}, () => {
-              ${robot && robot.dialog?.content ? generateRobotDialogAction(robot) : ''}
+              ${
+                robot && robot.dialog?.content
+                  ? generateRobotDialogAction(robot)
+                  : ''
+              }
             });
           `;
-        } else {
-          createCode += generateTransitionAction(name, type, transitionTo, transition, robot);
+          } else {
+            createCode += generateTransitionAction(
+              name,
+              type,
+              transitionTo,
+              transition,
+              robot
+            );
+          }
         }
-      });
+      );
     }
   );
 
