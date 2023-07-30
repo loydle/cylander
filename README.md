@@ -12,6 +12,8 @@ This project is currently in development and is a first draft aimed at testing t
 1. Clone the repository: `git clone https://github.com/loydle/cylander.git`
 2. Navigate to the project folder: `cd cylander`
 3. Install dependencies: `npm install`
+4. Generate scenes: `npm run generate:all`
+5. Start the server: `npm run start`
 
 ## Scene Generator (Under Progress)
 
