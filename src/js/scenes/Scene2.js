@@ -18,6 +18,8 @@ export class Scene2 extends Phaser.Scene {
     this.add.image(0, 0, 'background-scene2').setOrigin(0);
     this.exitDoor = this.add.rectangle(766, 520, 200, 300).setInteractive();
 
+    this.physics.world.enable(this.exitDoor);
+
     this.exitDoor.on(
       'pointerup',
       function () {
@@ -68,6 +70,31 @@ export class Scene2 extends Phaser.Scene {
       },
       this
     );
+    this.whiteObject = this.add
+      .rectangle(1044, 988, 100, 100, 0xfffffff)
+      .setInteractive();
+
+    this.input.setDraggable(this.whiteObject);
+    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+      gameObject.x = dragX;
+      gameObject.y = dragY;
+    });
+
+    this.physics.world.enable(this.whiteObject);
+
+    this.whiteObject.on(
+      'pointerup',
+      function () {
+        this.robot.dialogContent = 'Find something to interact with!';
+        this.robot.showDialog(this.robot.dialogContent, 1000);
+      },
+      this
+    );
+
+    this.physics.add.collider(this.whiteObject, this.exitDoor, () => {
+      this.robot.dialogContent = 'Something happend!';
+      this.robot.showDialog(this.robot.dialogContent, 5000);
+    });
 
     this.robot.create();
     this.robot.dialogContent = '';

@@ -7,6 +7,12 @@ import { Scene2 } from './scenes/Scene2.js';
 const config = {
   type: Phaser.AUTO,
   parent: 'game-container',
+  physics: {
+    default: 'arcade',
+    arcade: {
+      // debug: true
+    },
+  },
   scene: [DefaultScene, Scene1, Scene2],
 };
 

@@ -16,6 +16,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
       size,
       actions,
       isDraggable,
+      isPhysics,
       animation,
       backgroundColor,
       image,
@@ -33,87 +34,116 @@ function generateSceneCreate(sceneName, sceneConfig) {
 
       if (animation) {
         createCode += `
-     this.tweens.add({
-       targets: this.${name},
-       ${Object.entries(animation.options)
-         .map(
-           ([key, value]) =>
-             `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
-         )
-         .join(',')}
-     });
-     `;
+        this.tweens.add({
+          targets: this.${name},
+          ${Object.entries(animation.options)
+            .map(
+              ([key, value]) =>
+                `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
+            )
+            .join(',')}
+            });
+            `;
       }
 
       if (isDraggable) {
         createCode += `
-       this.input.setDraggable(this.${name});
-       this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
-         gameObject.x = dragX;
-         gameObject.y = dragY;
-       });
-     `;
+            this.input.setDraggable(this.${name});
+            this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+              gameObject.x = dragX;
+              gameObject.y = dragY;
+            });
+            `;
       }
 
-      actions.forEach(({ type, transitionTo, transition, robot }) => {
+      if (isPhysics) {
         createCode += `
-        this.${name}.on("${type.toLowerCase()}", function () {
-         ${
-           robot && robot.dialog?.content
-             ? `
-           this.robot.dialogContent = "${robot.dialog.content}";
-           this.robot.showDialog(this.robot.dialogContent, ${
-               robot.dialog?.delay ? robot.dialog.delay : '3000'
-             });
-           `
-             : ''
-         }
-         ${
-           transition
-             ? `
-           this.cameras.main.${transition.type}(${transition?.options}, (camera, progress) => {
-             if (progress === 1) {
-               this.scene.start("${transitionTo}");
-             }
-           });
-           `
-             : ''
-         }
-       }, this);
-     `;
-      });
+              this.physics.world.enable(this.${name});
+            `;
+      }
+
+      actions.forEach(
+        ({ type, transitionTo, transition, robot, collideWith }) => {
+          if (type === 'collide') {
+            createCode += `
+                this.physics.add.collider(this.${name}, this.${collideWith}, () => {
+                  ${
+                    robot && robot.dialog?.content
+                      ? `
+                    this.robot.dialogContent = "${robot.dialog.content}";
+                    this.robot.showDialog(this.robot.dialogContent, ${
+                      robot.dialog?.delay ? robot.dialog.delay : '3000'
+                    });
+                    `
+                      : ''
+                  }
+                });
+              `;
+          } else {
+            createCode += `
+              this.${name}.on("${type.toLowerCase()}", function () {
+                ${
+                  robot && robot.dialog?.content
+                    ? `
+                  this.robot.dialogContent = "${robot.dialog.content}";
+                  this.robot.showDialog(this.robot.dialogContent, ${
+                    robot.dialog?.delay ? robot.dialog.delay : '3000'
+                  });
+                  `
+                    : ''
+                }
+                ${
+                  transition
+                    ? `
+                  this.cameras.main.${transition.type}(${transition?.options}, (camera, progress) => {
+                    if (progress === 1) {
+                      this.scene.start("${transitionTo}");
+                    }
+                  });
+                  `
+                    : ''
+                }
+              }, this);
+              `;
+          }
+        }
+      );
     }
   );
 
   if (robot) {
-   createCode += `
-     this.robot.create();
-     this.robot.dialogContent = "";
-     this.robot.showDialog("${robot.defaultDialog}", 30000);
-     this.robot.robotImage.setPosition(${robot.position.x}, ${robot.position.y});
-     this.robot.moveTextPosition(${robot.position.x}, ${
-     robot.dialogMargin?.top
-       ? `${robot.position.y} - this.robot.robotImage.height  + ${robot.dialogMargin.top}`
-       : `${robot.position.y} - this.robot.robotImage.height / 2`
-   });
+    createCode += `
+          this.robot.create();
+          this.robot.dialogContent = "";
+          this.robot.showDialog("${robot.defaultDialog}", 30000);
+          this.robot.robotImage.setPosition(${robot.position.x}, ${
+            robot.position.y
+          });
+          this.robot.moveTextPosition(${robot.position.x}, ${
+            robot.dialogMargin?.top
+              ? `${robot.position.y} - this.robot.robotImage.height  + ${robot.dialogMargin.top}`
+              : `${robot.position.y} - this.robot.robotImage.height / 2`
+          });
 
-   ${
-     robot?.animation
-       ? `this.tweens.add({
-           targets: this.robot.robotImage,
-           ${Object.entries(robot.animation.options)
-             .map(
-               ([key, value]) =>
-                 `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
-             )
-             .join(',')}
-         });`
-       : ''
-   }
-   `;
- }
+          ${
+            robot?.animation
+              ? `this.tweens.add({
+              targets: this.robot.robotImage,
+              ${Object.entries(robot.animation.options)
+                .map(
+                  ([key, value]) =>
+                    `${key}: ${
+                      typeof value === 'string' ? `'${value}'` : value
+                    }`
+                )
+                .join(',')}
+                });`
+              : ''
+          }
+              `;
+  }
 
- return createCode;
+  return createCode;
 }
 
 module.exports = generateSceneCreate;
