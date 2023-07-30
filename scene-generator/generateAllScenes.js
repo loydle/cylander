@@ -55,7 +55,7 @@ function deleteSceneFiles() {
 function generateScenesForTemplate(sceneTemplate) {
   const { title, actionableItems, mainNPC } = sceneTemplate;
   const sceneClass = generateSceneClass(title, {
-    backgroundImage: sceneTemplate.backgroundImage,
+    background: sceneTemplate.background,
     actionableItems,
     mainNPC,
   });

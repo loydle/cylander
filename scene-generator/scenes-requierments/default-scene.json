@@ -1,5 +1,8 @@
 {
   "title": "DefaultScene",
+  "background": {
+    "color": "0xFFFFFF"
+  },
   "actionableItems": [
     {
       "name": "logo",

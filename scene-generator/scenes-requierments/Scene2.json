@@ -1,7 +1,10 @@
 {
   "title": "Scene2",
-  "backgroundImage": "scene2.jpg",
-  "actionableItems": [
+  "background": {
+    "image": {
+      "fileName": "scene2.jpg"
+    }
+  },  "actionableItems": [
     {
       "name": "exitDoor",
       "type": "hitbox",

@@ -11,6 +11,7 @@ export class DefaultScene extends Phaser.Scene {
 
   create() {
     let isTransitionInProgress = false;
+    this.cameras.main.setBackgroundColor(0xffffff);
     this.logo = this.add
       .image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo')
       .setInteractive();

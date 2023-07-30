@@ -1,6 +1,10 @@
 {
   "title": "Scene1",
-  "backgroundImage": "scene1.jpg",
+  "background": {
+    "image": {
+      "fileName": "scene1.jpg"
+    }
+  },
   "actionableItems": [
     {
       "name": "door",

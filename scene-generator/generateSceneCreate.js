@@ -1,12 +1,14 @@
 /* eslint-env node */
 
 function generateSceneCreate(sceneName, sceneConfig) {
-  const { backgroundImage, actionableItems, mainNPC } = sceneConfig;
+  const { background, actionableItems, mainNPC } = sceneConfig;
   let createCode = '';
   createCode += 'let isTransitionInProgress = false;\n';
 
-  if (backgroundImage) {
+  if (background?.image?.fileName) {
     createCode += `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);\n`;
+  } else if (background?.color) {
+    createCode += `this.cameras.main.setBackgroundColor(${background?.color});\n`;
   }
 
   actionableItems.forEach((actionableItem) => {

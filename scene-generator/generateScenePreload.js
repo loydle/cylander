@@ -1,11 +1,12 @@
 /* eslint-env node */
 
 function generateScenePreload(sceneName, sceneConfig) {
-  const { backgroundImage, actionableItems, mainNPC } = sceneConfig;
+  const { background, actionableItems, mainNPC } = sceneConfig;
   let preloadCode = '';
-
-  if (backgroundImage) {
-    preloadCode += `this.load.image("background-${sceneName.toLowerCase()}", "src/assets/${backgroundImage}");\n`;
+  if (background?.image?.fileName) {
+    preloadCode += `this.load.image("background-${sceneName.toLowerCase()}", "src/assets/${
+      background?.image?.fileName
+    }");\n`;
   }
 
   actionableItems.forEach(({ name, type, image }) => {
