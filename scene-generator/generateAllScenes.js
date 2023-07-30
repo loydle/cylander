@@ -5,6 +5,7 @@ const path = require('path');
 const prettier = require('prettier');
 const prettierConfig = require('../.prettierrc.json');
 const generateSceneClass = require('./generateSceneClass');
+const sceneConfig = require('../src/configs/sceneConfig.json');
 
 function readSceneRequirements(sceneFilePath) {
   const sceneRequirements = fs.readFileSync(sceneFilePath, 'utf-8');
@@ -58,6 +59,7 @@ function generateScenesForTemplate(sceneTemplate) {
     background: sceneTemplate.background,
     actionableItems,
     mainNPC,
+    ...sceneConfig,
   });
   writeSceneToFile(title, sceneClass);
 }

@@ -1,0 +1,8 @@
+{
+ "labelStyles": {
+   "font": "20px Arial",
+   "fill": "#ffffff",
+   "backgroundColor": "#000000",
+   "padding": { "x": 5, "y": 5 }
+ }
+}

@@ -115,12 +115,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
           ${actionableItem.position.x},
           ${actionableItem.position.y - actionableItem.size.height},
           "${actionableItem.label}",
-          {
-            font: "20px Arial",
-            fill: "#ffffff",
-            backgroundColor: "#000000",
-            padding: { x: 5, y: 5 },
-          }
+          ${JSON.stringify(sceneConfig?.labelStyles)}
         ).setOrigin(0.5);
       `;
     }
