@@ -26,9 +26,7 @@ async function writeSceneToFile(sceneName, sceneClass) {
     });
 
     fs.writeFileSync(sceneFilePath, formattedSceneClass, 'utf-8');
-    console.log(
-      `\x1b[32mScene "${sceneName}" generated and saved to file.\x1b[0m`
-    );
+    console.log(`\x1b[32mCreated scene file: ${sceneName}.js.\x1b[0m`);
   } catch (error) {
     console.error(
       `Error formatting and writing scene "${sceneName}" to file:`,
