@@ -4,8 +4,6 @@ import { MainNPC } from '../MainNPC.js';
 export class Scene2 extends Phaser.Scene {
   constructor() {
     super({ key: 'Scene2' });
-    this.mainNPC = null;
-    this.mainNPCText = null;
   }
 
   preload() {
