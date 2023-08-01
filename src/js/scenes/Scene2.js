@@ -115,8 +115,8 @@ export class Scene2 extends Phaser.Scene {
           isTransitionInProgress = true;
 
           this.cameras.main.pan(
-            this.redHitbox?.getBounds()?.x,
-            this.redHitbox?.getBounds()?.y
+            this.whiteHitbox?.getBounds()?.x,
+            this.whiteHitbox?.getBounds()?.y
           );
           this.cameras.main.zoomTo(
             4,
@@ -218,12 +218,12 @@ export class Scene2 extends Phaser.Scene {
       this.mainNPC.dialogContent = 'Collide event dialog';
       this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
     });
-    this.whiteObject = this.add
+    this.whiteHitbox = this.add
       .rectangle(1044, 988, 100, 100, 0xfffffff)
       .setInteractive();
 
-    this.input.setDraggable(this.whiteObject);
-    this.whiteObject.on('pointerdown', function () {
+    this.input.setDraggable(this.whiteHitbox);
+    this.whiteHitbox.on('pointerdown', function () {
       this.scene.children.bringToTop(this);
     });
 
@@ -231,7 +231,7 @@ export class Scene2 extends Phaser.Scene {
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
-    this.physics.world.enable(this.whiteObject);
+    this.physics.world.enable(this.whiteHitbox);
     this.add
       .text(1044, 888, 'Label', {
         font: '20px Arial',
@@ -241,7 +241,7 @@ export class Scene2 extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    this.whiteObject.on(
+    this.whiteHitbox.on(
       'pointerup',
       function () {
         this.mainNPC.dialogContent = 'Find something to interact with!';
@@ -250,11 +250,11 @@ export class Scene2 extends Phaser.Scene {
       this
     );
 
-    this.physics.add.overlap(this.whiteObject, this.exitDoor, () => {
+    this.physics.add.overlap(this.whiteHitbox, this.exitDoor, () => {
       this.mainNPC.dialogContent = 'Something happend!';
       this.mainNPC.showDialog(this.mainNPC.dialogContent, 5000);
     });
-    this.physics.add.overlap(this.whiteObject, this.yellowHitbox, () => {
+    this.physics.add.overlap(this.whiteHitbox, this.yellowHitbox, () => {
       this.mainNPC.dialogContent = 'Boom!';
       this.mainNPC.showDialog(this.mainNPC.dialogContent, 5000);
     });

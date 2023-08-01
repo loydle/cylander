@@ -15,13 +15,13 @@
         "width": 200,
         "height": 300
       },
-      "events": [
+      "actions": [
         {
-          "eventType": "pointerup",
-          "actions": [
+          "actionType": "pointerup",
+          "events": [
             {
-              "actionType": "sceneTransition",
-              "action": {
+              "eventType": "sceneTransition",
+              "event": {
                 "transition": {
                   "to": "Scene1",
                   "effect": "zoomTo",
@@ -49,13 +49,13 @@
         "width": 100,
         "height": 100
       },
-      "events": [
+      "actions": [
         {
-          "eventType": "pointerup",
-          "actions": [
+          "actionType": "pointerup",
+          "events": [
             {
-              "actionType": "sceneTransition",
-              "action": {
+              "eventType": "sceneTransition",
+              "event": {
                 "transition": {
                   "to": "Scene3",
                   "effect": "zoomTo",
@@ -77,19 +77,19 @@
         "width": 100,
         "height": 100
       },
-      "events": [
+      "actions": [
         {
-          "eventType": "pointerup",
-          "actions": [
+          "actionType": "pointerup",
+          "events": [
             {
-              "actionType": "sceneTransition",
-              "action": {
+              "eventType": "sceneTransition",
+              "event": {
                 "transition": {
                   "to": "DefaultScene",
                   "effect": "zoomTo",
                   "camera": {
                     "position": {
-                      "actionableItemReference": "redHitbox"
+                      "actionableItemReference": "whiteHitbox"
                     }
                   },
                   "options": "4, 1000, \"Linear\", true"
@@ -112,13 +112,13 @@
         "height": 100
       },
       "backgroundColor": "0xfffff00",
-      "events": [
+      "actions": [
         {
-          "eventType": "pointerup",
-          "actions": [
+          "actionType": "pointerup",
+          "events": [
             {
-              "actionType": "mainNPCDialog",
-              "action": {
+              "eventType": "mainNPCDialog",
+              "event": {
                 "dialog": {
                   "content": "This is just a visible hitbox!"
                 }
@@ -140,13 +140,13 @@
         "height": 100
       },
       "backgroundColor": "0xfffff00",
-      "events": [
+      "actions": [
         {
-          "eventType": "pointerup",
-          "actions": [
+          "actionType": "pointerup",
+          "events": [
             {
-              "actionType": "mainNPCDialog",
-              "action": {
+              "eventType": "mainNPCDialog",
+              "event": {
                 "dialog": {
                   "content": "This is just a visible hitbox!"
                 }
@@ -155,12 +155,12 @@
           ]
         },
         {
-          "eventType": "collide",
-          "eventTarget": "yellowHitbox",
-          "actions": [
+          "actionType": "collide",
+          "actionTarget": "yellowHitbox",
+          "events": [
             {
-              "actionType": "sceneTransition",
-              "action": {
+              "eventType": "sceneTransition",
+              "event": {
                 "transition": {
                   "to": "Scene1",
                   "effect": "zoomTo",
@@ -169,8 +169,8 @@
               }
             },
             {
-              "actionType": "mainNPCDialog",
-              "action": {
+              "eventType": "mainNPCDialog",
+              "event": {
                 "dialog": {
                   "content": "Collide event dialog"
                 }
@@ -181,7 +181,7 @@
       ]
     },
     {
-      "name": "whiteObject",
+      "name": "whiteHitbox",
       "type": "hitbox",
       "label": "Label",
       "position": { "x": 1044, "y": 988 },
@@ -192,13 +192,13 @@
         "width": 100,
         "height": 100
       },
-      "events": [
+      "actions": [
         {
-          "eventType": "pointerup",
-          "actions": [
+          "actionType": "pointerup",
+          "events": [
             {
-              "actionType": "mainNPCDialog",
-              "action": {
+              "eventType": "mainNPCDialog",
+              "event": {
                 "dialog": {
                   "content": "Find something to interact with!",
                   "duration": 1000                }
@@ -207,12 +207,12 @@
             ]
           },
           {
-            "eventType": "collide",
-            "eventTarget": "exitDoor",
-            "actions": [
+            "actionType": "collide",
+            "actionTarget": "exitDoor",
+            "events": [
               {
-                "actionType": "mainNPCDialog",
-                "action": {
+                "eventType": "mainNPCDialog",
+                "event": {
                   "dialog": {
                     "content": "Something happend!",
                     "duration": 5000
@@ -222,12 +222,12 @@
             ]
           },
           {
-            "eventType": "collide",
-            "eventTarget": "yellowHitbox",
-            "actions": [
+            "actionType": "collide",
+            "actionTarget": "yellowHitbox",
+            "events": [
               {
-                "actionType": "mainNPCDialog",
-                "action": {
+                "eventType": "mainNPCDialog",
+                "event": {
                   "dialog": {
                     "content": "Boom!",
                     "duration": 5000
@@ -237,7 +237,7 @@
             ]
           }
         ]
-      }
+    }
     ],
     "mainNPC": {
       "dialog": {

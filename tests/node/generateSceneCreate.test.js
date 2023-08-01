@@ -253,14 +253,14 @@ describe('generateSceneCreate function', () => {
           type: 'image',
           position: { x: 100, y: 200 },
           size: { width: 0, height: 0 }, // Not used for image type
-          events: [
+          actions: [
             {
-              eventType: 'collide',
-              eventTarget: 'something',
-              actions: [
+              actionType: 'collide',
+              actionTarget: 'something',
+              events: [
                 {
-                  actionType: 'mainNPCDialog',
-                  action: {
+                  eventType: 'mainNPCDialog',
+                  event: {
                     dialog: {
                       content: 'Collide event with main NPC dialog.',
                     },
@@ -316,13 +316,13 @@ describe('generateSceneCreate function', () => {
           type: 'image',
           position: { x: 100, y: 200 },
           size: { width: 0, height: 0 }, // Not used for image type
-          events: [
+          actions: [
             {
-              eventType: 'PointerDown',
-              actions: [
+              actionType: 'PointerDown',
+              events: [
                 {
-                  actionType: 'mainNPCDialog',
-                  action: {
+                  eventType: 'mainNPCDialog',
+                  event: {
                     dialog: {
                       content: 'PointerDown event with main NPC dialog.',
                     },
@@ -366,13 +366,13 @@ describe('generateSceneCreate function', () => {
           type: 'image',
           position: { x: 100, y: 200 },
           size: { width: 0, height: 0 }, // Not used for image type
-          events: [
+          actions: [
             {
-              eventType: 'PointerDown',
-              actions: [
+              actionType: 'PointerDown',
+              events: [
                 {
-                  actionType: 'mainNPCDialog',
-                  action: {
+                  eventType: 'mainNPCDialog',
+                  event: {
                     dialog: {
                       content: 'PointerDown event with main NPC dialog.',
                     },
@@ -381,12 +381,12 @@ describe('generateSceneCreate function', () => {
               ],
             },
             {
-              eventType: 'collide',
-              eventTarget: 'something',
-              actions: [
+              actionType: 'collide',
+              actionTarget: 'something',
+              events: [
                 {
-                  actionType: 'sceneTransition',
-                  action: {
+                  eventType: 'sceneTransition',
+                  event: {
                     transition: {
                       to: 'NextScene',
                       effect: 'zoomTo',
@@ -397,12 +397,12 @@ describe('generateSceneCreate function', () => {
               ],
             },
             {
-              eventType: 'collide',
-              eventTarget: 'somethingElse',
-              actions: [
+              actionType: 'collide',
+              actionTarget: 'somethingElse',
+              events: [
                 {
-                  actionType: 'sceneTransition',
-                  action: {
+                  eventType: 'sceneTransition',
+                  event: {
                     transition: {
                       to: 'NextScene',
                       effect: 'zoomTo',
@@ -417,8 +417,8 @@ describe('generateSceneCreate function', () => {
                   },
                 },
                 {
-                  actionType: 'sceneTransition',
-                  action: {
+                  eventType: 'sceneTransition',
+                  event: {
                     transition: {
                       to: 'NextScene',
                       effect: 'zoomTo',
@@ -504,13 +504,13 @@ describe('generateSceneCreate function', () => {
           type: 'image',
           position: { x: 100, y: 200 },
           size: { width: 0, height: 0 }, // Not used for image type
-          events: [
+          actions: [
             {
-              eventType: 'PointerDown',
-              actions: [
+              actionType: 'PointerDown',
+              events: [
                 {
-                  actionType: 'mainNPCDialog',
-                  action: {
+                  eventType: 'mainNPCDialog',
+                  event: {
                     dialog: {
                       content:
                         'PointerDown event with main NPC dialog for image.',
@@ -520,12 +520,12 @@ describe('generateSceneCreate function', () => {
               ],
             },
             {
-              eventType: 'collide',
-              eventTarget: 'something',
-              actions: [
+              actionType: 'collide',
+              actionTarget: 'something',
+              events: [
                 {
-                  actionType: 'sceneTransition',
-                  action: {
+                  eventType: 'sceneTransition',
+                  event: {
                     transition: {
                       to: 'NextScene',
                       effect: 'zoomTo',
@@ -534,8 +534,8 @@ describe('generateSceneCreate function', () => {
                   },
                 },
                 {
-                  actionType: 'mainNPCDialog',
-                  action: {
+                  eventType: 'mainNPCDialog',
+                  event: {
                     dialog: {
                       content: 'Collide event with main NPC dialog for image.',
                     },
@@ -560,13 +560,13 @@ describe('generateSceneCreate function', () => {
             origin: 0.5,
             scale: 1,
           },
-          events: [
+          actions: [
             {
-              eventType: 'PointerDown',
-              actions: [
+              actionType: 'PointerDown',
+              events: [
                 {
-                  actionType: 'mainNPCDialog',
-                  action: {
+                  eventType: 'mainNPCDialog',
+                  event: {
                     dialog: {
                       content:
                         'PointerDown event with main NPC dialog for text.',
@@ -630,8 +630,8 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 }, // Not used for image type
-          events: [], // No events specified
+          size: { width: 0, height: 0 },
+          actions: [],
         },
       ],
       mainNPC: null,
@@ -658,13 +658,13 @@ describe('generateSceneCreate function', () => {
           type: 'image',
           position: { x: 100, y: 200 },
           size: { width: 0, height: 0 }, // Not used for image type
-          events: [
+          actions: [
             {
-              eventType: 'PointerDown',
-              actions: [
+              actionType: 'PointerDown',
+              events: [
                 {
-                  actionType: 'sceneTransition',
-                  action: {
+                  eventType: 'sceneTransition',
+                  event: {
                     transition: {
                       to: 'NextScene',
                       effect: 'zoomTo',

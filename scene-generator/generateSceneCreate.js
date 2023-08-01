@@ -103,27 +103,27 @@ function generateSceneCreate(sceneName, sceneConfig) {
         createCode += `this.physics.world.enable(this.${actionableItem?.name});`;
       }
 
-      function generateMainNPCDialogAction(action) {
+      function generateMainNPCDialogEvent(event) {
         return `
-          this.mainNPC.dialogContent = "${action.dialog?.content}";
+          this.mainNPC.dialogContent = "${event.dialog?.content}";
           this.mainNPC.showDialog(this.mainNPC.dialogContent, ${
-            action.dialog?.duration || 3000
+            event.dialog?.duration || 3000
           });
         `;
       }
 
-      function generateSceneTransition(action) {
+      function generateSceneTransition(event) {
         let cameraPosition = null;
         if (
-          action?.transition?.camera?.position?.x &&
-          action?.transition?.camera?.position?.y
+          event?.transition?.camera?.position?.x &&
+          event?.transition?.camera?.position?.y
         ) {
-          cameraPosition = action?.transition?.camera?.position;
+          cameraPosition = event?.transition?.camera?.position;
         } else if (
-          action?.transition?.camera?.position?.actionableItemReference
+          event?.transition?.camera?.position?.actionableItemReference
         ) {
           const reference =
-            action?.transition?.camera?.position?.actionableItemReference;
+            event?.transition?.camera?.position?.actionableItemReference;
           cameraPosition = sceneConfig?.actionableItems?.find(
             (item) => item.name === reference
           )?.position;
@@ -146,53 +146,52 @@ function generateSceneCreate(sceneName, sceneConfig) {
           this.cameras.main.pan(this.${cameraPosition?.reference}?.getBounds()?.x, this.${cameraPosition?.reference}?.getBounds()?.y);`
               : ''
           }
-          this.cameras.main.${action?.transition?.effect}(${
-            action?.transition?.options
+          this.cameras.main.${event?.transition?.effect}(${
+            event?.transition?.options
           }, (camera, progress) => {
             if (progress === 1) {
               isTransitionInProgress = false;
-              this.scene.start("${action?.transition?.to}");
+              this.scene.start("${event?.transition?.to}");
             }
           });
         }
       `;
       }
 
-      function generateActions(name, eventType, eventTarget, actions) {
+      function generateEvents(name, actionType, actionTarget, events) {
         let content = '';
-        if (eventType === 'collide') {
+        if (actionType === 'collide') {
           if (
-            actions.some(
-              ({ actionType }) =>
-                actionType === 'sceneTransition' ||
-                actionType === 'mainNPCDialog'
+            events.some(
+              ({ eventType }) =>
+                eventType === 'sceneTransition' || eventType === 'mainNPCDialog'
             )
           ) {
             content += `
-        this.physics.add.overlap(this.${name}, this.${eventTarget}, () => {
+        this.physics.add.overlap(this.${name}, this.${actionTarget}, () => {
       `;
-            actions.forEach(({ actionType, action }) => {
-              if (actionType === 'sceneTransition') {
-                content += generateSceneTransition(action);
+            events.forEach(({ eventType, event }) => {
+              if (eventType === 'sceneTransition') {
+                content += generateSceneTransition(event);
               }
-              if (actionType === 'mainNPCDialog') {
-                content += generateMainNPCDialogAction(action);
+              if (eventType === 'mainNPCDialog') {
+                content += generateMainNPCDialogEvent(event);
               }
             });
             content += `});`;
           }
         } else {
-          actions.forEach(({ actionType, action }) => {
+          events?.forEach(({ eventType, event }) => {
             content += `
-              this.${name}.on("${eventType.toLowerCase()}", function () {
+              this.${name}.on("${actionType.toLowerCase()}", function () {
                 ${
-                  actionType === 'sceneTransition'
-                    ? generateSceneTransition(action)
+                  eventType === 'sceneTransition'
+                    ? generateSceneTransition(event)
                     : ''
                 }
                 ${
-                  actionType === 'mainNPCDialog'
-                    ? generateMainNPCDialogAction(action)
+                  eventType === 'mainNPCDialog'
+                    ? generateMainNPCDialogEvent(event)
                     : ''
                 }
               }, this);
@@ -212,14 +211,14 @@ function generateSceneCreate(sceneName, sceneConfig) {
         `;
       }
 
-      if (actionableItem?.events && actionableItem?.events.length > 0) {
-        actionableItem?.events.forEach(
-          ({ eventType, actions, eventTarget }) => {
-            createCode += generateActions(
+      if (actionableItem?.actions && actionableItem?.actions.length > 0) {
+        actionableItem?.actions.forEach(
+          ({ actionType, events, actionTarget }) => {
+            createCode += generateEvents(
               actionableItem?.name,
-              eventType,
-              eventTarget,
-              actions
+              actionType,
+              actionTarget,
+              events
             );
           }
         );

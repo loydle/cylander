@@ -12,7 +12,7 @@
         "url": "src/assets/logo-cylander.svg",
         "scale": 1.5
       },
-      "events": [],
+      "actions": [],
       "animation": {
         "options": {
           "scaleX": 2,
@@ -38,18 +38,18 @@
         },
         "origin": 0.5
       },
-      "events": []
+      "actions": []
     },
     {
       "name": "input",
       "itemType": "",
-      "events": [
+      "actions": [
         {
-          "eventType": "pointerup",
-          "actions": [
+          "actionType": "pointerup",
+          "events": [
             {
-              "actionType": "sceneTransition",
-              "action": {
+              "eventType": "sceneTransition",
+              "event": {
                 "transition": {
                   "to": "Scene1",
                   "effect": "fadeOut",

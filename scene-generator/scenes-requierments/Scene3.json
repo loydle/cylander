@@ -16,13 +16,13 @@
         "width": 100,
         "height": 100
       },
-      "events": [
+      "actions": [
         {
-          "eventType": "pointerup",
-          "actions": [
+          "actionType": "pointerup",
+          "events": [
             {
-              "actionType": "sceneTransition",
-              "action": {
+              "eventType": "sceneTransition",
+              "event": {
                 "transition": {
                   "to": "Scene2",
                   "effect": "zoomTo",
