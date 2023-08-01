@@ -301,7 +301,6 @@ describe('generateSceneCreate function', () => {
   `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-    console.log(result);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
