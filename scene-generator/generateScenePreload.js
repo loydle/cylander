@@ -7,7 +7,7 @@ function generateScenePreload(sceneName, sceneConfig) {
     }");\n`;
   }
 
-  actionableItems.forEach(({ name, type, image }) => {
+  actionableItems?.forEach(({ name, type, image }) => {
     if (type === 'image') {
       preloadCode += `this.load.image("${name}", "${image.url}");\n`;
     }
