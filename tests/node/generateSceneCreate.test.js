@@ -442,7 +442,8 @@ describe('generateSceneCreate function', () => {
                   actionType: 'mainNPCDialog',
                   action: {
                     dialog: {
-                      content: 'PointerDown event with main NPC dialog for image.',
+                      content:
+                        'PointerDown event with main NPC dialog for image.',
                     },
                   },
                 },
@@ -497,7 +498,8 @@ describe('generateSceneCreate function', () => {
                   actionType: 'mainNPCDialog',
                   action: {
                     dialog: {
-                      content: 'PointerDown event with main NPC dialog for text.',
+                      content:
+                        'PointerDown event with main NPC dialog for text.',
                     },
                   },
                 },
@@ -548,7 +550,6 @@ describe('generateSceneCreate function', () => {
       (expectedCodeForItem1 + expectedCodeForItem2).replace(/\s+/g, '')
     );
   });
-
 
   it('should generate code for actionable item with no events', () => {
     const sceneName = 'TestScene';
@@ -631,5 +632,4 @@ describe('generateSceneCreate function', () => {
       expectedCode.replace(/\s+/g, '')
     );
   });
-
 });

@@ -128,14 +128,20 @@ function generateSceneCreate(sceneName, sceneConfig) {
 
       function generateActions(name, eventType, eventTarget, actions) {
         let content = '';
-  if (eventType === 'collide') {
-    if (actions.some(({ actionType }) => actionType === 'sceneTransition' || actionType === 'mainNPCDialog')) {
-      content += `
+        if (eventType === 'collide') {
+          if (
+            actions.some(
+              ({ actionType }) =>
+                actionType === 'sceneTransition' ||
+                actionType === 'mainNPCDialog'
+            )
+          ) {
+            content += `
         this.physics.add.overlap(this.${name}, this.${eventTarget}, () => {
       `;
-      actions.forEach(({ actionType, action }) => {
-        if (actionType === 'sceneTransition') {
-          content += `
+            actions.forEach(({ actionType, action }) => {
+              if (actionType === 'sceneTransition') {
+                content += `
             if (!isTransitionInProgress) {
               isTransitionInProgress = true;
               this.cameras.main.${action?.transition?.effect}(${action?.transition?.options}, (camera, progress) => {
@@ -146,19 +152,21 @@ function generateSceneCreate(sceneName, sceneConfig) {
               });
             }
           `;
-        }
-        if (actionType === 'mainNPCDialog') {
-          content += `
+              }
+              if (actionType === 'mainNPCDialog') {
+                content += `
             this.mainNPC.dialogContent = "${action.dialog?.content}";
-            this.mainNPC.showDialog(this.mainNPC.dialogContent, ${action.dialog?.duration || 3000});
+            this.mainNPC.showDialog(this.mainNPC.dialogContent, ${
+              action.dialog?.duration || 3000
+            });
           `;
-        }
-      });
-      content += `
+              }
+            });
+            content += `
         });
       `;
-    }
-  }  else {
+          }
+        } else {
           actions.forEach(({ actionType, action }) => {
             content += `
               this.${name}.on("${eventType.toLowerCase()}", function () {
