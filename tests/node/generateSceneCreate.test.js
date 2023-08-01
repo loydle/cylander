@@ -486,7 +486,124 @@ describe('generateSceneCreate function', () => {
     `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-    console.log(result);
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
+  });
+
+  it('should generate transitions with custom/fixed camera position', () => {
+    const sceneName = 'TestScene';
+    const sceneConfig = {
+      background: {},
+      actionableItems: [
+        {
+          name: 'item1',
+          actions: [
+            {
+              actionType: 'PointerDown',
+              events: [
+                {
+                  eventType: 'sceneTransition',
+                  event: {
+                    transition: {
+                      to: 'NextScene',
+                      effect: 'zoomTo',
+                      options: '1.5, 1000, "Linear", true',
+                      camera: {
+                        position: {
+                          x: 100,
+                          y: 100,
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      mainNPC: null,
+    };
+
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.item1.on("pointerdown", function () {
+        if (!isTransitionInProgress) {
+          isTransitionInProgress = true;
+          this.cameras.main.pan(100, 100);
+          this.cameras.main.zoomTo(1.5, 1000, "Linear", true, (camera, progress) => {
+            if (progress === 1) {
+              isTransitionInProgress = false;
+              this.scene.start("NextScene");
+            }
+          });
+        }
+      }, this);
+    `;
+
+    const result = generateSceneCreate(sceneName, sceneConfig);
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
+  });
+
+  it('should generate transitions with camera position relative to actionableItem current position', () => {
+    const sceneName = 'TestScene';
+    const sceneConfig = {
+      background: {},
+      actionableItems: [
+        {
+          name: 'item0',
+          position: { x: 42, y: 24 },
+        },
+        {
+          name: 'item1',
+          actions: [
+            {
+              actionType: 'collide',
+              actionTarget: 'somethingElse',
+              events: [
+                {
+                  eventType: 'sceneTransition',
+                  event: {
+                    transition: {
+                      to: 'NextScene',
+                      effect: 'zoomTo',
+                      options: '1.5, 1000, "Linear", true',
+                      camera: {
+                        position: {
+                          actionableItemReference: 'item0',
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      mainNPC: null,
+    };
+
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.physics.add.overlap(this.item1, this.somethingElse, () => {
+        if (!isTransitionInProgress) {
+          isTransitionInProgress = true;
+          this.cameras.main.pan(this.item0?.getBounds()?.x, this.item0?.getBounds()?.y);
+          this.cameras.main.zoomTo(1.5, 1000, "Linear", true, (camera, progress) => {
+            if (progress === 1) {
+              isTransitionInProgress = false;
+              this.scene.start("NextScene");
+            }
+          });
+        }
+      });
+    `;
+
+    const result = generateSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
