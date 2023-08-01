@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 const generateScenePreload = require('./generateScenePreload');
 const generateSceneCreate = require('./generateSceneCreate');
 

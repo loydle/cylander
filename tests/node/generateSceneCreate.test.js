@@ -13,10 +13,12 @@ describe('generateSceneCreate function', () => {
       mainNPC: null,
     };
 
-    const expectedCode = `let isTransitionInProgress = false;\nthis.add.image(0, 0, "background-testscene").setOrigin(0);\n`;
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.add.image(0, 0, "background-testscene").setOrigin(0);
+      `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
@@ -32,10 +34,12 @@ describe('generateSceneCreate function', () => {
       mainNPC: null,
     };
 
-    const expectedCode = `let isTransitionInProgress = false;\nthis.cameras.main.setBackgroundColor(0xabcdef);\n`;
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.cameras.main.setBackgroundColor(0xabcdef);
+    `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
@@ -57,11 +61,12 @@ describe('generateSceneCreate function', () => {
       mainNPC: null,
     };
 
-    const expectedCode =
-      'let isTransitionInProgress = false;\nthis.hitbox1 = this.add.rectangle(100, 200, 50, 50, 0xff0000).setInteractive();\n';
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.hitbox1 = this.add.rectangle(100, 200, 50, 50, 0xff0000).setInteractive();
+    `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
@@ -92,11 +97,12 @@ describe('generateSceneCreate function', () => {
       mainNPC: null,
     };
 
-    const expectedCode =
-      'let isTransitionInProgress = false;\nthis.text1 = this.add.text(200, 150, "Hello, World!", {"fontFamily":"Arial","fontSize":"24px","color":"#ffffff"}).setOrigin(0.5).setScale(1)\n';
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.text1 = this.add.text(200, 150, "Hello, World!", {"fontFamily":"Arial","fontSize":"24px","color":"#ffffff"}).setOrigin(0.5).setScale(1)
+    `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
@@ -121,11 +127,13 @@ describe('generateSceneCreate function', () => {
       mainNPC: null,
     };
 
-    const expectedCode =
-      'let isTransitionInProgress = false;\nthis.image1 = this.add.image(300, 200, "image1").setInteractive();\nthis.image1.setScale(2);\n';
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.image1 = this.add.image(300, 200, "image1").setInteractive();
+      this.image1.setScale(2);
+    `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
@@ -147,17 +155,27 @@ describe('generateSceneCreate function', () => {
       mainNPC: null,
     };
 
-    const expectedCode =
-      'let isTransitionInProgress = false;\nthis.draggable1 = this.add.image(400, 300, "draggable1").setInteractive();\nthis.input.setDraggable(this.draggable1);\nthis.draggable1.on(\'pointerdown\', function () {\nthis.scene.children.bringToTop(this);\n});\nthis.input.on("drag", (pointer, gameObject, dragX, dragY) => {\ngameObject.x = dragX;\ngameObject.y = dragY;\n});\n';
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.draggable1 = this.add.image(400, 300, "draggable1").setInteractive();
+      this.input.setDraggable(this.draggable1);
+
+      this.draggable1.on('pointerdown', function () {
+        this.scene.children.bringToTop(this);
+      });
+
+      this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+        gameObject.x = dragX;
+        gameObject.y = dragY;
+      });
+    `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-
-    // Remove all whitespaces (including indentation and line breaks) from both strings
     const formattedExpectedCode = expectedCode.replace(/\s+/g, '');
     const formattedResult = result.replace(/\s+/g, '');
-
     expect(formattedResult).toEqual(formattedExpectedCode);
   });
+
   it('should generate code for actionable item with animation', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
@@ -180,11 +198,18 @@ describe('generateSceneCreate function', () => {
       mainNPC: null,
     };
 
-    const expectedCode =
-      'let isTransitionInProgress = false;\nthis.item1 = this.add.image(100, 200, "item1").setInteractive();\nthis.tweens.add({\n  targets: this.item1,\n  duration: 1000,\n  repeat: 2,\n  yoyo: true\n});\n';
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+      this.tweens.add({
+          targets: this.item1,
+          duration: 1000,
+          repeat: 2,
+          yoyo: true
+      });
+    `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
@@ -206,11 +231,13 @@ describe('generateSceneCreate function', () => {
       mainNPC: null,
     };
 
-    const expectedCode =
-      'let isTransitionInProgress = false;\nthis.item1 = this.add.image(100, 200, "item1").setInteractive();\nthis.physics.world.enable(this.item1);';
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+      this.physics.world.enable(this.item1);
+    `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
@@ -310,11 +337,16 @@ describe('generateSceneCreate function', () => {
       mainNPC: null,
     };
 
-    const expectedCode =
-      'let isTransitionInProgress = false;\nthis.item1 = this.add.image(100, 200, "item1").setInteractive();\nthis.item1.on("pointerdown", function () {\nthis.mainNPC.dialogContent = "PointerDown event with main NPC dialog.";\nthis.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);\n}, this);\n';
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+      this.item1.on("pointerdown", function () {
+        this.mainNPC.dialogContent = "PointerDown event with main NPC dialog.";
+      this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
+    }, this);
+    `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
@@ -388,7 +420,6 @@ describe('generateSceneCreate function', () => {
     `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-    console.log(result);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );

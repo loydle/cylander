@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 function generateSceneCreate(sceneName, sceneConfig) {
   const { background, actionableItems, mainNPC } = sceneConfig;
   let createCode = '';
