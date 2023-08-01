@@ -116,7 +116,17 @@ function generateSceneCreate(sceneName, sceneConfig) {
         return `
         if (!isTransitionInProgress) {
           isTransitionInProgress = true;
-          this.cameras.main.${action?.transition?.effect}(${action?.transition?.options}, (camera, progress) => {
+
+          ${
+            action?.transition?.camera?.position
+              ? `this.cameras.main.pan(
+              ${action?.transition?.camera?.position?.x},
+              ${action?.transition?.camera?.position?.y});`
+              : ''
+          }
+          this.cameras.main.${action?.transition?.effect}(${
+            action?.transition?.options
+          }, (camera, progress) => {
             if (progress === 1) {
               isTransitionInProgress = false;
               this.scene.start("${action?.transition?.to}");
@@ -141,30 +151,13 @@ function generateSceneCreate(sceneName, sceneConfig) {
       `;
             actions.forEach(({ actionType, action }) => {
               if (actionType === 'sceneTransition') {
-                content += `
-            if (!isTransitionInProgress) {
-              isTransitionInProgress = true;
-              this.cameras.main.${action?.transition?.effect}(${action?.transition?.options}, (camera, progress) => {
-                if (progress === 1) {
-                  isTransitionInProgress = false;
-                  this.scene.start("${action?.transition?.to}");
-                }
-              });
-            }
-          `;
+                content += generateSceneTransition(action);
               }
               if (actionType === 'mainNPCDialog') {
-                content += `
-            this.mainNPC.dialogContent = "${action.dialog?.content}";
-            this.mainNPC.showDialog(this.mainNPC.dialogContent, ${
-              action.dialog?.duration || 3000
-            });
-          `;
+                content += generateMainNPCDialogAction(action);
               }
             });
-            content += `
-        });
-      `;
+            content += `});`;
           }
         } else {
           actions.forEach(({ actionType, action }) => {

@@ -45,6 +45,7 @@ export class Scene3 extends Phaser.Scene {
       function () {
         if (!isTransitionInProgress) {
           isTransitionInProgress = true;
+
           this.cameras.main.zoomTo(
             1.5,
             1000,

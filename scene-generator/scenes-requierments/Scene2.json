@@ -25,6 +25,12 @@
                 "transition": {
                   "to": "Scene1",
                   "effect": "zoomTo",
+                  "camera": {
+                    "position": {
+                      "x": 766,
+                      "y": 520
+                    }
+                  },
                   "options": "1.5, 1000, \"Linear\", true"
                 }
               }

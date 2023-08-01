@@ -391,6 +391,28 @@ describe('generateSceneCreate function', () => {
                 },
               ],
             },
+            {
+              eventType: 'collide',
+              eventTarget: 'somethingElse',
+              actions: [
+                {
+                  actionType: 'sceneTransition',
+                  action: {
+                    transition: {
+                      to: 'NextScene',
+                      effect: 'zoomTo',
+                      options: '1.5, 1000, "Linear", true',
+                      camera: {
+                        position: {
+                          x: 100,
+                          y: 100,
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
+            },
           ],
         },
       ],
@@ -408,6 +430,21 @@ describe('generateSceneCreate function', () => {
       this.physics.add.overlap(this.item1, this.something, () => {
         if (!isTransitionInProgress) {
           isTransitionInProgress = true;
+          this.cameras.main.zoomTo(1.5, 1000, "Linear", true, (camera, progress) => {
+            if (progress === 1) {
+              isTransitionInProgress = false;
+              this.scene.start("NextScene");
+            }
+          });
+        }
+      });
+
+      this.physics.add.overlap(this.item1, this.somethingElse, () => {
+
+
+        if (!isTransitionInProgress) {
+          isTransitionInProgress = true;
+          this.cameras.main.pan(100, 100);
           this.cameras.main.zoomTo(1.5, 1000, "Linear", true, (camera, progress) => {
             if (progress === 1) {
               isTransitionInProgress = false;

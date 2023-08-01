@@ -41,6 +41,8 @@ export class Scene2 extends Phaser.Scene {
       function () {
         if (!isTransitionInProgress) {
           isTransitionInProgress = true;
+
+          this.cameras.main.pan(766, 520);
           this.cameras.main.zoomTo(
             1.5,
             1000,
@@ -75,6 +77,7 @@ export class Scene2 extends Phaser.Scene {
       function () {
         if (!isTransitionInProgress) {
           isTransitionInProgress = true;
+
           this.cameras.main.zoomTo(
             1.5,
             1000,
@@ -109,6 +112,7 @@ export class Scene2 extends Phaser.Scene {
       function () {
         if (!isTransitionInProgress) {
           isTransitionInProgress = true;
+
           this.cameras.main.zoomTo(
             1.5,
             1000,
@@ -191,6 +195,7 @@ export class Scene2 extends Phaser.Scene {
     this.physics.add.overlap(this.yellowHitbox2, this.yellowHitbox, () => {
       if (!isTransitionInProgress) {
         isTransitionInProgress = true;
+
         this.cameras.main.zoomTo(
           1.5,
           1000,
@@ -244,7 +249,6 @@ export class Scene2 extends Phaser.Scene {
       this.mainNPC.dialogContent = 'Something happend!';
       this.mainNPC.showDialog(this.mainNPC.dialogContent, 5000);
     });
-
     this.physics.add.overlap(this.whiteObject, this.yellowHitbox, () => {
       this.mainNPC.dialogContent = 'Boom!';
       this.mainNPC.showDialog(this.mainNPC.dialogContent, 5000);
