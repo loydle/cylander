@@ -34,6 +34,11 @@ The scene generator is a script that automatically generates scene classes for t
    *  Add the new scene to the game's scene configuration by appending it to the 'updateScene' array in 'game.js'. For example: updateScene: [DefaultScene, Scene1, Scene2, NewScene],
    *  The new scene is now ready to be used and can be accessed and triggered in the game according to the defined configuration.
 
+
+### Documentation
+
+For detailed instructions on installation, usage, and scene generation, please refer to the [Scene Generator Documentation](docs/scene-generator-doc.md).
+
 ## How to Play
 
 - Start the development server: `npm start`
