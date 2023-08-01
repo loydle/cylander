@@ -37,7 +37,7 @@ The scene generator is a script that automatically generates scene classes for t
 
 ### Documentation
 
-For detailed instructions on installation, usage, and scene generation, please refer to the [Scene Generator Documentation](docs/scene-generator-doc.md).
+For detailed instructions on how to structure a new scene, please refer to the [Scene Structure Documentation](docs/scene-structure-documentation.md).
 
 ## How to Play
 
