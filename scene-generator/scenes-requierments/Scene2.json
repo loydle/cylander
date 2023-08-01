@@ -4,7 +4,8 @@
     "image": {
       "fileName": "scene2.jpg"
     }
-  },  "actionableItems": [
+  },
+  "actionableItems": [
     {
       "name": "exitDoor",
       "type": "hitbox",
@@ -109,6 +110,50 @@
               "action": {
                 "dialog": {
                   "content": "This is just a visible hitbox!"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "yellowHitbox2",
+      "type": "hitbox",
+      "label": "Label",
+      "hasPhysicsEnabled": true,
+      "isDraggable": true,
+      "position": { "x": 244, "y": 988 },
+      "size": {
+        "width": 100,
+        "height": 100
+      },
+      "backgroundColor": "0xfffff00",
+      "events": [
+        {
+          "eventType": "pointerup",
+          "actions": [
+            {
+              "actionType": "mainNPCDialog",
+              "action": {
+                "dialog": {
+                  "content": "This is just a visible hitbox!"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "eventType": "collide",
+          "eventTarget": "yellowHitbox",
+          "actions": [
+            {
+              "actionType": "sceneTransition",
+              "action": {
+                "transition": {
+                  "to": "Scene1",
+                  "effect": "zoomTo",
+                  "options": "1.5, 1000, \"Linear\", true"
                 }
               }
             }

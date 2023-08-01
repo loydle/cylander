@@ -16,6 +16,26 @@ export class Scene1 extends Phaser.Scene {
   create() {
     let isTransitionInProgress = false;
     this.add.image(0, 0, 'background-scene1').setOrigin(0);
+
+    this.mainNPC.create();
+    this.mainNPC.showDialog(
+      'Find the door or explore your surroundings.',
+      5000
+    );
+    this.mainNPC.mainNPCImage.setPosition(1529, 1040);
+    this.mainNPC.moveTextPosition(
+      1529,
+      1040 - this.mainNPC.mainNPCImage.height + 20
+    );
+
+    this.tweens.add({
+      targets: this.mainNPC.mainNPCImage,
+      y: 900,
+      duration: 300,
+      ease: 'Linear',
+      yoyo: false,
+      repeat: 0,
+    });
     this.door = this.add
       .rectangle(637, 544, 100, 100, undefined)
       .setInteractive();
@@ -68,25 +88,5 @@ export class Scene1 extends Phaser.Scene {
       },
       this
     );
-
-    this.mainNPC.create();
-    this.mainNPC.showDialog(
-      'Find the door or explore your surroundings.',
-      5000
-    );
-    this.mainNPC.mainNPCImage.setPosition(1529, 1040);
-    this.mainNPC.moveTextPosition(
-      1529,
-      1040 - this.mainNPC.mainNPCImage.height + 20
-    );
-
-    this.tweens.add({
-      targets: this.mainNPC.mainNPCImage,
-      y: 900,
-      duration: 300,
-      ease: 'Linear',
-      yoyo: false,
-      repeat: 0,
-    });
   }
 }

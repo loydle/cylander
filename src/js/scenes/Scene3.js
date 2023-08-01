@@ -15,6 +15,18 @@ export class Scene3 extends Phaser.Scene {
   create() {
     let isTransitionInProgress = false;
     this.add.image(0, 0, 'background-scene3').setOrigin(0);
+
+    this.mainNPC.create();
+    this.mainNPC.showDialog('Welcome to Scene 3!', 3000);
+    this.mainNPC.mainNPCImage.setPosition(
+      this.mainNPC.initialPosition.x,
+      this.mainNPC.initialPosition.y
+    );
+    this.mainNPC.moveTextPosition(
+      this.mainNPC.initialPosition.x,
+      this.mainNPC.initialPosition.y - this.mainNPC.mainNPCImage.height / 2
+    );
+
     this.purpleHitbox = this.add
       .rectangle(844, 988, 100, 100, 0xfff00ff)
       .setInteractive();
@@ -48,17 +60,6 @@ export class Scene3 extends Phaser.Scene {
         }
       },
       this
-    );
-
-    this.mainNPC.create();
-    this.mainNPC.showDialog('Welcome to Scene 3!', 3000);
-    this.mainNPC.mainNPCImage.setPosition(
-      this.mainNPC.initialPosition.x,
-      this.mainNPC.initialPosition.y
-    );
-    this.mainNPC.moveTextPosition(
-      this.mainNPC.initialPosition.x,
-      this.mainNPC.initialPosition.y - this.mainNPC.mainNPCImage.height / 2
     );
   }
 }

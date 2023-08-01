@@ -15,6 +15,23 @@ export class Scene2 extends Phaser.Scene {
   create() {
     let isTransitionInProgress = false;
     this.add.image(0, 0, 'background-scene2').setOrigin(0);
+
+    this.mainNPC.create();
+    this.mainNPC.showDialog('Welcome to Scene 2!', 3000);
+    this.mainNPC.mainNPCImage.setPosition(1055, 488);
+    this.mainNPC.moveTextPosition(
+      1055,
+      488 - this.mainNPC.mainNPCImage.height / 2
+    );
+
+    this.tweens.add({
+      targets: this.mainNPC.mainNPCImage,
+      y: 530,
+      duration: 500,
+      ease: 'Linear',
+      yoyo: true,
+      repeat: -1,
+    });
     this.exitDoor = this.add
       .rectangle(766, 520, 200, 300, undefined)
       .setInteractive();
@@ -139,6 +156,55 @@ export class Scene2 extends Phaser.Scene {
       },
       this
     );
+    this.yellowHitbox2 = this.add
+      .rectangle(244, 988, 100, 100, 0xfffff00)
+      .setInteractive();
+
+    this.input.setDraggable(this.yellowHitbox2);
+    this.yellowHitbox2.on('pointerdown', function () {
+      this.scene.children.bringToTop(this);
+    });
+
+    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+      gameObject.x = dragX;
+      gameObject.y = dragY;
+    });
+    this.physics.world.enable(this.yellowHitbox2);
+    this.add
+      .text(244, 888, 'Label', {
+        font: '20px Arial',
+        fill: '#ffffff',
+        backgroundColor: '#000000',
+        padding: { x: 5, y: 5 },
+      })
+      .setOrigin(0.5);
+
+    this.yellowHitbox2.on(
+      'pointerup',
+      function () {
+        this.mainNPC.dialogContent = 'This is just a visible hitbox!';
+        this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
+      },
+      this
+    );
+
+    this.physics.add.overlap(this.yellowHitbox2, this.yellowHitbox, () => {
+      if (!isTransitionInProgress) {
+        isTransitionInProgress = true;
+        this.cameras.main.zoomTo(
+          1.5,
+          1000,
+          'Linear',
+          true,
+          (camera, progress) => {
+            if (progress === 1) {
+              isTransitionInProgress = false;
+              this.scene.start('Scene1');
+            }
+          }
+        );
+      }
+    });
     this.whiteObject = this.add
       .rectangle(1044, 988, 100, 100, 0xfffffff)
       .setInteractive();
@@ -179,23 +245,6 @@ export class Scene2 extends Phaser.Scene {
     this.physics.add.overlap(this.whiteObject, this.yellowHitbox, () => {
       this.mainNPC.dialogContent = 'Boom!';
       this.mainNPC.showDialog(this.mainNPC.dialogContent, 5000);
-    });
-
-    this.mainNPC.create();
-    this.mainNPC.showDialog('Welcome to Scene 2!', 3000);
-    this.mainNPC.mainNPCImage.setPosition(1055, 488);
-    this.mainNPC.moveTextPosition(
-      1055,
-      488 - this.mainNPC.mainNPCImage.height / 2
-    );
-
-    this.tweens.add({
-      targets: this.mainNPC.mainNPCImage,
-      y: 530,
-      duration: 500,
-      ease: 'Linear',
-      yoyo: true,
-      repeat: -1,
     });
   }
 }
