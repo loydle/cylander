@@ -357,6 +357,11 @@ describe('generateSceneCreate function', () => {
       background: {},
       actionableItems: [
         {
+          name: 'item0',
+          type: 'image',
+          position: { x: 42, y: 24 },
+        },
+        {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
@@ -411,6 +416,21 @@ describe('generateSceneCreate function', () => {
                     },
                   },
                 },
+                {
+                  actionType: 'sceneTransition',
+                  action: {
+                    transition: {
+                      to: 'NextScene',
+                      effect: 'zoomTo',
+                      options: '1.5, 1000, "Linear", true',
+                      camera: {
+                        position: {
+                          actionableItemReference: 'item0',
+                        },
+                      },
+                    },
+                  },
+                },
               ],
             },
           ],
@@ -421,6 +441,7 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
+      this.item0 = this.add.image(42, 24, "item0").setInteractive();
       this.item1 = this.add.image(100, 200, "item1").setInteractive();
       this.item1.on("pointerdown", function () {
         this.mainNPC.dialogContent = "PointerDown event with main NPC dialog.";
@@ -452,10 +473,22 @@ describe('generateSceneCreate function', () => {
             }
           });
         }
+
+        if (!isTransitionInProgress) {
+          isTransitionInProgress = true;
+          this.cameras.main.pan(this.item0?.getBounds()?.x, this.item0?.getBounds()?.y);
+          this.cameras.main.zoomTo(1.5, 1000, "Linear", true, (camera, progress) => {
+            if (progress === 1) {
+              isTransitionInProgress = false;
+              this.scene.start("NextScene");
+            }
+          });
+        }
       });
     `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
+    console.log(result);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );

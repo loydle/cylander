@@ -113,15 +113,37 @@ function generateSceneCreate(sceneName, sceneConfig) {
       }
 
       function generateSceneTransition(action) {
+        let cameraPosition = null;
+        if (
+          action?.transition?.camera?.position?.x &&
+          action?.transition?.camera?.position?.y
+        ) {
+          cameraPosition = action?.transition?.camera?.position;
+        } else if (
+          action?.transition?.camera?.position?.actionableItemReference
+        ) {
+          const reference =
+            action?.transition?.camera?.position?.actionableItemReference;
+          cameraPosition = sceneConfig?.actionableItems?.find(
+            (item) => item.name === reference
+          )?.position;
+          cameraPosition = { reference };
+        }
         return `
         if (!isTransitionInProgress) {
           isTransitionInProgress = true;
 
           ${
-            action?.transition?.camera?.position
-              ? `this.cameras.main.pan(
-              ${action?.transition?.camera?.position?.x},
-              ${action?.transition?.camera?.position?.y});`
+            cameraPosition?.x && cameraPosition?.y
+              ? `
+          this.cameras.main.pan(${cameraPosition.x}, ${cameraPosition.y});`
+              : ''
+          }
+
+          ${
+            cameraPosition?.reference
+              ? `
+          this.cameras.main.pan(this.${cameraPosition?.reference}?.getBounds()?.x, this.${cameraPosition?.reference}?.getBounds()?.y);`
               : ''
           }
           this.cameras.main.${action?.transition?.effect}(${

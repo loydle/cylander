@@ -87,7 +87,12 @@
                 "transition": {
                   "to": "DefaultScene",
                   "effect": "zoomTo",
-                  "options": "1.5, 1000, \"Linear\", true"
+                  "camera": {
+                    "position": {
+                      "actionableItemReference": "redHitbox"
+                    }
+                  },
+                  "options": "4, 1000, \"Linear\", true"
                 }
               }
             }

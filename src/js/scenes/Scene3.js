@@ -32,7 +32,7 @@ export class Scene3 extends Phaser.Scene {
       .setInteractive();
 
     this.add
-      .text(844, 888, 'Default', {
+      .text(844, 888, 'Scene2', {
         font: '20px Arial',
         fill: '#ffffff',
         backgroundColor: '#000000',

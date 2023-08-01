@@ -43,6 +43,7 @@ export class Scene2 extends Phaser.Scene {
           isTransitionInProgress = true;
 
           this.cameras.main.pan(766, 520);
+
           this.cameras.main.zoomTo(
             1.5,
             1000,
@@ -113,8 +114,12 @@ export class Scene2 extends Phaser.Scene {
         if (!isTransitionInProgress) {
           isTransitionInProgress = true;
 
+          this.cameras.main.pan(
+            this.redHitbox?.getBounds()?.x,
+            this.redHitbox?.getBounds()?.y
+          );
           this.cameras.main.zoomTo(
-            1.5,
+            4,
             1000,
             'Linear',
             true,

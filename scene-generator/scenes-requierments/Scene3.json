@@ -9,7 +9,7 @@
     {
       "name": "purpleHitbox",
       "type": "hitbox",
-      "label": "Default",
+      "label": "Scene2",
       "position": { "x": 844, "y": 988 },
       "backgroundColor": "0xfff00ff",
       "size": {
