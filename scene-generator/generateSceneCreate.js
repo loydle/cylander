@@ -128,24 +128,37 @@ function generateSceneCreate(sceneName, sceneConfig) {
 
       function generateActions(name, eventType, eventTarget, actions) {
         let content = '';
-        if (eventType === 'collide') {
-          actions.forEach(({ actionType, action }) => {
-            content += `
-              this.physics.add.overlap(this.${name}, this.${eventTarget}, () => {
-                ${
-                  actionType === 'mainNPCDialog'
-                    ? generateMainNPCDialogAction(action)
-                    : ''
-                }
-                ${
-                  actionType === 'sceneTransition'
-                    ? generateSceneTransition(action)
-                    : ''
+  if (eventType === 'collide') {
+    if (actions.some(({ actionType }) => actionType === 'sceneTransition' || actionType === 'mainNPCDialog')) {
+      content += `
+        this.physics.add.overlap(this.${name}, this.${eventTarget}, () => {
+      `;
+      actions.forEach(({ actionType, action }) => {
+        if (actionType === 'sceneTransition') {
+          content += `
+            if (!isTransitionInProgress) {
+              isTransitionInProgress = true;
+              this.cameras.main.${action?.transition?.effect}(${action?.transition?.options}, (camera, progress) => {
+                if (progress === 1) {
+                  isTransitionInProgress = false;
+                  this.scene.start("${action?.transition?.to}");
                 }
               });
-            `;
-          });
-        } else {
+            }
+          `;
+        }
+        if (actionType === 'mainNPCDialog') {
+          content += `
+            this.mainNPC.dialogContent = "${action.dialog?.content}";
+            this.mainNPC.showDialog(this.mainNPC.dialogContent, ${action.dialog?.duration || 3000});
+          `;
+        }
+      });
+      content += `
+        });
+      `;
+    }
+  }  else {
           actions.forEach(({ actionType, action }) => {
             content += `
               this.${name}.on("${eventType.toLowerCase()}", function () {

@@ -423,4 +423,213 @@ describe('generateSceneCreate function', () => {
       expectedCode.replace(/\s+/g, '')
     );
   });
+
+  it('should generate code for actionable item with both image and text types with multiple events', () => {
+    const sceneName = 'TestScene';
+    const sceneConfig = {
+      background: {},
+      actionableItems: [
+        {
+          name: 'item1',
+          type: 'image',
+          position: { x: 100, y: 200 },
+          size: { width: 0, height: 0 }, // Not used for image type
+          events: [
+            {
+              eventType: 'PointerDown',
+              actions: [
+                {
+                  actionType: 'mainNPCDialog',
+                  action: {
+                    dialog: {
+                      content: 'PointerDown event with main NPC dialog for image.',
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              eventType: 'collide',
+              eventTarget: 'something',
+              actions: [
+                {
+                  actionType: 'sceneTransition',
+                  action: {
+                    transition: {
+                      to: 'NextScene',
+                      effect: 'zoomTo',
+                      options: '1.5, 1000, "Linear", true',
+                    },
+                  },
+                },
+                {
+                  actionType: 'mainNPCDialog',
+                  action: {
+                    dialog: {
+                      content: 'Collide event with main NPC dialog for image.',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'item2',
+          type: 'text',
+          position: { x: 300, y: 250 },
+          size: { width: 0, height: 0 }, // Not used for text type
+          text: {
+            content: 'Clickable Text',
+            styles: {
+              fontFamily: 'Arial',
+              fontSize: '18px',
+              color: '#ff0000',
+            },
+            origin: 0.5,
+            scale: 1,
+          },
+          events: [
+            {
+              eventType: 'PointerDown',
+              actions: [
+                {
+                  actionType: 'mainNPCDialog',
+                  action: {
+                    dialog: {
+                      content: 'PointerDown event with main NPC dialog for text.',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      mainNPC: null,
+    };
+
+    const expectedCodeForItem1 = `
+    let isTransitionInProgress = false;
+    this.item1 = this.add.image(100, 200, "item1").setInteractive();
+
+    this.item1.on("pointerdown", function () {
+      this.mainNPC.dialogContent = "PointerDown event with main NPC dialog for image.";
+      this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
+    }, this);
+
+    this.physics.add.overlap(this.item1, this.something, () => {
+      if (!isTransitionInProgress) {
+        isTransitionInProgress = true;
+        this.cameras.main.zoomTo(1.5, 1000, "Linear", true, (camera, progress) => {
+          if (progress === 1) {
+            isTransitionInProgress = false;
+            this.scene.start("NextScene");
+          }
+        });
+      }
+
+      this.mainNPC.dialogContent = "Collide event with main NPC dialog for image.";
+      this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
+    });
+    `;
+
+    const expectedCodeForItem2 = `
+    this.item2 = this.add.text(300, 250, "Clickable Text", {"fontFamily":"Arial","fontSize":"18px","color":"#ff0000"}).setOrigin(0.5).setScale(1)
+
+    this.item2.on("pointerdown", function () {
+      this.mainNPC.dialogContent = "PointerDown event with main NPC dialog for text.";
+      this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
+    }, this);
+    `;
+
+    const result = generateSceneCreate(sceneName, sceneConfig);
+    expect(result.replace(/\s+/g, '')).toEqual(
+      (expectedCodeForItem1 + expectedCodeForItem2).replace(/\s+/g, '')
+    );
+  });
+
+
+  it('should generate code for actionable item with no events', () => {
+    const sceneName = 'TestScene';
+    const sceneConfig = {
+      background: {},
+      actionableItems: [
+        {
+          name: 'item1',
+          type: 'image',
+          position: { x: 100, y: 200 },
+          size: { width: 0, height: 0 }, // Not used for image type
+          events: [], // No events specified
+        },
+      ],
+      mainNPC: null,
+    };
+
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+    `;
+
+    const result = generateSceneCreate(sceneName, sceneConfig);
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
+  });
+
+  it('should generate code for actionable item with no mainNPC', () => {
+    const sceneName = 'TestScene';
+    const sceneConfig = {
+      background: {},
+      actionableItems: [
+        {
+          name: 'item1',
+          type: 'image',
+          position: { x: 100, y: 200 },
+          size: { width: 0, height: 0 }, // Not used for image type
+          events: [
+            {
+              eventType: 'PointerDown',
+              actions: [
+                {
+                  actionType: 'sceneTransition',
+                  action: {
+                    transition: {
+                      to: 'NextScene',
+                      effect: 'zoomTo',
+                      options: '1.5, 1000, "Linear", true',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      mainNPC: null, // No mainNPC specified
+    };
+
+    const expectedCode = `
+      let isTransitionInProgress = false;
+      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+
+      this.item1.on("pointerdown", function () {
+        if (!isTransitionInProgress) {
+          isTransitionInProgress = true;
+          this.cameras.main.zoomTo(1.5, 1000, "Linear", true, (camera, progress) => {
+            if (progress === 1) {
+              isTransitionInProgress = false;
+              this.scene.start("NextScene");
+            }
+          });
+        }
+      }, this);
+    `;
+
+    const result = generateSceneCreate(sceneName, sceneConfig);
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
+  });
+
 });

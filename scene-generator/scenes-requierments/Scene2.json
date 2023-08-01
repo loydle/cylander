@@ -156,6 +156,14 @@
                   "options": "1.5, 1000, \"Linear\", true"
                 }
               }
+            },
+            {
+              "actionType": "mainNPCDialog",
+              "action": {
+                "dialog": {
+                  "content": "Collide event dialog"
+                }
+              }
             }
           ]
         }

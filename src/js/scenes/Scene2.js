@@ -204,6 +204,9 @@ export class Scene2 extends Phaser.Scene {
           }
         );
       }
+
+      this.mainNPC.dialogContent = 'Collide event dialog';
+      this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
     });
     this.whiteObject = this.add
       .rectangle(1044, 988, 100, 100, 0xfffffff)
