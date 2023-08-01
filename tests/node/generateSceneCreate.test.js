@@ -81,7 +81,7 @@ describe('generateSceneCreate function', () => {
           name: 'text1',
           type: 'text',
           position: { x: 200, y: 150 },
-          size: { width: 0, height: 0 }, // Not used for text type
+          size: { width: 0, height: 0 },
           text: {
             content: 'Hello, World!',
             styles: {
@@ -117,7 +117,7 @@ describe('generateSceneCreate function', () => {
           name: 'image1',
           type: 'image',
           position: { x: 300, y: 200 },
-          size: { width: 0, height: 0 }, // Not used for image type
+          size: { width: 0, height: 0 },
           image: {
             url: 'path/to/image.png',
             scale: 2,
@@ -148,7 +148,7 @@ describe('generateSceneCreate function', () => {
           name: 'draggable1',
           type: 'image',
           position: { x: 400, y: 300 },
-          size: { width: 0, height: 0 }, // Not used for image type
+          size: { width: 0, height: 0 },
           isDraggable: true,
         },
       ],
@@ -185,7 +185,7 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 }, // Not used for image type
+          size: { width: 0, height: 0 },
           animation: {
             options: {
               duration: 1000,
@@ -224,7 +224,7 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 }, // Not used for image type
+          size: { width: 0, height: 0 },
           hasPhysicsEnabled: true,
         },
       ],
@@ -252,7 +252,7 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 }, // Not used for image type
+          size: { width: 0, height: 0 },
           actions: [
             {
               actionType: 'collide',
@@ -272,7 +272,6 @@ describe('generateSceneCreate function', () => {
         },
       ],
       mainNPC: {
-        // Add the necessary properties for mainNPC here
         dialog: {
           content: 'Main NPC dialog content.',
           duration: 3000,
@@ -281,7 +280,6 @@ describe('generateSceneCreate function', () => {
           x: 300,
           y: 400,
         },
-        // Add other necessary properties for mainNPC if needed
       },
     };
 
@@ -315,7 +313,7 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 }, // Not used for image type
+          size: { width: 0, height: 0 },
           actions: [
             {
               actionType: 'PointerDown',
@@ -365,7 +363,7 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 }, // Not used for image type
+          size: { width: 0, height: 0 },
           actions: [
             {
               actionType: 'PointerDown',
@@ -503,7 +501,7 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 }, // Not used for image type
+          size: { width: 0, height: 0 },
           actions: [
             {
               actionType: 'PointerDown',
@@ -549,7 +547,7 @@ describe('generateSceneCreate function', () => {
           name: 'item2',
           type: 'text',
           position: { x: 300, y: 250 },
-          size: { width: 0, height: 0 }, // Not used for text type
+          size: { width: 0, height: 0 },
           text: {
             content: 'Clickable Text',
             styles: {
@@ -657,7 +655,7 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 }, // Not used for image type
+          size: { width: 0, height: 0 },
           actions: [
             {
               actionType: 'PointerDown',
@@ -677,7 +675,7 @@ describe('generateSceneCreate function', () => {
           ],
         },
       ],
-      mainNPC: null, // No mainNPC specified
+      mainNPC: null,
     };
 
     const expectedCode = `
