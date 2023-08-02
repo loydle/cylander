@@ -51,9 +51,8 @@ describe('generateSceneCreate function', () => {
     let isTransitionInProgress = false;
 
     this.mainNPC?.create();
-    this.mainNPC?.mainNPCImage.setPosition(this.mainNPC?.initialPosition.x, this.mainNPC?.initialPosition.y);
-    this.mainNPC.mainNPCImage.setPosition(this.mainNPC.initialPosition.x, this.mainNPC.initialPosition.y);
-    this.mainNPC.moveTextPosition(this.mainNPC.initialPosition.x, this.mainNPC.initialPosition.y - this.mainNPC.mainNPCImage.height / 2);
+    this.mainNPC?.mainNPCImage.setPosition(this.mainNPC?.initialPosition?.x, this.mainNPC?.initialPosition?.y);
+    this.mainNPC?.moveTextPosition(this.mainNPC?.initialPosition?.x, this.mainNPC?.initialPosition?.y - this.mainNPC?.mainNPCImage?.height / 2);
     `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
