@@ -71,11 +71,6 @@ export class Scene1 extends Phaser.Scene {
     this.key.on('pointerdown', function () {
       this.scene.children.bringToTop(this);
     });
-
-    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-      gameObject.x = dragX;
-      gameObject.y = dragY;
-    });
     this.physics.world.enable(this.key);
     this.add
       .text(
@@ -99,33 +94,9 @@ export class Scene1 extends Phaser.Scene {
       },
       this
     );
-    this.itemTypeHitbox = this.add.rectangle(100, 200, 40, 200, 0xfff00ff);
-    this.itemTypeHitbox.setScale(1);
-    this.itemTypeHitbox.setInteractive();
-    this.input.setDraggable(this.itemTypeHitbox);
-    this.itemTypeHitbox.on('pointerdown', function () {
-      this.scene.children.bringToTop(this);
-    });
-
     this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
-    this.physics.world.enable(this.itemTypeHitbox);
-    this.add
-      .text(
-        this.itemTypeHitbox.getBounds()?.x +
-          this.itemTypeHitbox.getBounds()?.width / 2,
-        this.itemTypeHitbox.getBounds()?.y -
-          this.itemTypeHitbox.getBounds()?.height / 2,
-        'text',
-        {
-          font: '20px Arial',
-          fill: '#ffffff',
-          backgroundColor: '#000000',
-          padding: { x: 5, y: 5 },
-        }
-      )
-      .setOrigin(0.5);
   }
 }

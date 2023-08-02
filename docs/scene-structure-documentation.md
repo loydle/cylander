@@ -61,6 +61,10 @@ As of now there are three types of actionable items:
   "image": {
     "url": "path/to/image.jpg" // (mandatory)
   },
+  "origin": {  // (optional - The origin is the point within the object from which positioning and rotation are calculated. )
+    "x": 0.5,
+    "y": 0.5
+  },
   "isDraggable": true, // (optional)
   "hasPhysicsEnabled": true, // (optional)
   "actions": []
@@ -82,6 +86,10 @@ As of now there are three types of actionable items:
   "size": {
     "width": 40, // (mandatory)
     "height": 200 // (mandatory)
+  },
+  "origin": {  // (optional - The origin is the point within the object from which positioning and rotation are calculated. )
+    "x": 0.5,
+    "y": 0.5
   },
   "isDraggable": true, // (optional)
   "hasPhysicsEnabled": true, // (optional)
@@ -106,12 +114,15 @@ As of now there are three types of actionable items:
       "y": 10 // (optional)
       }
   },
-  "origin": 0.5 // (optional)
 },
   "scale": 1, // (optional)
   "position": {
     "x": 100, // (mandatory)
     "y": 200 // (mandatory)
+  },
+  "origin": {  // (optional - The origin is the point within the object from which positioning and rotation are calculated. )
+    "x": 0.5,
+    "y": 0.5
   },
   "isDraggable": true, // (optional)
   "hasPhysicsEnabled": true, // (optional)

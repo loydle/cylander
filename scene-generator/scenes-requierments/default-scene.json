@@ -27,7 +27,7 @@
     {
       "name": "logo2",
       "type": "text",
-      "position": { "x": "this.cameras.main.centerX", "y": "750" },
+      "position": { "x": "center", "y": "750" },
       "text": {
         "content": "Click anywhere to start!",
         "styles": {
@@ -35,8 +35,10 @@
           "fill": "#ffffff",
           "backgroundColor": "#333",
           "padding": { "x": 10, "y": 10 }
-        },
-        "origin": 0.5
+        }
+      },
+      "origin": {
+        "x": 0.5
       },
       "actions": []
     },

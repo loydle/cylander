@@ -28,14 +28,18 @@ export class DefaultScene extends Phaser.Scene {
       yoyo: true,
       repeat: -1,
     });
-    this.logo2 = this.add
-      .text(this.cameras.main.centerX, 750, 'Click anywhere to start!', {
+    this.logo2 = this.add.text(
+      this.cameras.main.centerX,
+      750,
+      'Click anywhere to start!',
+      {
         font: '36px monospace',
         fill: '#ffffff',
         backgroundColor: '#333',
         padding: { x: 10, y: 10 },
-      })
-      .setOrigin(0.5);
+      }
+    );
+    this.logo2.setOrigin(0.5, 0);
     this.logo2.setInteractive();
     this.input.on(
       'pointerup',

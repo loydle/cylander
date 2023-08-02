@@ -45,21 +45,22 @@ describe('generateSceneCreate function', () => {
     );
   });
 
-  it('should generate code for hitbox actionable item', () => {
+  it('should generate actionable item as interactive', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       background: {},
       actionableItems: [
         {
+          name: 'text1',
+          type: 'text',
+        },
+        {
+          name: 'image1',
+          type: 'image',
+        },
+        {
           name: 'hitbox1',
           type: 'hitbox',
-          scale: 1,
-          size: {
-            width: 42,
-            height: 24,
-          },
-          position: { x: 100, y: 200 },
-          backgroundColor: '0xff0000',
         },
       ],
       mainNPC: null,
@@ -67,8 +68,162 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.hitbox1 = this.add.rectangle(100, 200, 42, 24, 0xff0000);
-      this.hitbox1.setScale(1);
+
+      this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
+      this.text1.setInteractive();
+
+      this.image1 = this.add.image(undefined, undefined, "image1");
+      this.image1.setInteractive();
+
+      this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.setInteractive();
+    `;
+
+    const result = generateSceneCreate(sceneName, sceneConfig);
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
+  });
+
+  it('should generate actionable items with correct position', () => {
+    const sceneName = 'TestScene';
+    const sceneConfig = {
+      background: {},
+      actionableItems: [
+        {
+          name: 'text1',
+          type: 'text',
+          position: { x: 200, y: 150 },
+        },
+        {
+          name: 'text2',
+          type: 'text',
+          position: { x: 'center', y: 150 },
+        },
+
+        {
+          name: 'text3',
+          type: 'text',
+          position: { x: 'center', y: 'center' },
+        },
+        {
+          name: 'image1',
+          type: 'image',
+          position: { x: 200, y: 150 },
+        },
+        {
+          name: 'image2',
+          type: 'image',
+          position: { x: 'center', y: 150 },
+        },
+        {
+          name: 'image3',
+          type: 'image',
+          position: { x: 'center', y: 'center' },
+        },
+        {
+          name: 'hitbox1',
+          type: 'hitbox',
+          position: { x: 200, y: 150 },
+        },
+        {
+          name: 'hitbox2',
+          type: 'hitbox',
+          position: { x: 'center', y: 150 },
+        },
+
+        {
+          name: 'hitbox3',
+          type: 'hitbox',
+          position: { x: 'center', y: 'center' },
+        },
+      ],
+      mainNPC: null,
+    };
+
+    const expectedCode = `
+    let isTransitionInProgress = false;
+
+    this.text1 = this.add.text(200, 150, "undefined", undefined);
+    this.text1.setInteractive();
+
+    this.text2 = this.add.text(this.cameras.main.centerX, 150, "undefined", undefined);
+    this.text2.setInteractive();
+
+    this.text3 = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "undefined", undefined);
+    this.text3.setInteractive();
+
+    this.image1 = this.add.image(200, 150, "image1");
+    this.image1.setInteractive();
+
+    this.image2 = this.add.image(this.cameras.main.centerX, 150, "image2");
+    this.image2.setInteractive();
+
+    this.image3 = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "image3");
+    this.image3.setInteractive();
+
+    this.hitbox1 = this.add.rectangle(200, 150, undefined, undefined, undefined);
+    this.hitbox1.setInteractive();
+
+    this.hitbox2 = this.add.rectangle(this.cameras.main.centerX, 150, undefined, undefined, undefined);
+    this.hitbox2.setInteractive();
+
+    this.hitbox3 = this.add.rectangle(this.cameras.main.centerX, this.cameras.main.centerY, undefined, undefined, undefined);
+    this.hitbox3.setInteractive();
+    `;
+
+    const result = generateSceneCreate(sceneName, sceneConfig);
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
+  });
+
+  it('should generate actionable items with correct origin', () => {
+    const sceneName = 'TestScene';
+    const sceneConfig = {
+      background: {},
+      actionableItems: [
+        {
+          name: 'text1',
+          type: 'text',
+          origin: {
+            x: 0.5,
+            y: 0.5,
+          },
+        },
+        {
+          name: 'image1',
+          type: 'image',
+          origin: {
+            x: 0.5,
+            y: 0.5,
+          },
+        },
+        {
+          name: 'hitbox1',
+          type: 'hitbox',
+          origin: {
+            x: 0.5,
+            y: 0.5,
+          },
+        },
+      ],
+      mainNPC: null,
+    };
+
+    const expectedCode = `
+      let isTransitionInProgress = false;
+
+      this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
+      this.text1.setOrigin(0.5, 0.5);
+      this.text1.setInteractive();
+
+      this.image1 = this.add.image(undefined, undefined, "image1");
+      this.image1.setOrigin(0.5, 0.5);
+      this.image1.setInteractive();
+
+      this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.setOrigin(0.5, 0.5);
       this.hitbox1.setInteractive();
 
     `;
@@ -79,44 +234,7 @@ describe('generateSceneCreate function', () => {
     );
   });
 
-  it('should generate code for text actionable item', () => {
-    const sceneName = 'TestScene';
-    const sceneConfig = {
-      background: {},
-      actionableItems: [
-        {
-          name: 'text1',
-          type: 'text',
-          scale: 1,
-          position: { x: 200, y: 150 },
-          text: {
-            content: 'Hello, World!',
-            styles: {
-              fontFamily: 'Arial',
-              fontSize: '24px',
-              color: '#ffffff',
-            },
-            origin: 0.5,
-          },
-        },
-      ],
-      mainNPC: null,
-    };
-
-    const expectedCode = `
-      let isTransitionInProgress = false;
-      this.text1 = this.add.text(200, 150, "Hello, World!", {"fontFamily":"Arial","fontSize":"24px","color":"#ffffff"}).setOrigin(0.5);
-      this.text1.setScale(1);
-      this.text1.setInteractive();
-    `;
-
-    const result = generateSceneCreate(sceneName, sceneConfig);
-    expect(result.replace(/\s+/g, '')).toEqual(
-      expectedCode.replace(/\s+/g, '')
-    );
-  });
-
-  it('should generate code for image actionable item with scale', () => {
+  it('should generate actionable items with correct scale', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       background: {},
@@ -124,11 +242,29 @@ describe('generateSceneCreate function', () => {
         {
           name: 'image1',
           type: 'image',
-          position: { x: 300, y: 200 },
           scale: 1,
-          image: {
-            url: 'path/to/image.png',
-          },
+        },
+        {
+          name: 'image2',
+          type: 'image',
+        },
+        {
+          name: 'text1',
+          type: 'text',
+          scale: 1,
+        },
+        {
+          name: 'text2',
+          type: 'text',
+        },
+        {
+          name: 'hitbox1',
+          type: 'hitbox',
+          scale: 1,
+        },
+        {
+          name: 'hitbox2',
+          type: 'hitbox',
         },
       ],
       mainNPC: null,
@@ -136,9 +272,26 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.image1 = this.add.image(300, 200, "image1");
+      this.image1 = this.add.image(undefined, undefined, "image1");
       this.image1.setScale(1);
       this.image1.setInteractive();
+
+      this.image2 = this.add.image(undefined, undefined, "image2");
+      this.image2.setInteractive();
+
+      this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
+      this.text1.setScale(1);
+      this.text1.setInteractive();
+
+      this.text2 = this.add.text(undefined, undefined, "undefined", undefined);
+      this.text2.setInteractive();
+
+      this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.setScale(1);
+      this.hitbox1.setInteractive();
+
+      this.hitbox2 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox2.setInteractive();
     `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
@@ -147,15 +300,24 @@ describe('generateSceneCreate function', () => {
     );
   });
 
-  it('should generate code for draggable actionable item', () => {
+  it('should generate draggable actionable items ', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       background: {},
       actionableItems: [
         {
-          name: 'draggable1',
+          name: 'image1',
           type: 'image',
-          position: { x: 400, y: 300 },
+          isDraggable: true,
+        },
+        {
+          name: 'text1',
+          type: 'text',
+          isDraggable: true,
+        },
+        {
+          name: 'hitbox1',
+          type: 'hitbox',
           isDraggable: true,
         },
       ],
@@ -164,11 +326,24 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.draggable1 = this.add.image(400, 300, "draggable1");
-      this.draggable1.setInteractive();
-      this.input.setDraggable(this.draggable1);
+      this.image1 = this.add.image(undefined, undefined, "image1");
+      this.image1.setInteractive();
+      this.input.setDraggable(this.image1);
+      this.image1.on('pointerdown', function () {
+          this.scene.children.bringToTop(this);
+      });
 
-      this.draggable1.on('pointerdown', function () {
+      this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
+      this.text1.setInteractive();
+      this.input.setDraggable(this.text1);
+        this.text1.on('pointerdown', function () {
+          this.scene.children.bringToTop(this);
+      });
+
+      this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.setInteractive();
+      this.input.setDraggable(this.hitbox1);
+      this.hitbox1.on('pointerdown', function () {
         this.scene.children.bringToTop(this);
       });
 
@@ -181,18 +356,39 @@ describe('generateSceneCreate function', () => {
     const result = generateSceneCreate(sceneName, sceneConfig);
     const formattedExpectedCode = expectedCode.replace(/\s+/g, '');
     const formattedResult = result.replace(/\s+/g, '');
+    console.log();
     expect(formattedResult).toEqual(formattedExpectedCode);
   });
 
   it('should generate code for actionable item with animation', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
-      background: {},
       actionableItems: [
         {
-          name: 'item1',
+          name: 'text1',
+          type: 'text',
+          animation: {
+            options: {
+              duration: 1000,
+              repeat: 2,
+              yoyo: true,
+            },
+          },
+        },
+        {
+          name: 'image1',
           type: 'image',
-          position: { x: 100, y: 200 },
+          animation: {
+            options: {
+              duration: 1000,
+              repeat: 2,
+              yoyo: true,
+            },
+          },
+        },
+        {
+          name: 'hitbox1',
+          type: 'hitbox',
           animation: {
             options: {
               duration: 1000,
@@ -207,13 +403,33 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.item1 = this.add.image(100, 200, "item1");
-      this.item1.setInteractive();
+
+      this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
+      this.text1.setInteractive();
       this.tweens.add({
-          targets: this.item1,
-          duration: 1000,
-          repeat: 2,
-          yoyo: true
+        targets: this.text1,
+        duration: 1000,
+        repeat: 2,
+        yoyo: true
+      });
+
+
+      this.image1 = this.add.image(undefined, undefined, "image1");
+      this.image1.setInteractive();
+      this.tweens.add({
+        targets: this.image1,
+        duration: 1000,
+        repeat: 2,
+        yoyo: true
+      });
+
+      this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.setInteractive();
+      this.tweens.add({
+        targets: this.hitbox1,
+        duration: 1000,
+        repeat: 2,
+        yoyo: true
       });
     `;
 
@@ -683,7 +899,6 @@ describe('generateSceneCreate function', () => {
               fontSize: '18px',
               color: '#ff0000',
             },
-            origin: 0.5,
             scale: 1,
           },
           actions: [
@@ -734,7 +949,7 @@ describe('generateSceneCreate function', () => {
     `;
 
     const expectedCodeForItem2 = `
-    this.item2 = this.add.text(300, 250, "Clickable Text", {"fontFamily":"Arial","fontSize":"18px","color":"#ff0000"}).setOrigin(0.5);
+    this.item2 = this.add.text(300, 250, "Clickable Text", {"fontFamily":"Arial","fontSize":"18px","color":"#ff0000"});
     this.item2.setInteractive();
 
     this.item2.on("pointerdown", function () {

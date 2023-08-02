@@ -81,24 +81,6 @@
           ]
         }
       ]
-    },
-    {
-      "name": "itemTypeHitbox",
-      "type": "hitbox",
-      "label": "text",
-      "backgroundColor": "0xfff00ff",
-      "scale": 1,
-      "position": {
-        "x": 100,
-        "y": 200
-      },
-      "size": {
-        "width": 40,
-        "height": 200
-      },
-      "isDraggable": true,
-      "hasPhysicsEnabled": true,
-      "actions": []
     }
   ],
   "mainNPC": {

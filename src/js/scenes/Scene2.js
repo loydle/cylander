@@ -147,11 +147,6 @@ export class Scene2 extends Phaser.Scene {
     this.yellowHitbox.on('pointerdown', function () {
       this.scene.children.bringToTop(this);
     });
-
-    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-      gameObject.x = dragX;
-      gameObject.y = dragY;
-    });
     this.physics.world.enable(this.yellowHitbox);
     this.add
       .text(
@@ -182,11 +177,6 @@ export class Scene2 extends Phaser.Scene {
     this.input.setDraggable(this.yellowHitbox2);
     this.yellowHitbox2.on('pointerdown', function () {
       this.scene.children.bringToTop(this);
-    });
-
-    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-      gameObject.x = dragX;
-      gameObject.y = dragY;
     });
     this.physics.world.enable(this.yellowHitbox2);
     this.add
@@ -241,11 +231,6 @@ export class Scene2 extends Phaser.Scene {
     this.whiteHitbox.on('pointerdown', function () {
       this.scene.children.bringToTop(this);
     });
-
-    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-      gameObject.x = dragX;
-      gameObject.y = dragY;
-    });
     this.physics.world.enable(this.whiteHitbox);
     this.add
       .text(
@@ -279,6 +264,10 @@ export class Scene2 extends Phaser.Scene {
     this.physics.add.overlap(this.whiteHitbox, this.yellowHitbox, () => {
       this.mainNPC.dialogContent = 'Boom!';
       this.mainNPC.showDialog(this.mainNPC.dialogContent, 5000);
+    });
+    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+      gameObject.x = dragX;
+      gameObject.y = dragY;
     });
   }
 }
