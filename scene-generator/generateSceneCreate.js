@@ -1,4 +1,4 @@
-const ActionType = require('./actionTypes.js');
+const ActionableItemType = require('./actionableItemTypes.js');
 const EventType = require('./eventTypes.js');
 
 function generateSceneCreate(sceneName, sceneConfig) {
@@ -30,13 +30,13 @@ function generateSceneCreate(sceneName, sceneConfig) {
     if (actionableItems?.length > 0) {
       actionableItems.forEach((actionableItem) => {
         switch (actionableItem?.type) {
-          case ActionType.HITBOX:
+          case ActionableItemType.HITBOX:
             createCode += generateActionableItemHitboxCode(actionableItem);
             break;
-          case ActionType.IMAGE:
+          case ActionableItemType.IMAGE:
             createCode += generateActionableItemImageCode(actionableItem);
             break;
-          case ActionType.TEXT:
+          case ActionableItemType.TEXT:
             createCode += generateActionableItemTextCode(actionableItem);
             break;
           default:
