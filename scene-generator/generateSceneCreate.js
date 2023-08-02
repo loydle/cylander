@@ -1,165 +1,185 @@
 function generateSceneCreate(sceneName, sceneConfig) {
-  const { background, actionableItems, mainNPC } = sceneConfig;
-  let hasDraggableItem = false;
   let createCode = '';
-  createCode += 'let isTransitionInProgress = false;\n';
+  let hasDraggableItem = false;
+  renderScene(sceneName, sceneConfig);
 
-  if (background?.image?.fileName) {
-    createCode += `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);\n`;
-  } else if (background?.color) {
-    createCode += `this.cameras.main.setBackgroundColor(${background?.color});\n`;
-  }
+  function renderScene(sceneName, sceneConfig) {
+    const { background, actionableItems, mainNPC } = sceneConfig;
+    createCode += 'let isTransitionInProgress = false;\n';
 
-  if (mainNPC) {
-    createCode += `
-      this.mainNPC?.create();
-      ${
-        mainNPC?.dialog
-          ? `
-      this.mainNPC?.showDialog("${mainNPC?.dialog?.content ?? ''}", ${
-        mainNPC?.dialog?.duration || 3000
-      });`
-          : ''
-      }
+    if (background?.image?.fileName) {
+      createCode += `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);\n`;
+    } else if (background?.color) {
+      createCode += `this.cameras.main.setBackgroundColor(${background?.color});\n`;
+    }
 
-      this.mainNPC?.mainNPCImage.setPosition(${
-        mainNPC?.position?.x || `this.mainNPC?.initialPosition.x`
-      }, ${mainNPC?.position?.y || `this.mainNPC?.initialPosition.y`});
+    if (mainNPC) {
+      createCode += generateMainNPCCode(mainNPC);
+    }
 
-      this.mainNPC.mainNPCImage.setPosition(${
-        mainNPC?.position?.x || `this.mainNPC.initialPosition.x`
-      }, ${mainNPC?.position?.y || `this.mainNPC.initialPosition.y`});
-      this.mainNPC.moveTextPosition(${
-        mainNPC?.position?.x || `this.mainNPC.initialPosition.x`
-      }, ${
-        mainNPC.dialog?.position?.top
-          ? `${
-              mainNPC?.position?.y || `this.mainNPC.initialPosition.y`
-            } - this.mainNPC.mainNPCImage.height  + ${
-              mainNPC.dialog?.position?.top
-            }`
-          : `${
-              mainNPC?.position?.y || `this.mainNPC.initialPosition.y`
-            } - this.mainNPC.mainNPCImage.height / 2`
+    if (actionableItems && actionableItems.length > 0) {
+      actionableItems?.forEach((actionableItem) => {
+        if (actionableItem?.type === 'hitbox') {
+          createCode += generateActionableItemHitboxCode(actionableItem);
+        }
+        if (actionableItem?.type === 'image') {
+          createCode += generateActionableItemImageCode(actionableItem);
+        }
+        if (actionableItem?.type === 'text') {
+          createCode += generateActionableItemTextCode(actionableItem);
+        }
+        if (actionableItem?.scale) {
+          createCode += generateSetScaleCode(actionableItem);
+        }
+        if (actionableItem?.origin) {
+          createCode += generateSetOriginCode(actionableItem);
+        }
+        if (actionableItem?.name !== 'input') {
+          // input is a reserved name
+          createCode += `this.${actionableItem?.name}.setInteractive();`;
+        }
+
+        if (actionableItem?.animation) {
+          createCode += generateAnimationCode(actionableItem);
+        }
+
+        if (actionableItem?.isDraggable) {
+          createCode += generateSetDraggableCode(actionableItem);
+          hasDraggableItem = true;
+        }
+
+        if (actionableItem?.hasPhysicsEnabled) {
+          createCode += `this.physics.world.enable(this.${actionableItem?.name});`;
+        }
+
+        if (actionableItem?.label) {
+          createCode += generateLabelCode(actionableItem, sceneConfig);
+        }
+
+        if (actionableItem?.actions && actionableItem?.actions.length > 0) {
+          actionableItem?.actions.forEach(
+            ({ actionType, events, actionTarget }) => {
+              createCode += generateEventsCode(
+                actionableItem?.name,
+                actionType,
+                actionTarget,
+                events
+              );
+            }
+          );
+        }
       });
 
-      ${
-        mainNPC?.animation
-          ? `this.tweens.add({
-        targets: this.mainNPC?.mainNPCImage,
-        ${Object.entries(mainNPC.animation.options)
-          .map(
-            ([key, value]) =>
-              `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
-          )
-          .join(',')},
-      });`
-          : ''
+      if (hasDraggableItem) {
+        createCode += generateDragEventCode();
       }
-    `;
-  }
-
-  if (actionableItems && actionableItems.length > 0) {
-    actionableItems?.forEach((actionableItem) => {
-      if (actionableItem?.type === 'hitbox') {
-        createCode += generateActionableItemHitbox(actionableItem);
-      }
-
-      if (actionableItem?.type === 'image') {
-        createCode += generateActionableItemImage(actionableItem);
-      }
-      if (actionableItem?.type === 'text') {
-        createCode += generateActionableItemText(actionableItem);
-      }
-
-      if (actionableItem?.scale) {
-        createCode += setScale(actionableItem);
-      }
-
-      if (actionableItem?.origin) {
-        createCode += setOrigin(actionableItem);
-      }
-
-      if (actionableItem?.name !== 'input') {
-        // input is a reserved name
-        createCode += `this.${actionableItem?.name}.setInteractive();`;
-      }
-
-      if (actionableItem?.animation) {
-        createCode += `
-          this.tweens.add({
-            targets: this.${actionableItem?.name},
-            ${Object.entries(actionableItem?.animation?.options)
-              .map(
-                ([key, value]) =>
-                  `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
-              )
-              .join(',')}
-          });
-        `;
-      }
-
-      if (actionableItem?.isDraggable) {
-        hasDraggableItem = true;
-        createCode += `
-        this.input.setDraggable(this.${actionableItem?.name});
-        this.${actionableItem?.name}.on('pointerdown', function () {
-          this.scene.children.bringToTop(this);
-        });`;
-      }
-
-      if (actionableItem?.hasPhysicsEnabled) {
-        createCode += `this.physics.world.enable(this.${actionableItem?.name});`;
-      }
-
-      if (actionableItem?.label) {
-        createCode += `
-          this.add.text(
-            this.${actionableItem?.name}.getBounds()?.x + (this.${
-              actionableItem?.name
-            }.getBounds()?.width / 2), this.${
-              actionableItem?.name
-            }.getBounds()?.y - this.${
-              actionableItem?.name
-            }.getBounds()?.height / 2, "${actionableItem.label}",
-            ${JSON.stringify(sceneConfig?.labelStyles)}
-          ).setOrigin(0.5);
-        `;
-      }
-
-      if (actionableItem?.actions && actionableItem?.actions.length > 0) {
-        actionableItem?.actions.forEach(
-          ({ actionType, events, actionTarget }) => {
-            createCode += generateEvents(
-              actionableItem?.name,
-              actionType,
-              actionTarget,
-              events
-            );
-          }
-        );
-      }
-    });
-    if (hasDraggableItem) {
-      createCode += `this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
-        gameObject.x = dragX;
-        gameObject.y = dragY;
-      });
-    `;
     }
   }
 
-  function setScale(actionableItem) {
+  function generateDragEventCode() {
+    return `this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+      gameObject.x = dragX;
+      gameObject.y = dragY;
+    });`;
+  }
+
+  function generateLabelCode(actionableItem, sceneConfig) {
+    return `
+  this.add.text(
+    this.${actionableItem?.name}.getBounds()?.x + (this.${
+      actionableItem?.name
+    }.getBounds()?.width / 2), this.${
+      actionableItem?.name
+    }.getBounds()?.y - this.${actionableItem?.name}.getBounds()?.height / 2, "${
+      actionableItem.label
+    }",
+    ${JSON.stringify(sceneConfig?.labelStyles)}
+    ).setOrigin(0.5);
+    `;
+  }
+
+  function generateAnimationCode(actionableItem) {
+    return `
+  this.tweens.add({
+  targets: this.${actionableItem?.name},
+  ${Object.entries(actionableItem?.animation?.options)
+    .map(
+      ([key, value]) =>
+        `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
+    )
+    .join(',')}
+  });
+  `;
+  }
+
+  function generateSetDraggableCode(actionableItem) {
+    return `
+  this.input.setDraggable(this.${actionableItem?.name});
+  this.${actionableItem?.name}.on('pointerdown', function () {
+  this.scene.children.bringToTop(this);
+  });`;
+  }
+
+  function generateMainNPCCode(mainNPC) {
+    return `
+  this.mainNPC?.create();
+  ${
+    mainNPC?.dialog
+      ? `
+  this.mainNPC?.showDialog("${mainNPC?.dialog?.content ?? ''}", ${
+    mainNPC?.dialog?.duration || 3000
+  });`
+      : ''
+  }
+
+  this.mainNPC?.mainNPCImage.setPosition(${
+    mainNPC?.position?.x || `this.mainNPC?.initialPosition.x`
+  }, ${mainNPC?.position?.y || `this.mainNPC?.initialPosition.y`});
+
+  this.mainNPC.mainNPCImage.setPosition(${
+    mainNPC?.position?.x || `this.mainNPC.initialPosition.x`
+  }, ${mainNPC?.position?.y || `this.mainNPC.initialPosition.y`});
+  this.mainNPC.moveTextPosition(${
+    mainNPC?.position?.x || `this.mainNPC.initialPosition.x`
+  }, ${
+    mainNPC.dialog?.position?.top
+      ? `${
+          mainNPC?.position?.y || `this.mainNPC.initialPosition.y`
+        } - this.mainNPC.mainNPCImage.height  + ${
+          mainNPC.dialog?.position?.top
+        }`
+      : `${
+          mainNPC?.position?.y || `this.mainNPC.initialPosition.y`
+        } - this.mainNPC.mainNPCImage.height / 2`
+  });
+
+  ${
+    mainNPC?.animation
+      ? `this.tweens.add({
+  targets: this.mainNPC?.mainNPCImage,
+  ${Object.entries(mainNPC.animation.options)
+    .map(
+      ([key, value]) =>
+        `${key}: ${typeof value === 'string' ? `'${value}'` : value}`
+    )
+    .join(',')},
+  });`
+      : ''
+  }
+  `;
+  }
+
+  function generateSetScaleCode(actionableItem) {
     return `this.${actionableItem?.name}.setScale(${actionableItem?.scale});`;
   }
 
-  function setOrigin(actionableItem) {
+  function generateSetOriginCode(actionableItem) {
     return `this.${actionableItem?.name}.setOrigin(${
       actionableItem?.origin?.x || 0
     }, ${actionableItem?.origin?.y || 0});`;
   }
 
-  function generateActionableItemImage(actionableItem) {
+  function generateActionableItemImageCode(actionableItem) {
     return `this.${actionableItem?.name} = this.add.image(${
       actionableItem?.position?.x === 'center'
         ? `this.cameras.main.centerX`
@@ -169,10 +189,10 @@ function generateSceneCreate(sceneName, sceneConfig) {
         ? `this.cameras.main.centerY`
         : actionableItem?.position?.y
     }, "${actionableItem?.name}");
-    `;
+  `;
   }
 
-  function generateActionableItemText(actionableItem) {
+  function generateActionableItemTextCode(actionableItem) {
     return `this.${actionableItem?.name} = this.add.text(${
       actionableItem?.position?.x === 'center'
         ? `this.cameras.main.centerX`
@@ -184,10 +204,10 @@ function generateSceneCreate(sceneName, sceneConfig) {
     }, "${actionableItem?.text?.content}", ${JSON.stringify(
       actionableItem?.text?.styles
     )});
-    `;
+  `;
   }
 
-  function generateActionableItemHitbox(actionableItem) {
+  function generateActionableItemHitboxCode(actionableItem) {
     return `this.${actionableItem?.name} = this.add.rectangle(${
       actionableItem?.position?.x === 'center'
         ? `this.cameras.main.centerX`
@@ -202,16 +222,16 @@ function generateSceneCreate(sceneName, sceneConfig) {
   `;
   }
 
-  function generateMainNPCDialogEvent(event) {
+  function generateMainNPCDialogEventCode(event) {
     return `
-      this.mainNPC.dialogContent = "${event.dialog?.content}";
-      this.mainNPC.showDialog(this.mainNPC.dialogContent, ${
-        event.dialog?.duration || 3000
-      });
-    `;
+  this.mainNPC.dialogContent = "${event.dialog?.content}";
+  this.mainNPC.showDialog(this.mainNPC.dialogContent, ${
+    event.dialog?.duration || 3000
+  });
+  `;
   }
 
-  function generateSceneTransition(event) {
+  function generateSceneTransitionCode(event) {
     let cameraPosition = null;
     if (
       event?.transition?.camera?.position?.x &&
@@ -227,35 +247,35 @@ function generateSceneCreate(sceneName, sceneConfig) {
       cameraPosition = { reference };
     }
     return `
-    if (!isTransitionInProgress) {
-      isTransitionInProgress = true;
+  if (!isTransitionInProgress) {
+  isTransitionInProgress = true;
 
-      ${
-        cameraPosition?.x && cameraPosition?.y
-          ? `
-      this.cameras.main.pan(${cameraPosition.x}, ${cameraPosition.y});`
-          : ''
-      }
+  ${
+    cameraPosition?.x && cameraPosition?.y
+      ? `
+  this.cameras.main.pan(${cameraPosition.x}, ${cameraPosition.y});`
+      : ''
+  }
 
-      ${
-        cameraPosition?.reference
-          ? `
-      this.cameras.main.pan(this.${cameraPosition?.reference}?.getBounds()?.x, this.${cameraPosition?.reference}?.getBounds()?.y);`
-          : ''
-      }
-      this.cameras.main.${event?.transition?.effect}(${
-        event?.transition?.options
-      }, (camera, progress) => {
-        if (progress === 1) {
-          isTransitionInProgress = false;
-          this.scene.start("${event?.transition?.to}");
-        }
-      });
-    }
+  ${
+    cameraPosition?.reference
+      ? `
+  this.cameras.main.pan(this.${cameraPosition?.reference}?.getBounds()?.x, this.${cameraPosition?.reference}?.getBounds()?.y);`
+      : ''
+  }
+  this.cameras.main.${event?.transition?.effect}(${
+    event?.transition?.options
+  }, (camera, progress) => {
+  if (progress === 1) {
+  isTransitionInProgress = false;
+  this.scene.start("${event?.transition?.to}");
+  }
+  });
+  }
   `;
   }
 
-  function generateEvents(name, actionType, actionTarget, events) {
+  function generateEventsCode(name, actionType, actionTarget, events) {
     let content = '';
     if (actionType === 'collide') {
       if (
@@ -265,14 +285,14 @@ function generateSceneCreate(sceneName, sceneConfig) {
         )
       ) {
         content += `
-    this.physics.add.overlap(this.${name}, this.${actionTarget}, () => {
-  `;
+  this.physics.add.overlap(this.${name}, this.${actionTarget}, () => {
+    `;
         events.forEach(({ eventType, event }) => {
           if (eventType === 'sceneTransition') {
-            content += generateSceneTransition(event);
+            content += generateSceneTransitionCode(event);
           }
           if (eventType === 'mainNPCDialog') {
-            content += generateMainNPCDialogEvent(event);
+            content += generateMainNPCDialogEventCode(event);
           }
         });
         content += `});`;
@@ -280,19 +300,19 @@ function generateSceneCreate(sceneName, sceneConfig) {
     } else {
       events?.forEach(({ eventType, event }) => {
         content += `
-          this.${name}.on("${actionType.toLowerCase()}", function () {
-            ${
-              eventType === 'sceneTransition'
-                ? generateSceneTransition(event)
-                : ''
-            }
-            ${
-              eventType === 'mainNPCDialog'
-                ? generateMainNPCDialogEvent(event)
-                : ''
-            }
-          }, this);
-        `;
+    this.${name}.on("${actionType.toLowerCase()}", function () {
+      ${
+        eventType === 'sceneTransition'
+          ? generateSceneTransitionCode(event)
+          : ''
+      }
+      ${
+        eventType === 'mainNPCDialog'
+          ? generateMainNPCDialogEventCode(event)
+          : ''
+      }
+    }, this);
+    `;
       });
     }
     return content;
