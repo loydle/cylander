@@ -1,4 +1,4 @@
-function generateScenePreload(sceneName, sceneConfig) {
+function getScenePreload(sceneName, sceneConfig) {
   const { background, actionableItems, mainNPC } = sceneConfig;
   let preloadCode = '';
   if (background?.image?.fileName) {
@@ -20,4 +20,4 @@ function generateScenePreload(sceneName, sceneConfig) {
   return preloadCode;
 }
 
-module.exports = generateScenePreload;
+module.exports = getScenePreload;

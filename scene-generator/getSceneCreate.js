@@ -1,7 +1,7 @@
 const ActionableItemType = require('./actionableItemTypes.js');
 const EventType = require('./eventTypes.js');
 
-function generateSceneCreate(sceneName, sceneConfig) {
+function geSceneCreate(sceneName, sceneConfig) {
   if (
     !sceneName ||
     typeof sceneName !== 'string' ||
@@ -24,46 +24,46 @@ function generateSceneCreate(sceneName, sceneConfig) {
   function renderScene(sceneName, sceneConfig) {
     const { background, actionableItems, mainNPC } = sceneConfig;
     createCode += 'let isTransitionInProgress = false;';
-    createCode += generateBackgroundCode(background, sceneName);
-    createCode += generateMainNPCCode(mainNPC);
+    createCode += getBackgroundCode(background, sceneName);
+    createCode += getMainNPCCode(mainNPC);
 
     if (actionableItems?.length > 0) {
       actionableItems.forEach((actionableItem) => {
         switch (actionableItem?.type) {
           case ActionableItemType.HITBOX:
-            createCode += generateActionableItemHitboxCode(actionableItem);
+            createCode += getActionableItemHitboxCode(actionableItem);
             break;
           case ActionableItemType.IMAGE:
-            createCode += generateActionableItemImageCode(actionableItem);
+            createCode += getActionableItemImageCode(actionableItem);
             break;
           case ActionableItemType.TEXT:
-            createCode += generateActionableItemTextCode(actionableItem);
+            createCode += getActionableItemTextCode(actionableItem);
             break;
           default:
         }
 
-        createCode += generateSetScaleCode(
+        createCode += getSetScaleCode(
           actionableItem?.name,
           actionableItem?.scale
         );
-        createCode += generateSetOriginCode(
+        createCode += getSetOriginCode(
           actionableItem?.name,
           actionableItem?.origin
         );
-        createCode += generateSetInteractiveCode(actionableItem?.name);
-        createCode += generateAnimationCode(
+        createCode += getSetInteractiveCode(actionableItem?.name);
+        createCode += getAnimationCode(
           actionableItem?.name,
           actionableItem?.animation
         );
-        createCode += generateSetDraggableCode(
+        createCode += getSetDraggableCode(
           actionableItem?.name,
           actionableItem?.isDraggable
         );
-        createCode += generateHasPhysicsCode(
+        createCode += getHasPhysicsCode(
           actionableItem?.name,
           actionableItem?.hasPhysicsEnabled
         );
-        createCode += generateLabelCode(
+        createCode += getLabelCode(
           actionableItem?.name,
           actionableItem?.label,
           sceneConfig?.labelStyles
@@ -72,7 +72,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
         if (actionableItem?.actions?.length > 0) {
           actionableItem?.actions.forEach(
             ({ actionType, events, actionTarget }) => {
-              createCode += generateEventsCode(
+              createCode += getEventsCode(
                 actionableItem?.name,
                 actionType,
                 actionTarget,
@@ -83,11 +83,11 @@ function generateSceneCreate(sceneName, sceneConfig) {
         }
       });
 
-      createCode += generateDragEventCode(sceneHasOneOrMoreDraggableItems);
+      createCode += getDragEventCode(sceneHasOneOrMoreDraggableItems);
     }
   }
 
-  function generateBackgroundCode(background, sceneName) {
+  function getBackgroundCode(background, sceneName) {
     if (!background) return '';
     if (background?.image) {
       return `this.add.image(0, 0, "background-${sceneName.toLowerCase()}").setOrigin(0);`;
@@ -97,7 +97,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
     return '';
   }
 
-  function generateDragEventCode(sceneHasOneOrMoreDraggableItems) {
+  function getDragEventCode(sceneHasOneOrMoreDraggableItems) {
     if (!sceneHasOneOrMoreDraggableItems) return '';
     return `this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
       gameObject.x = dragX;
@@ -105,7 +105,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
     });`;
   }
 
-  function generateLabelCode(name, label, labelStyles) {
+  function getLabelCode(name, label, labelStyles) {
     if (!label || !name) return '';
     return `
       this.add.text(
@@ -115,7 +115,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
     `;
   }
 
-  function generateAnimationCode(name, animation) {
+  function getAnimationCode(name, animation) {
     if (!animation || !name) return '';
     return `
       this.tweens.add({
@@ -130,7 +130,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
     `;
   }
 
-  function generateSetDraggableCode(name, isDraggable) {
+  function getSetDraggableCode(name, isDraggable) {
     if (!isDraggable || !name) return '';
     sceneHasOneOrMoreDraggableItems = true;
     return `
@@ -141,27 +141,27 @@ function generateSceneCreate(sceneName, sceneConfig) {
     `;
   }
 
-  function generateSetScaleCode(name, scale) {
+  function getSetScaleCode(name, scale) {
     if (!scale || !name) return '';
     return `this.${name}.setScale(${scale});`;
   }
 
-  function generateSetOriginCode(name, origin) {
+  function getSetOriginCode(name, origin) {
     if (!origin || !name) return '';
     return `this.${name}.setOrigin(${origin?.x || 0}, ${origin?.y || 0});`;
   }
 
-  function generateSetInteractiveCode(name) {
+  function getSetInteractiveCode(name) {
     if (name === 'input' || !name) return '';
     return `this.${name}.setInteractive();`;
   }
 
-  function generateHasPhysicsCode(name, hasPhysicsEnabled) {
+  function getHasPhysicsCode(name, hasPhysicsEnabled) {
     if (!hasPhysicsEnabled || !name) return '';
     return `this.physics.world.enable(this.${name});`;
   }
 
-  function generateActionableItemImageCode(actionableItem) {
+  function getActionableItemImageCode(actionableItem) {
     return `this.${actionableItem?.name} = this.add.image(${
       actionableItem?.position?.x === 'center'
         ? `this.cameras.main.centerX`
@@ -174,7 +174,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
     `;
   }
 
-  function generateActionableItemTextCode(actionableItem) {
+  function getActionableItemTextCode(actionableItem) {
     return `this.${actionableItem?.name} = this.add.text(${
       actionableItem?.position?.x === 'center'
         ? `this.cameras.main.centerX`
@@ -189,7 +189,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
     `;
   }
 
-  function generateActionableItemHitboxCode(actionableItem) {
+  function getActionableItemHitboxCode(actionableItem) {
     return `this.${actionableItem?.name} = this.add.rectangle(${
       actionableItem?.position?.x === 'center'
         ? `this.cameras.main.centerX`
@@ -204,7 +204,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
     `;
   }
 
-  function generateMainNPCDialogEventCode(event) {
+  function getMainNPCDialogEventCode(event) {
     if (!event.dialog) return '';
     return `
       this.mainNPC.dialogContent = "${event.dialog?.content}";
@@ -214,7 +214,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
     `;
   }
 
-  function generateSceneTransitionCode(event) {
+  function getSceneTransitionCode(event) {
     if (!event.transition) return '';
     let cameraPosition = null;
     if (
@@ -257,7 +257,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
     `;
   }
 
-  function generateEventsCode(name, actionType, actionTarget, events) {
+  function getEventsCode(name, actionType, actionTarget, events) {
     if (!events) return '';
 
     let content = '';
@@ -274,10 +274,10 @@ function generateSceneCreate(sceneName, sceneConfig) {
         `;
         events.forEach(({ eventType, event }) => {
           if (eventType === EventType.SCENE_TRANSITION) {
-            content += generateSceneTransitionCode(event);
+            content += getSceneTransitionCode(event);
           }
           if (eventType === EventType.MAIN_NPC_DIALOG) {
-            content += generateMainNPCDialogEventCode(event);
+            content += getMainNPCDialogEventCode(event);
           }
         });
         content += `});
@@ -289,12 +289,12 @@ function generateSceneCreate(sceneName, sceneConfig) {
           this.${name}.on("${actionType.toLowerCase()}", function () {
             ${
               eventType === EventType.SCENE_TRANSITION
-                ? generateSceneTransitionCode(event)
+                ? getSceneTransitionCode(event)
                 : ''
             }
             ${
               eventType === EventType.MAIN_NPC_DIALOG
-                ? generateMainNPCDialogEventCode(event)
+                ? getMainNPCDialogEventCode(event)
                 : ''
             }
           }, this);
@@ -304,31 +304,31 @@ function generateSceneCreate(sceneName, sceneConfig) {
     return content;
   }
 
-  function generateMainNPCCode(mainNPC) {
+  function getMainNPCCode(mainNPC) {
     if (!mainNPC) return '';
     return `
       this.mainNPC?.create();
-      ${generateMainNPCDefaultDialogCode(mainNPC?.dialog)}
-      ${generateMainNPCImagePositionCode(mainNPC?.position)}
-      ${generateMainNPCDialogPositionCode(mainNPC)}
-      ${generateMainNPCAnimationCode(mainNPC?.animation)}
+      ${getMainNPCDefaultDialogCode(mainNPC?.dialog)}
+      ${getMainNPCImagePositionCode(mainNPC?.position)}
+      ${getMainNPCDialogPositionCode(mainNPC)}
+      ${getMainNPCAnimationCode(mainNPC?.animation)}
     `;
 
-    function generateMainNPCDefaultDialogCode(dialog) {
+    function getMainNPCDefaultDialogCode(dialog) {
       if (!dialog) return '';
       const content = dialog.content ?? '';
       const duration = dialog.duration || 3000;
       return `this.mainNPC?.showDialog("${content}", ${duration});`;
     }
 
-    function generateMainNPCImagePositionCode(position) {
+    function getMainNPCImagePositionCode(position) {
       return `
         this.mainNPC?.mainNPCImage.setPosition(${
           position?.x || `this.mainNPC?.initialPosition?.x`
         }, ${position?.y || `this.mainNPC?.initialPosition?.y`});
       `;
     }
-    function generateMainNPCDialogPositionCode(mainNPC) {
+    function getMainNPCDialogPositionCode(mainNPC) {
       return `
       this.mainNPC?.moveTextPosition(${
         mainNPC?.position?.x || `this.mainNPC?.initialPosition?.x`
@@ -346,7 +346,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
       `;
     }
 
-    function generateMainNPCAnimationCode(animation) {
+    function getMainNPCAnimationCode(animation) {
       if (!animation) return '';
       const options = Object.entries(animation.options)
         .map(
@@ -361,4 +361,4 @@ function generateSceneCreate(sceneName, sceneConfig) {
   return createCode;
 }
 
-module.exports = generateSceneCreate;
+module.exports = geSceneCreate;

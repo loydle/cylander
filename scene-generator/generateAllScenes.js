@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const prettier = require('prettier');
 const prettierConfig = require('../.prettierrc.json');
-const generateSceneClass = require('./generateSceneClass');
+const getSceneClass = require('./getSceneClass');
 const sceneConfig = require('../src/configs/sceneConfig.json');
 
 function readSceneRequirements(sceneFilePath) {
@@ -49,9 +49,9 @@ function deleteSceneFiles() {
   });
 }
 
-function generateScenesForTemplate(sceneTemplate) {
+function getScenesForTemplate(sceneTemplate) {
   const { title, actionableItems, mainNPC } = sceneTemplate;
-  const sceneClass = generateSceneClass(title, {
+  const sceneClass = getSceneClass(title, {
     background: sceneTemplate.background,
     actionableItems,
     mainNPC,
@@ -64,9 +64,9 @@ function generateAllScenes(sceneTemplates) {
   console.log('\x1b[33mGenerating scenes...\x1b[0m');
   deleteSceneFiles();
   sceneTemplates.forEach((sceneTemplate) => {
-    generateScenesForTemplate(sceneTemplate);
+    getScenesForTemplate(sceneTemplate);
   });
-  console.log('\x1b[33mAll scenes generated successfully.\x1b[0m');
+  console.log('\x1b[33mAll scenes getd successfully.\x1b[0m');
 }
 
 const sceneTemplatesDir = path.join(__dirname, 'scenes-requierments');
@@ -78,5 +78,5 @@ const sceneTemplates = fs
     return readSceneRequirements(sceneFilePath);
   });
 
-// Generate scenes based on the templates
+// get scenes based on the templates
 generateAllScenes(sceneTemplates);
