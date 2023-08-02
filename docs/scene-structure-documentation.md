@@ -50,7 +50,7 @@ As of now there are three types of actionable items:
 
 ```json
 {
-  "name": "item1", // (mandatory)
+  "name": "itemTypeImage", // (mandatory)
   "type": "image",// (mandatory)
   "label": "text", // (optional)
   "position": {
@@ -69,62 +69,52 @@ As of now there are three types of actionable items:
 - Hitbox
 ```json
 {
-  "name": "item1", // A unique identifier for the item
-  "type": "hitbox", // Type of the item: "image", "text" or "hitbox"
-  "label": "text", // Text that is shown on top of the element
+  "name": "itemTypeHitbox", // (mandatory)
+  "type": "hitbox", // (mandatory)
+  "label": "text", // (optional)
+  "backgroundColor": "0xfff00ff", // (optional)
+  "scale": 1, // (optional)
   "position": {
-    "x": 100, // X-coordinate position of the item
-    "y": 200 // Y-coordinate position of the item
+    "x": 100, // (mandatory)
+    "y": 200 // (mandatory)
   },
-  "text": { // (not used for image type)
-    "content": "Some text", // content of the text
-    "styles": {
-      "font": "36px monospace",
-      "fill": "#ffffff",
-      "backgroundColor": "#333",
-      "padding": {
-        "x": 10, // padding left and right
-        "y": 10 // padding top and bottom
-      },
-    },
+  "size": {
+    "width": 40, // (mandatory)
+    "height": 200, // (mandatory)
   },
-  "image": { // (not used for text type)
-    "url": "src/assets/key.png", // path to image
-    "scale": 1 // Scale of the text
-  },
-  "isDraggable": true, // Set to true if the item is draggable (only for type "image")
-  "hasPhysicsEnabled": true, // Set to true if physics is enabled for the item (only for type "image")
-  "actions": [
-    // List of events/actions associated with the item
-  ]
+  "isDraggable": true, // (optional)
+  "hasPhysicsEnabled": true, // (optional)
+  "actions": []
 }
 ```
 
-### Text Actionable Item Configuration
 
-For actionable items of type "text," the configuration will look like this:
-
+- Text
 ```json
-"text": {
-  "content": "Hello, World!", // The text content
+{
+  "name": "itemTypeText", // (mandatory)
+  "type": "text", // (mandatory)
+  "text": {
+  "content": "Click anywhere to start!", // (mandatory)
   "styles": {
-    "fontFamily": "Arial",
-    "fontSize": "24px",
-    "color": "#ffffff"
+    "font": "36px monospace", // (optional)
+    "fill": "#ffffff", // (optional)
+    "backgroundColor": "#333", // (optional)
+    "padding": {
+      "x": 10, // (optional)
+      "y": 10 // (optional)
+      }
   },
-  "origin": 0.5, // Origin of the text (0.5 represents the center)
-  "scale": 1 // Scale of the text
-}
-```
-
-### Image Actionable Item Configuration
-
-For actionable items of type "image," the configuration will look like this:
-
-```json
-"image": {
-  "url": "path/to/image.png", // URL of the image
-  "scale": 2 // Scale of the image
+  "origin": 0.5 // (optional)
+},
+  "scale": 1, // (optional)
+  "position": {
+    "x": 100, // (mandatory)
+    "y": 200 // (mandatory)
+  },
+  "isDraggable": true, // (optional)
+  "hasPhysicsEnabled": true, // (optional)
+  "actions": []
 }
 ```
 

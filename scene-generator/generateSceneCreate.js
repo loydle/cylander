@@ -116,7 +116,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
         }, ${actionableItem?.position?.y}, "${
           actionableItem?.text?.content
         }", ${JSON.stringify(actionableItem?.text?.styles)}).setOrigin(${
-          actionableItem?.text?.origin || 0.5
+          actionableItem?.text?.origin
         });`;
       }
 

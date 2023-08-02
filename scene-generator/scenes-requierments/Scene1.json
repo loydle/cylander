@@ -52,6 +52,28 @@
       ]
     },
     {
+      "name": "itemText",
+      "type": "text",
+      "text": {
+      "content": "Click anywhere to start!",
+      "styles": {
+        "font": "36px monospace",
+        "fill": "#ffffff",
+        "backgroundColor": "#333",
+        "padding": { "x": 10, "y": 10 }
+      },
+      "origin": 0.5
+    },
+      "scale": 1,
+      "position": {
+        "x": 100,
+        "y": 200
+      },
+      "isDraggable": true,
+      "hasPhysicsEnabled": true,
+      "actions": []
+    },
+    {
       "name": "key",
       "type": "image",
       "label": "text",
