@@ -16,8 +16,15 @@ export class Scene3 extends Phaser.Scene {
     let isTransitionInProgress = false;
     this.add.image(0, 0, 'background-scene3').setOrigin(0);
 
-    this.mainNPC.create();
-    this.mainNPC.showDialog('Welcome to Scene 3!', 3000);
+    this.mainNPC?.create();
+
+    this.mainNPC?.showDialog('Welcome to Scene 3!', 3000);
+
+    this.mainNPC?.mainNPCImage.setPosition(
+      this.mainNPC?.initialPosition.x,
+      this.mainNPC?.initialPosition.y
+    );
+
     this.mainNPC.mainNPCImage.setPosition(
       this.mainNPC.initialPosition.x,
       this.mainNPC.initialPosition.y

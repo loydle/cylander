@@ -16,8 +16,12 @@ export class Scene2 extends Phaser.Scene {
     let isTransitionInProgress = false;
     this.add.image(0, 0, 'background-scene2').setOrigin(0);
 
-    this.mainNPC.create();
-    this.mainNPC.showDialog('Welcome to Scene 2!', 3000);
+    this.mainNPC?.create();
+
+    this.mainNPC?.showDialog('Welcome to Scene 2!', 3000);
+
+    this.mainNPC?.mainNPCImage.setPosition(1055, 488);
+
     this.mainNPC.mainNPCImage.setPosition(1055, 488);
     this.mainNPC.moveTextPosition(
       1055,
@@ -25,7 +29,7 @@ export class Scene2 extends Phaser.Scene {
     );
 
     this.tweens.add({
-      targets: this.mainNPC.mainNPCImage,
+      targets: this.mainNPC?.mainNPCImage,
       y: 530,
       duration: 500,
       ease: 'Linear',

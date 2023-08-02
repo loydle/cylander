@@ -17,11 +17,15 @@ export class Scene1 extends Phaser.Scene {
     let isTransitionInProgress = false;
     this.add.image(0, 0, 'background-scene1').setOrigin(0);
 
-    this.mainNPC.create();
-    this.mainNPC.showDialog(
+    this.mainNPC?.create();
+
+    this.mainNPC?.showDialog(
       'Find the door or explore your surroundings.',
       5000
     );
+
+    this.mainNPC?.mainNPCImage.setPosition(1529, 1040);
+
     this.mainNPC.mainNPCImage.setPosition(1529, 1040);
     this.mainNPC.moveTextPosition(
       1529,
@@ -29,7 +33,7 @@ export class Scene1 extends Phaser.Scene {
     );
 
     this.tweens.add({
-      targets: this.mainNPC.mainNPCImage,
+      targets: this.mainNPC?.mainNPCImage,
       y: 900,
       duration: 300,
       ease: 'Linear',

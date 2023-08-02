@@ -1,7 +1,7 @@
 const generateSceneCreate = require('../../scene-generator/generateSceneCreate');
 
 describe('generateSceneCreate function', () => {
-  it('should generate code for background image if provided', () => {
+  it('should generate background image', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       background: {
@@ -9,8 +9,6 @@ describe('generateSceneCreate function', () => {
           fileName: 'background-image.png',
         },
       },
-      actionableItems: [],
-      mainNPC: null,
     };
 
     const expectedCode = `
@@ -24,14 +22,12 @@ describe('generateSceneCreate function', () => {
     );
   });
 
-  it('should generate code for background color if provided', () => {
+  it('should generate background color', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       background: {
         color: '0xabcdef',
       },
-      actionableItems: [],
-      mainNPC: null,
     };
 
     const expectedCode = `
@@ -45,10 +41,31 @@ describe('generateSceneCreate function', () => {
     );
   });
 
-  it('should generate actionable item as interactive', () => {
+  it('should generate mainNPC with default values', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
-      background: {},
+      mainNPC: {},
+    };
+
+    const expectedCode = `
+    let isTransitionInProgress = false;
+
+    this.mainNPC?.create();
+    this.mainNPC?.mainNPCImage.setPosition(this.mainNPC?.initialPosition.x, this.mainNPC?.initialPosition.y);
+    this.mainNPC.mainNPCImage.setPosition(this.mainNPC.initialPosition.x, this.mainNPC.initialPosition.y);
+    this.mainNPC.moveTextPosition(this.mainNPC.initialPosition.x, this.mainNPC.initialPosition.y - this.mainNPC.mainNPCImage.height / 2);
+    `;
+
+    const result = generateSceneCreate(sceneName, sceneConfig);
+    console.log(result);
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
+  });
+
+  it('should generate actionable items and set them as interactive elements', () => {
+    const sceneName = 'TestScene';
+    const sceneConfig = {
       actionableItems: [
         {
           name: 'text1',
@@ -88,7 +105,6 @@ describe('generateSceneCreate function', () => {
   it('should generate actionable items with correct position', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
-      background: {},
       actionableItems: [
         {
           name: 'text1',
@@ -138,7 +154,6 @@ describe('generateSceneCreate function', () => {
           position: { x: 'center', y: 'center' },
         },
       ],
-      mainNPC: null,
     };
 
     const expectedCode = `
@@ -181,7 +196,6 @@ describe('generateSceneCreate function', () => {
   it('should generate actionable items with correct origin', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
-      background: {},
       actionableItems: [
         {
           name: 'text1',
@@ -208,7 +222,6 @@ describe('generateSceneCreate function', () => {
           },
         },
       ],
-      mainNPC: null,
     };
 
     const expectedCode = `
@@ -237,7 +250,6 @@ describe('generateSceneCreate function', () => {
   it('should generate actionable items with correct scale', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
-      background: {},
       actionableItems: [
         {
           name: 'image1',
@@ -267,7 +279,6 @@ describe('generateSceneCreate function', () => {
           type: 'hitbox',
         },
       ],
-      mainNPC: null,
     };
 
     const expectedCode = `
@@ -303,7 +314,6 @@ describe('generateSceneCreate function', () => {
   it('should generate draggable actionable items', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
-      background: {},
       actionableItems: [
         {
           name: 'image1',
@@ -321,7 +331,6 @@ describe('generateSceneCreate function', () => {
           isDraggable: true,
         },
       ],
-      mainNPC: null,
     };
 
     const expectedCode = `
@@ -398,7 +407,6 @@ describe('generateSceneCreate function', () => {
           },
         },
       ],
-      mainNPC: null,
     };
 
     const expectedCode = `
@@ -438,7 +446,7 @@ describe('generateSceneCreate function', () => {
     );
   });
 
-  it('should generate code for actionable item with physics enabled', () => {
+  it('should generate actionable item with physics enabled', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -604,7 +612,6 @@ describe('generateSceneCreate function', () => {
 `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
-    console.log(result);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );

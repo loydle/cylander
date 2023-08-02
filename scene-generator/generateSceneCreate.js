@@ -12,10 +12,20 @@ function generateSceneCreate(sceneName, sceneConfig) {
 
   if (mainNPC) {
     createCode += `
-      this.mainNPC.create();
-      this.mainNPC.showDialog("${mainNPC?.dialog?.content}", ${
+      this.mainNPC?.create();
+      ${
+        mainNPC?.dialog
+          ? `
+      this.mainNPC?.showDialog("${mainNPC?.dialog?.content ?? ''}", ${
         mainNPC?.dialog?.duration || 3000
-      });
+      });`
+          : ''
+      }
+
+      this.mainNPC?.mainNPCImage.setPosition(${
+        mainNPC?.position?.x || `this.mainNPC?.initialPosition.x`
+      }, ${mainNPC?.position?.y || `this.mainNPC?.initialPosition.y`});
+
       this.mainNPC.mainNPCImage.setPosition(${
         mainNPC?.position?.x || `this.mainNPC.initialPosition.x`
       }, ${mainNPC?.position?.y || `this.mainNPC.initialPosition.y`});
@@ -36,7 +46,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
       ${
         mainNPC?.animation
           ? `this.tweens.add({
-        targets: this.mainNPC.mainNPCImage,
+        targets: this.mainNPC?.mainNPCImage,
         ${Object.entries(mainNPC.animation.options)
           .map(
             ([key, value]) =>
