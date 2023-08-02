@@ -50,7 +50,6 @@ function generateSceneCreate(sceneName, sceneConfig) {
 
   if (actionableItems && actionableItems.length > 0) {
     actionableItems?.forEach((actionableItem) => {
-
       if (actionableItem?.type === 'hitbox') {
         createCode += generateActionableItemHitbox(actionableItem);
       }
@@ -66,7 +65,8 @@ function generateSceneCreate(sceneName, sceneConfig) {
         createCode += setScale(actionableItem, actionableItem?.scale);
       }
 
-      if (actionableItem?.name !== "input") { // input is a reserved name
+      if (actionableItem?.name !== 'input') {
+        // input is a reserved name
         createCode += `this.${actionableItem?.name}.setInteractive();`;
       }
 
@@ -103,14 +103,14 @@ function generateSceneCreate(sceneName, sceneConfig) {
       }
 
       function setScale(actionableItem, scale) {
-        return `this.${actionableItem?.name}.setScale(${scale});`
+        return `this.${actionableItem?.name}.setScale(${scale});`;
       }
 
       function generateActionableItemImage(actionableItem) {
         return `this.${actionableItem?.name} = this.add.image(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, "${actionableItem?.name}");`;
       }
 
-      function generateActionableItemText(actionableItem){
+      function generateActionableItemText(actionableItem) {
         return `this.${actionableItem?.name} = this.add.text(${
           actionableItem?.position?.x
         }, ${actionableItem?.position?.y}, "${
@@ -120,7 +120,7 @@ function generateSceneCreate(sceneName, sceneConfig) {
         });`;
       }
 
-      function generateActionableItemHitbox(actionableItem){
+      function generateActionableItemHitbox(actionableItem) {
         return `this.${actionableItem?.name} = this.add.rectangle(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, ${actionableItem?.size?.width}, ${actionableItem?.size?.height}, ${actionableItem?.backgroundColor});`;
       }
 
@@ -224,11 +224,16 @@ function generateSceneCreate(sceneName, sceneConfig) {
       if (actionableItem?.label) {
         createCode += `
           this.add.text(
-            this.${actionableItem?.name}.getBounds()?.x + (this.${actionableItem?.name}.getBounds()?.width / 2), this.${actionableItem?.name}.getBounds()?.y - this.${actionableItem?.name}.getBounds()?.height / 2, "${actionableItem.label}",
+            this.${actionableItem?.name}.getBounds()?.x + (this.${
+              actionableItem?.name
+            }.getBounds()?.width / 2), this.${
+              actionableItem?.name
+            }.getBounds()?.y - this.${
+              actionableItem?.name
+            }.getBounds()?.height / 2, "${actionableItem.label}",
             ${JSON.stringify(sceneConfig?.labelStyles)}
           ).setOrigin(0.5);
         `;
-
       }
 
       if (actionableItem?.actions && actionableItem?.actions.length > 0) {

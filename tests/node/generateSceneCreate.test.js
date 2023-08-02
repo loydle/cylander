@@ -56,7 +56,7 @@ describe('generateSceneCreate function', () => {
           scale: 1,
           size: {
             width: 42,
-            height: 24
+            height: 24,
           },
           position: { x: 100, y: 200 },
           backgroundColor: '0xff0000',
