@@ -1,6 +1,51 @@
 const getSceneCreate = require('../../scene-generator/getSceneCreate');
 
 describe('getSceneCreate function', () => {
+  it('should throw an error if the sceneName is not provided', () => {
+    const sceneName = undefined;
+    const sceneConfig = {};
+
+    expect(() => getSceneCreate(sceneName, sceneConfig)).toThrowError(
+      'Invalid sceneName. A valid PascalCase string sceneName is required.'
+    );
+  });
+
+  it('should throw an error if the sceneName is not a string', () => {
+    const sceneName = 123;
+    const sceneConfig = {};
+
+    expect(() => getSceneCreate(sceneName, sceneConfig)).toThrowError(
+      'Invalid sceneName. A valid PascalCase string sceneName is required.'
+    );
+  });
+
+  it('should throw an error if the sceneName is not in PascalCase format', () => {
+    const sceneName = 'notPascalCase';
+    const sceneConfig = {};
+
+    expect(() => getSceneCreate(sceneName, sceneConfig)).toThrowError(
+      'Invalid sceneName. A valid PascalCase string sceneName is required.'
+    );
+  });
+
+  it('should throw an error if the sceneConfig is not provided', () => {
+    const sceneName = 'ValidPascalCase';
+    const sceneConfig = undefined;
+
+    expect(() => getSceneCreate(sceneName, sceneConfig)).toThrowError(
+      'Invalid sceneConfig. An object sceneConfig is required.'
+    );
+  });
+
+  it('should throw an error if the sceneConfig is not an object', () => {
+    const sceneName = 'ValidPascalCase';
+    const sceneConfig = 'notAnObject';
+
+    expect(() => getSceneCreate(sceneName, sceneConfig)).toThrowError(
+      'Invalid sceneConfig. An object sceneConfig is required.'
+    );
+  });
+
   it('should get background image', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
