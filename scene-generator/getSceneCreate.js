@@ -1,4 +1,5 @@
 const ActionableItemType = require('./actionableItemTypes.js');
+const ActionType = require('./actionTypes.js');
 const EventType = require('./eventTypes.js');
 
 function geSceneCreate(sceneName, sceneConfig) {
@@ -261,7 +262,7 @@ function geSceneCreate(sceneName, sceneConfig) {
     if (!events) return '';
 
     let content = '';
-    if (actionType === 'collide') {
+    if (actionType === ActionType.COLLIDE) {
       if (
         events.some(
           ({ eventType }) =>

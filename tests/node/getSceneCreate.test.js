@@ -1,7 +1,7 @@
-const generateSceneCreate = require('../../scene-generator/generateSceneCreate');
+const getSceneCreate = require('../../scene-generator/getSceneCreate');
 
-describe('generateSceneCreate function', () => {
-  it('should generate background image', () => {
+describe('getSceneCreate function', () => {
+  it('should get background image', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       background: {
@@ -16,13 +16,13 @@ describe('generateSceneCreate function', () => {
       this.add.image(0, 0, "background-testscene").setOrigin(0);
       `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate background color', () => {
+  it('should get background color', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       background: {
@@ -35,13 +35,13 @@ describe('generateSceneCreate function', () => {
       this.cameras.main.setBackgroundColor(0xabcdef);
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate mainNPC with default values', () => {
+  it('should get mainNPC with default values', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       mainNPC: {},
@@ -55,14 +55,14 @@ describe('generateSceneCreate function', () => {
     this.mainNPC?.moveTextPosition(this.mainNPC?.initialPosition?.x, this.mainNPC?.initialPosition?.y - this.mainNPC?.mainNPCImage?.height / 2);
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     console.log(result);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate actionable items and set them as interactive elements', () => {
+  it('should get actionable items and set them as interactive elements', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -95,13 +95,13 @@ describe('generateSceneCreate function', () => {
       this.hitbox1.setInteractive();
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate actionable items with correct position', () => {
+  it('should get actionable items with correct position', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -186,13 +186,13 @@ describe('generateSceneCreate function', () => {
     this.hitbox3.setInteractive();
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate actionable items with correct origin', () => {
+  it('should get actionable items with correct origin', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -240,13 +240,13 @@ describe('generateSceneCreate function', () => {
 
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate actionable items with correct scale', () => {
+  it('should get actionable items with correct scale', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -304,13 +304,13 @@ describe('generateSceneCreate function', () => {
       this.hitbox2.setInteractive();
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate draggable actionable items', () => {
+  it('should get draggable actionable items', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -361,14 +361,14 @@ describe('generateSceneCreate function', () => {
       });
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     const formattedExpectedCode = expectedCode.replace(/\s+/g, '');
     const formattedResult = result.replace(/\s+/g, '');
     console.log();
     expect(formattedResult).toEqual(formattedExpectedCode);
   });
 
-  it('should generate actionable item with animation', () => {
+  it('should get actionable item with animation', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -439,13 +439,13 @@ describe('generateSceneCreate function', () => {
       });
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate actionable item with physics enabled', () => {
+  it('should get actionable item with physics enabled', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -484,13 +484,13 @@ describe('generateSceneCreate function', () => {
 
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate actionable items with collide action and trigger events', () => {
+  it('should get actionable items with collide action and trigger events', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -610,13 +610,13 @@ describe('generateSceneCreate function', () => {
   });
 `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate actionable items with pointerdown action and trigger events', () => {
+  it('should get actionable items with pointerdown action and trigger events', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -705,13 +705,13 @@ describe('generateSceneCreate function', () => {
       }, this);
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate transitions with custom/fixed camera position', () => {
+  it('should get transitions with custom/fixed camera position', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -761,13 +761,13 @@ describe('generateSceneCreate function', () => {
       }, this);
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate transitions with camera position relative to actionableItem current position', () => {
+  it('should get transitions with camera position relative to actionableItem current position', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -822,13 +822,13 @@ describe('generateSceneCreate function', () => {
       });
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
   });
 
-  it('should generate actionable item that have no triggered events', () => {
+  it('should get actionable item that have no triggered events', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       background: {},
@@ -847,7 +847,7 @@ describe('generateSceneCreate function', () => {
       this.image1.setInteractive();
     `;
 
-    const result = generateSceneCreate(sceneName, sceneConfig);
+    const result = getSceneCreate(sceneName, sceneConfig);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );

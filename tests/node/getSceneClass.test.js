@@ -1,11 +1,11 @@
-const generateSceneClass = require('../../scene-generator/generateSceneClass');
+const getSceneClass = require('../../scene-generator/getSceneClass');
 
-describe('generateSceneClass function', () => {
-  it('should generate basic Class structure', () => {
+describe('getSceneClass function', () => {
+  it('should get basic Class structure', () => {
     const sceneName = 'SampleScene';
     const sceneConfig = {};
-
-    const result = generateSceneClass(sceneName, sceneConfig);
+    const result = getSceneClass(sceneName, sceneConfig);
+    expect(result).toContain("import * as Phaser from 'phaser';");
     expect(result).toContain(`export class ${sceneName} extends Phaser.Scene`);
     expect(result.replace(/\s+/g, '')).toContain(
       `constructor() { super({ key: '${sceneName}' }); }`.replace(/\s+/g, '')
@@ -20,7 +20,7 @@ describe('generateSceneClass function', () => {
       mainNPC: {},
     };
 
-    const result = generateSceneClass(sceneName, sceneConfig);
+    const result = getSceneClass(sceneName, sceneConfig);
     expect(result).toContain(`import { MainNPC } from '../MainNPC.js';`);
   });
 
@@ -28,7 +28,7 @@ describe('generateSceneClass function', () => {
     const sceneName = 'SampleScene';
     const sceneConfig = {};
 
-    const result = generateSceneClass(sceneName, sceneConfig);
+    const result = getSceneClass(sceneName, sceneConfig);
     expect(result).not.toContain(`import { MainNPC } from '../MainNPC.js';`);
   });
 });

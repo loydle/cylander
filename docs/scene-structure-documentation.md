@@ -113,8 +113,8 @@ As of now there are three types of actionable items:
       "x": 10, // (optional)
       "y": 10 // (optional)
       }
+    },
   },
-},
   "scale": 1, // (optional)
   "position": {
     "x": 100, // (mandatory)
