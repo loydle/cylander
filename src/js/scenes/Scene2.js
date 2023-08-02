@@ -32,9 +32,8 @@ export class Scene2 extends Phaser.Scene {
       yoyo: true,
       repeat: -1,
     });
-    this.exitDoor = this.add
-      .rectangle(766, 520, 200, 300, undefined)
-      .setInteractive();
+    this.exitDoor = this.add.rectangle(766, 520, 200, 300, undefined);
+    this.exitDoor.setInteractive();
     this.physics.world.enable(this.exitDoor);
     this.exitDoor.on(
       'pointerup',
@@ -60,17 +59,20 @@ export class Scene2 extends Phaser.Scene {
       },
       this
     );
-    this.redHitbox = this.add
-      .rectangle(1244, 988, 100, 100, 0xfff0000)
-      .setInteractive();
-
+    this.redHitbox = this.add.rectangle(1244, 988, 100, 100, 0xfff0000);
+    this.redHitbox.setInteractive();
     this.add
-      .text(1244, 888, 'Scene3', {
-        font: '20px Arial',
-        fill: '#ffffff',
-        backgroundColor: '#000000',
-        padding: { x: 5, y: 5 },
-      })
+      .text(
+        this.redHitbox.getBounds()?.x + this.redHitbox.getBounds()?.width / 2,
+        this.redHitbox.getBounds()?.y - this.redHitbox.getBounds()?.height / 2,
+        'Scene3',
+        {
+          font: '20px Arial',
+          fill: '#ffffff',
+          backgroundColor: '#000000',
+          padding: { x: 5, y: 5 },
+        }
+      )
       .setOrigin(0.5);
 
     this.redHitbox.on(
@@ -95,17 +97,22 @@ export class Scene2 extends Phaser.Scene {
       },
       this
     );
-    this.purpleHitbox = this.add
-      .rectangle(844, 988, 100, 100, 0xfff00ff)
-      .setInteractive();
-
+    this.purpleHitbox = this.add.rectangle(844, 988, 100, 100, 0xfff00ff);
+    this.purpleHitbox.setInteractive();
     this.add
-      .text(844, 888, 'Scene2', {
-        font: '20px Arial',
-        fill: '#ffffff',
-        backgroundColor: '#000000',
-        padding: { x: 5, y: 5 },
-      })
+      .text(
+        this.purpleHitbox.getBounds()?.x +
+          this.purpleHitbox.getBounds()?.width / 2,
+        this.purpleHitbox.getBounds()?.y -
+          this.purpleHitbox.getBounds()?.height / 2,
+        'Scene2',
+        {
+          font: '20px Arial',
+          fill: '#ffffff',
+          backgroundColor: '#000000',
+          padding: { x: 5, y: 5 },
+        }
+      )
       .setOrigin(0.5);
 
     this.purpleHitbox.on(
@@ -134,10 +141,8 @@ export class Scene2 extends Phaser.Scene {
       },
       this
     );
-    this.yellowHitbox = this.add
-      .rectangle(644, 988, 100, 100, 0xfffff00)
-      .setInteractive();
-
+    this.yellowHitbox = this.add.rectangle(644, 988, 100, 100, 0xfffff00);
+    this.yellowHitbox.setInteractive();
     this.input.setDraggable(this.yellowHitbox);
     this.yellowHitbox.on('pointerdown', function () {
       this.scene.children.bringToTop(this);
@@ -149,12 +154,19 @@ export class Scene2 extends Phaser.Scene {
     });
     this.physics.world.enable(this.yellowHitbox);
     this.add
-      .text(644, 888, 'Label', {
-        font: '20px Arial',
-        fill: '#ffffff',
-        backgroundColor: '#000000',
-        padding: { x: 5, y: 5 },
-      })
+      .text(
+        this.yellowHitbox.getBounds()?.x +
+          this.yellowHitbox.getBounds()?.width / 2,
+        this.yellowHitbox.getBounds()?.y -
+          this.yellowHitbox.getBounds()?.height / 2,
+        'Label',
+        {
+          font: '20px Arial',
+          fill: '#ffffff',
+          backgroundColor: '#000000',
+          padding: { x: 5, y: 5 },
+        }
+      )
       .setOrigin(0.5);
 
     this.yellowHitbox.on(
@@ -165,10 +177,8 @@ export class Scene2 extends Phaser.Scene {
       },
       this
     );
-    this.yellowHitbox2 = this.add
-      .rectangle(244, 988, 100, 100, 0xfffff00)
-      .setInteractive();
-
+    this.yellowHitbox2 = this.add.rectangle(244, 988, 100, 100, 0xfffff00);
+    this.yellowHitbox2.setInteractive();
     this.input.setDraggable(this.yellowHitbox2);
     this.yellowHitbox2.on('pointerdown', function () {
       this.scene.children.bringToTop(this);
@@ -180,12 +190,19 @@ export class Scene2 extends Phaser.Scene {
     });
     this.physics.world.enable(this.yellowHitbox2);
     this.add
-      .text(244, 888, 'Label', {
-        font: '20px Arial',
-        fill: '#ffffff',
-        backgroundColor: '#000000',
-        padding: { x: 5, y: 5 },
-      })
+      .text(
+        this.yellowHitbox2.getBounds()?.x +
+          this.yellowHitbox2.getBounds()?.width / 2,
+        this.yellowHitbox2.getBounds()?.y -
+          this.yellowHitbox2.getBounds()?.height / 2,
+        'Label',
+        {
+          font: '20px Arial',
+          fill: '#ffffff',
+          backgroundColor: '#000000',
+          padding: { x: 5, y: 5 },
+        }
+      )
       .setOrigin(0.5);
 
     this.yellowHitbox2.on(
@@ -218,10 +235,8 @@ export class Scene2 extends Phaser.Scene {
       this.mainNPC.dialogContent = 'Collide event dialog';
       this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
     });
-    this.whiteHitbox = this.add
-      .rectangle(1044, 988, 100, 100, 0xfffffff)
-      .setInteractive();
-
+    this.whiteHitbox = this.add.rectangle(1044, 988, 100, 100, 0xfffffff);
+    this.whiteHitbox.setInteractive();
     this.input.setDraggable(this.whiteHitbox);
     this.whiteHitbox.on('pointerdown', function () {
       this.scene.children.bringToTop(this);
@@ -233,12 +248,19 @@ export class Scene2 extends Phaser.Scene {
     });
     this.physics.world.enable(this.whiteHitbox);
     this.add
-      .text(1044, 888, 'Label', {
-        font: '20px Arial',
-        fill: '#ffffff',
-        backgroundColor: '#000000',
-        padding: { x: 5, y: 5 },
-      })
+      .text(
+        this.whiteHitbox.getBounds()?.x +
+          this.whiteHitbox.getBounds()?.width / 2,
+        this.whiteHitbox.getBounds()?.y -
+          this.whiteHitbox.getBounds()?.height / 2,
+        'Label',
+        {
+          font: '20px Arial',
+          fill: '#ffffff',
+          backgroundColor: '#000000',
+          padding: { x: 5, y: 5 },
+        }
+      )
       .setOrigin(0.5);
 
     this.whiteHitbox.on(

@@ -50,25 +50,24 @@ function generateSceneCreate(sceneName, sceneConfig) {
 
   if (actionableItems && actionableItems.length > 0) {
     actionableItems?.forEach((actionableItem) => {
-      if (actionableItem?.type === 'hitbox') {
-        createCode += `this.${actionableItem?.name} = this.add.rectangle(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, ${actionableItem?.size?.width}, ${actionableItem?.size?.height}, ${actionableItem?.backgroundColor}).setInteractive();\n`;
-      }
 
-      if (actionableItem?.type === 'text') {
-        createCode += `this.${actionableItem?.name} = this.add.text(${
-          actionableItem?.position?.x
-        }, ${actionableItem?.position?.y}, "${
-          actionableItem?.text?.content
-        }", ${JSON.stringify(actionableItem?.text?.styles)}).setOrigin(${
-          actionableItem?.text?.origin || 0.5
-        }).setScale(${actionableItem?.text?.scale || 1})\n`;
+      if (actionableItem?.type === 'hitbox') {
+        createCode += generateActionableItemHitbox(actionableItem);
       }
 
       if (actionableItem?.type === 'image') {
-        createCode += `this.${actionableItem?.name} = this.add.image(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, "${actionableItem?.name}").setInteractive();\n`;
-        if (actionableItem?.image && actionableItem?.image?.scale) {
-          createCode += `this.${actionableItem?.name}.setScale(${actionableItem?.image?.scale});\n`;
-        }
+        createCode += generateActionableItemImage(actionableItem);
+      }
+      if (actionableItem?.type === 'text') {
+        createCode += generateActionableItemText(actionableItem);
+      }
+
+      if (actionableItem?.scale) {
+        createCode += setScale(actionableItem, actionableItem?.scale);
+      }
+
+      if (actionableItem?.name !== "input") { // input is a reserved name
+        createCode += `this.${actionableItem?.name}.setInteractive();`;
       }
 
       if (actionableItem?.animation) {
@@ -101,6 +100,28 @@ function generateSceneCreate(sceneName, sceneConfig) {
 
       if (actionableItem?.hasPhysicsEnabled) {
         createCode += `this.physics.world.enable(this.${actionableItem?.name});`;
+      }
+
+      function setScale(actionableItem, scale) {
+        return `this.${actionableItem?.name}.setScale(${scale});`
+      }
+
+      function generateActionableItemImage(actionableItem) {
+        return `this.${actionableItem?.name} = this.add.image(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, "${actionableItem?.name}");`;
+      }
+
+      function generateActionableItemText(actionableItem){
+        return `this.${actionableItem?.name} = this.add.text(${
+          actionableItem?.position?.x
+        }, ${actionableItem?.position?.y}, "${
+          actionableItem?.text?.content
+        }", ${JSON.stringify(actionableItem?.text?.styles)}).setOrigin(${
+          actionableItem?.text?.origin || 0.5
+        });`;
+      }
+
+      function generateActionableItemHitbox(actionableItem){
+        return `this.${actionableItem?.name} = this.add.rectangle(${actionableItem?.position?.x}, ${actionableItem?.position?.y}, ${actionableItem?.size?.width}, ${actionableItem?.size?.height}, ${actionableItem?.backgroundColor});`;
       }
 
       function generateMainNPCDialogEvent(event) {
@@ -203,12 +224,11 @@ function generateSceneCreate(sceneName, sceneConfig) {
       if (actionableItem?.label) {
         createCode += `
           this.add.text(
-            ${actionableItem.position.x},
-            ${actionableItem.position.y - actionableItem.size.height},
-            "${actionableItem.label}",
+            this.${actionableItem?.name}.getBounds()?.x + (this.${actionableItem?.name}.getBounds()?.width / 2), this.${actionableItem?.name}.getBounds()?.y - this.${actionableItem?.name}.getBounds()?.height / 2, "${actionableItem.label}",
             ${JSON.stringify(sceneConfig?.labelStyles)}
           ).setOrigin(0.5);
         `;
+
       }
 
       if (actionableItem?.actions && actionableItem?.actions.length > 0) {

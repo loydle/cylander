@@ -27,17 +27,23 @@ export class Scene3 extends Phaser.Scene {
       this.mainNPC.initialPosition.y - this.mainNPC.mainNPCImage.height / 2
     );
 
-    this.purpleHitbox = this.add
-      .rectangle(844, 988, 100, 100, 0xfff00ff)
-      .setInteractive();
-
+    this.purpleHitbox = this.add.rectangle(844, 988, 100, 100, 0xfff00ff);
+    this.purpleHitbox.setScale(1);
+    this.purpleHitbox.setInteractive();
     this.add
-      .text(844, 888, 'Scene2', {
-        font: '20px Arial',
-        fill: '#ffffff',
-        backgroundColor: '#000000',
-        padding: { x: 5, y: 5 },
-      })
+      .text(
+        this.purpleHitbox.getBounds()?.x +
+          this.purpleHitbox.getBounds()?.width / 2,
+        this.purpleHitbox.getBounds()?.y -
+          this.purpleHitbox.getBounds()?.height / 2,
+        'Scene2',
+        {
+          font: '20px Arial',
+          fill: '#ffffff',
+          backgroundColor: '#000000',
+          padding: { x: 5, y: 5 },
+        }
+      )
       .setOrigin(0.5);
 
     this.purpleHitbox.on(

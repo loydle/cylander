@@ -12,11 +12,13 @@ export class DefaultScene extends Phaser.Scene {
   create() {
     let isTransitionInProgress = false;
     this.cameras.main.setBackgroundColor(0xffffff);
-    this.logo = this.add
-      .image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo')
-      .setInteractive();
+    this.logo = this.add.image(
+      this.cameras.main.centerX,
+      this.cameras.main.centerY,
+      'logo'
+    );
     this.logo.setScale(1.5);
-
+    this.logo.setInteractive();
     this.tweens.add({
       targets: this.logo,
       scaleX: 2,
@@ -33,9 +35,8 @@ export class DefaultScene extends Phaser.Scene {
         backgroundColor: '#333',
         padding: { x: 10, y: 10 },
       })
-      .setOrigin(0.5)
-      .setScale(1);
-
+      .setOrigin(0.5);
+    this.logo2.setInteractive();
     this.input.on(
       'pointerup',
       function () {

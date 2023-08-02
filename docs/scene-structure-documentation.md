@@ -1,11 +1,5 @@
 # Scene Structure Documentation
 
-## Introduction
-
-The `Scene.json` file is used to configure scenes in the game. It defines the background, actionable items, main NPC (Non-Playable Character), and their interactions. This documentation provides an overview of the structure and possible configurations for the `Scene.json` file.
-
-## Structure of Scene.json
-
 The `Scene.json` file has the following structure:
 
 ```json
@@ -48,23 +42,55 @@ The `background` object defines the scene's background appearance. It can be con
 
 Actionable items are interactive elements that can be clicked, dragged, or collide with other elements in the scene. They are defined in the `actionableItems` array. Each actionable item has the following structure:
 
+### Types of actionable items
+
+As of now there are three types of actionable items:
+
+- Image
+
+```json
+{
+  "name": "item1", // (mandatory)
+  "type": "image",// (mandatory)
+  "label": "text", // (optional)
+  "position": {
+    "x": 120, // (mandatory)
+    "y": 920, // (mandatory)
+  },
+  "isDraggable": true, // (optional)
+  "image": {
+    "url": "path/to/image.jpg", // (mandatory)
+    "scale": 0.6 // (optional)
+  },
+      "actions": []
+    }
+```
+
+- Hitbox
 ```json
 {
   "name": "item1", // A unique identifier for the item
-  "type": "image", // Type of the item: "image" or "text"
+  "type": "hitbox", // Type of the item: "image", "text" or "hitbox"
+  "label": "text", // Text that is shown on top of the element
   "position": {
     "x": 100, // X-coordinate position of the item
     "y": 200 // Y-coordinate position of the item
   },
-  "size": {
-    "width": 50, // Width of the item (not used for text type)
-    "height": 50 // Height of the item (not used for text type)
+  "text": { // (not used for image type)
+    "content": "Some text", // content of the text
+    "styles": {
+      "font": "36px monospace",
+      "fill": "#ffffff",
+      "backgroundColor": "#333",
+      "padding": {
+        "x": 10, // padding left and right
+        "y": 10 // padding top and bottom
+      },
+    },
   },
-  "text": {
-    // Text configuration (only for type "text")
-  },
-  "image": {
-    // Image configuration (only for type "image")
+  "image": { // (not used for text type)
+    "url": "src/assets/key.png", // path to image
+    "scale": 1 // Scale of the text
   },
   "isDraggable": true, // Set to true if the item is draggable (only for type "image")
   "hasPhysicsEnabled": true, // Set to true if physics is enabled for the item (only for type "image")

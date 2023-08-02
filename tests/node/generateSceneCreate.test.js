@@ -53,8 +53,12 @@ describe('generateSceneCreate function', () => {
         {
           name: 'hitbox1',
           type: 'hitbox',
+          scale: 1,
+          size: {
+            width: 42,
+            height: 24
+          },
           position: { x: 100, y: 200 },
-          size: { width: 50, height: 50 },
           backgroundColor: '0xff0000',
         },
       ],
@@ -63,7 +67,10 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.hitbox1 = this.add.rectangle(100, 200, 50, 50, 0xff0000).setInteractive();
+      this.hitbox1 = this.add.rectangle(100, 200, 42, 24, 0xff0000);
+      this.hitbox1.setScale(1);
+      this.hitbox1.setInteractive();
+
     `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
@@ -80,8 +87,8 @@ describe('generateSceneCreate function', () => {
         {
           name: 'text1',
           type: 'text',
+          scale: 1,
           position: { x: 200, y: 150 },
-          size: { width: 0, height: 0 },
           text: {
             content: 'Hello, World!',
             styles: {
@@ -90,7 +97,6 @@ describe('generateSceneCreate function', () => {
               color: '#ffffff',
             },
             origin: 0.5,
-            scale: 1,
           },
         },
       ],
@@ -99,7 +105,9 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.text1 = this.add.text(200, 150, "Hello, World!", {"fontFamily":"Arial","fontSize":"24px","color":"#ffffff"}).setOrigin(0.5).setScale(1)
+      this.text1 = this.add.text(200, 150, "Hello, World!", {"fontFamily":"Arial","fontSize":"24px","color":"#ffffff"}).setOrigin(0.5);
+      this.text1.setScale(1);
+      this.text1.setInteractive();
     `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
@@ -117,10 +125,9 @@ describe('generateSceneCreate function', () => {
           name: 'image1',
           type: 'image',
           position: { x: 300, y: 200 },
-          size: { width: 0, height: 0 },
+          scale: 1,
           image: {
             url: 'path/to/image.png',
-            scale: 2,
           },
         },
       ],
@@ -129,8 +136,9 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.image1 = this.add.image(300, 200, "image1").setInteractive();
-      this.image1.setScale(2);
+      this.image1 = this.add.image(300, 200, "image1");
+      this.image1.setScale(1);
+      this.image1.setInteractive();
     `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
@@ -148,7 +156,6 @@ describe('generateSceneCreate function', () => {
           name: 'draggable1',
           type: 'image',
           position: { x: 400, y: 300 },
-          size: { width: 0, height: 0 },
           isDraggable: true,
         },
       ],
@@ -157,7 +164,8 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.draggable1 = this.add.image(400, 300, "draggable1").setInteractive();
+      this.draggable1 = this.add.image(400, 300, "draggable1");
+      this.draggable1.setInteractive();
       this.input.setDraggable(this.draggable1);
 
       this.draggable1.on('pointerdown', function () {
@@ -185,7 +193,6 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 },
           animation: {
             options: {
               duration: 1000,
@@ -200,7 +207,8 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+      this.item1 = this.add.image(100, 200, "item1");
+      this.item1.setInteractive();
       this.tweens.add({
           targets: this.item1,
           duration: 1000,
@@ -224,7 +232,6 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 },
           hasPhysicsEnabled: true,
         },
       ],
@@ -233,7 +240,8 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+      this.item1 = this.add.image(100, 200, "item1");
+      this.item1.setInteractive();
       this.physics.world.enable(this.item1);
     `;
 
@@ -252,7 +260,6 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 },
           actions: [
             {
               actionType: 'collide',
@@ -291,7 +298,8 @@ describe('generateSceneCreate function', () => {
     this.mainNPC.mainNPCImage.setPosition(300, 400);
     this.mainNPC.moveTextPosition(300, 400 - this.mainNPC.mainNPCImage.height / 2);
 
-    this.item1 = this.add.image(100, 200, "item1").setInteractive();
+    this.item1 = this.add.image(100, 200, "item1");
+    this.item1.setInteractive();
     this.physics.add.overlap(this.item1, this.something, () => {
         this.mainNPC.dialogContent = "Collide event with main NPC dialog.";
         this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
@@ -313,7 +321,6 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 },
           actions: [
             {
               actionType: 'PointerDown',
@@ -336,7 +343,9 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+      this.item1 = this.add.image(100, 200, "item1");
+      this.item1.setInteractive();
+
       this.item1.on("pointerdown", function () {
         this.mainNPC.dialogContent = "PointerDown event with main NPC dialog.";
       this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
@@ -363,7 +372,6 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 },
           actions: [
             {
               actionType: 'PointerDown',
@@ -439,8 +447,10 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.item0 = this.add.image(42, 24, "item0").setInteractive();
-      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+      this.item0 = this.add.image(42, 24, "item0");
+      this.item0.setInteractive();
+      this.item1 = this.add.image(100, 200, "item1");
+      this.item1.setInteractive();
       this.item1.on("pointerdown", function () {
         this.mainNPC.dialogContent = "PointerDown event with main NPC dialog.";
         this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
@@ -528,6 +538,7 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
+      this.item1.setInteractive();
       this.item1.on("pointerdown", function () {
         if (!isTransitionInProgress) {
           isTransitionInProgress = true;
@@ -589,6 +600,8 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
+      this.item0.setInteractive();
+      this.item1.setInteractive();
       this.physics.add.overlap(this.item1, this.somethingElse, () => {
         if (!isTransitionInProgress) {
           isTransitionInProgress = true;
@@ -618,7 +631,6 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 },
           actions: [
             {
               actionType: 'PointerDown',
@@ -664,7 +676,6 @@ describe('generateSceneCreate function', () => {
           name: 'item2',
           type: 'text',
           position: { x: 300, y: 250 },
-          size: { width: 0, height: 0 },
           text: {
             content: 'Clickable Text',
             styles: {
@@ -698,7 +709,8 @@ describe('generateSceneCreate function', () => {
 
     const expectedCodeForItem1 = `
     let isTransitionInProgress = false;
-    this.item1 = this.add.image(100, 200, "item1").setInteractive();
+    this.item1 = this.add.image(100, 200, "item1");
+    this.item1.setInteractive();
 
     this.item1.on("pointerdown", function () {
       this.mainNPC.dialogContent = "PointerDown event with main NPC dialog for image.";
@@ -722,7 +734,8 @@ describe('generateSceneCreate function', () => {
     `;
 
     const expectedCodeForItem2 = `
-    this.item2 = this.add.text(300, 250, "Clickable Text", {"fontFamily":"Arial","fontSize":"18px","color":"#ff0000"}).setOrigin(0.5).setScale(1)
+    this.item2 = this.add.text(300, 250, "Clickable Text", {"fontFamily":"Arial","fontSize":"18px","color":"#ff0000"}).setOrigin(0.5);
+    this.item2.setInteractive();
 
     this.item2.on("pointerdown", function () {
       this.mainNPC.dialogContent = "PointerDown event with main NPC dialog for text.";
@@ -745,7 +758,6 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 },
           actions: [],
         },
       ],
@@ -754,7 +766,9 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+      this.item1 = this.add.image(100, 200, "item1");
+      this.item1.setInteractive();
+
     `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
@@ -772,7 +786,6 @@ describe('generateSceneCreate function', () => {
           name: 'item1',
           type: 'image',
           position: { x: 100, y: 200 },
-          size: { width: 0, height: 0 },
           actions: [
             {
               actionType: 'PointerDown',
@@ -797,7 +810,8 @@ describe('generateSceneCreate function', () => {
 
     const expectedCode = `
       let isTransitionInProgress = false;
-      this.item1 = this.add.image(100, 200, "item1").setInteractive();
+      this.item1 = this.add.image(100, 200, "item1");
+      this.item1.setInteractive();
 
       this.item1.on("pointerdown", function () {
         if (!isTransitionInProgress) {

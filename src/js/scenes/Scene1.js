@@ -36,10 +36,8 @@ export class Scene1 extends Phaser.Scene {
       yoyo: false,
       repeat: 0,
     });
-    this.door = this.add
-      .rectangle(637, 544, 100, 100, undefined)
-      .setInteractive();
-
+    this.door = this.add.rectangle(637, 544, 100, 100, undefined);
+    this.door.setInteractive();
     this.door.on(
       'pointerup',
       function () {
@@ -56,10 +54,8 @@ export class Scene1 extends Phaser.Scene {
       },
       this
     );
-    this.cactus = this.add
-      .rectangle(444, 588, 100, 200, undefined)
-      .setInteractive();
-
+    this.cactus = this.add.rectangle(444, 588, undefined, undefined, undefined);
+    this.cactus.setInteractive();
     this.cactus.on(
       'pointerup',
       function () {
@@ -68,9 +64,9 @@ export class Scene1 extends Phaser.Scene {
       },
       this
     );
-    this.key = this.add.image(120, 920, 'key').setInteractive();
+    this.key = this.add.image(120, 920, 'key');
     this.key.setScale(0.6);
-
+    this.key.setInteractive();
     this.input.setDraggable(this.key);
     this.key.on('pointerdown', function () {
       this.scene.children.bringToTop(this);
@@ -80,6 +76,20 @@ export class Scene1 extends Phaser.Scene {
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
+
+    this.add
+      .text(
+        this.key.getBounds()?.x + this.key.getBounds()?.width / 2,
+        this.key.getBounds()?.y - this.key.getBounds()?.height / 2,
+        'text',
+        {
+          font: '20px Arial',
+          fill: '#ffffff',
+          backgroundColor: '#000000',
+          padding: { x: 5, y: 5 },
+        }
+      )
+      .setOrigin(0.5);
 
     this.key.on(
       'pointerup',
