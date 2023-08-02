@@ -53,17 +53,18 @@ As of now there are three types of actionable items:
   "name": "itemTypeImage", // (mandatory)
   "type": "image",// (mandatory)
   "label": "text", // (optional)
+  "scale": 0.6, // (optional)
   "position": {
     "x": 120, // (mandatory)
-    "y": 920, // (mandatory)
+    "y": 920 // (mandatory)
+  },
+  "image": {
+    "url": "path/to/image.jpg" // (mandatory)
   },
   "isDraggable": true, // (optional)
-  "image": {
-    "url": "path/to/image.jpg", // (mandatory)
-    "scale": 0.6 // (optional)
-  },
-      "actions": []
-    }
+  "hasPhysicsEnabled": true, // (optional)
+  "actions": []
+}
 ```
 
 - Hitbox
@@ -80,7 +81,7 @@ As of now there are three types of actionable items:
   },
   "size": {
     "width": 40, // (mandatory)
-    "height": 200, // (mandatory)
+    "height": 200 // (mandatory)
   },
   "isDraggable": true, // (optional)
   "hasPhysicsEnabled": true, // (optional)

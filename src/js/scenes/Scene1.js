@@ -64,26 +64,6 @@ export class Scene1 extends Phaser.Scene {
       },
       this
     );
-    this.itemText = this.add
-      .text(100, 200, 'Click anywhere to start!', {
-        font: '36px monospace',
-        fill: '#ffffff',
-        backgroundColor: '#333',
-        padding: { x: 10, y: 10 },
-      })
-      .setOrigin(0.5);
-    this.itemText.setScale(1);
-    this.itemText.setInteractive();
-    this.input.setDraggable(this.itemText);
-    this.itemText.on('pointerdown', function () {
-      this.scene.children.bringToTop(this);
-    });
-
-    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-      gameObject.x = dragX;
-      gameObject.y = dragY;
-    });
-    this.physics.world.enable(this.itemText);
     this.key = this.add.image(120, 920, 'key');
     this.key.setScale(0.6);
     this.key.setInteractive();
@@ -96,7 +76,7 @@ export class Scene1 extends Phaser.Scene {
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
-
+    this.physics.world.enable(this.key);
     this.add
       .text(
         this.key.getBounds()?.x + this.key.getBounds()?.width / 2,
@@ -119,5 +99,33 @@ export class Scene1 extends Phaser.Scene {
       },
       this
     );
+    this.itemTypeHitbox = this.add.rectangle(100, 200, 40, 200, 0xfff00ff);
+    this.itemTypeHitbox.setScale(1);
+    this.itemTypeHitbox.setInteractive();
+    this.input.setDraggable(this.itemTypeHitbox);
+    this.itemTypeHitbox.on('pointerdown', function () {
+      this.scene.children.bringToTop(this);
+    });
+
+    this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+      gameObject.x = dragX;
+      gameObject.y = dragY;
+    });
+    this.physics.world.enable(this.itemTypeHitbox);
+    this.add
+      .text(
+        this.itemTypeHitbox.getBounds()?.x +
+          this.itemTypeHitbox.getBounds()?.width / 2,
+        this.itemTypeHitbox.getBounds()?.y -
+          this.itemTypeHitbox.getBounds()?.height / 2,
+        'text',
+        {
+          font: '20px Arial',
+          fill: '#ffffff',
+          backgroundColor: '#000000',
+          padding: { x: 5, y: 5 },
+        }
+      )
+      .setOrigin(0.5);
   }
 }
