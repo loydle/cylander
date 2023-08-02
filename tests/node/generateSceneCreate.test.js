@@ -300,7 +300,7 @@ describe('generateSceneCreate function', () => {
     );
   });
 
-  it('should generate draggable actionable items ', () => {
+  it('should generate draggable actionable items', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       background: {},
@@ -360,7 +360,7 @@ describe('generateSceneCreate function', () => {
     expect(formattedResult).toEqual(formattedExpectedCode);
   });
 
-  it('should generate code for actionable item with animation', () => {
+  it('should generate actionable item with animation', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
       actionableItems: [
@@ -413,7 +413,6 @@ describe('generateSceneCreate function', () => {
         yoyo: true
       });
 
-
       this.image1 = this.add.image(undefined, undefined, "image1");
       this.image1.setInteractive();
       this.tweens.add({
@@ -445,20 +444,38 @@ describe('generateSceneCreate function', () => {
       background: {},
       actionableItems: [
         {
-          name: 'item1',
+          name: 'text1',
+          type: 'text',
+          hasPhysicsEnabled: true,
+        },
+        {
+          name: 'image1',
           type: 'image',
-          position: { x: 100, y: 200 },
+          hasPhysicsEnabled: true,
+        },
+        {
+          name: 'hitbox1',
+          type: 'hitbox',
           hasPhysicsEnabled: true,
         },
       ],
-      mainNPC: null,
     };
 
     const expectedCode = `
-      let isTransitionInProgress = false;
-      this.item1 = this.add.image(100, 200, "item1");
-      this.item1.setInteractive();
-      this.physics.world.enable(this.item1);
+    let isTransitionInProgress = false;
+
+      this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
+      this.text1.setInteractive();
+      this.physics.world.enable(this.text1);
+
+      this.image1 = this.add.image(undefined, undefined, "image1");
+      this.image1.setInteractive();
+      this.physics.world.enable(this.image1);
+
+      this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.setInteractive();
+      this.physics.world.enable(this.hitbox1);
+
     `;
 
     const result = generateSceneCreate(sceneName, sceneConfig);
