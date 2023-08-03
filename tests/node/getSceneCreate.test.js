@@ -101,7 +101,6 @@ describe('getSceneCreate function', () => {
     `;
 
     const result = getSceneCreate(sceneName, sceneConfig);
-    console.log(result);
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
@@ -355,6 +354,58 @@ describe('getSceneCreate function', () => {
     );
   });
 
+  it('should get actionable items with label', () => {
+    const sceneName = 'TestScene';
+    const sceneConfig = {
+      actionableItems: [
+        {
+          name: 'image1',
+          type: 'image',
+          label: 'label',
+        },
+        {
+          name: 'text1',
+          type: 'text',
+          label: 'label',
+        },
+        {
+          name: 'hitbox1',
+          type: 'hitbox',
+          label: 'label',
+        },
+      ],
+    };
+
+    const expectedCode = `
+    let isTransitionInProgress = false;
+    this.image1 = this.add.image(undefined, undefined, "image1");
+    this.image1.setInteractive();
+      this.add.text(
+        this.image1.getBounds()?.x + (this.image1.getBounds()?.width / 2), this.image1.getBounds()?.y - this.image1.getBounds()?.height / 2, "label",
+        undefined
+      ).setOrigin(0.5);
+
+      this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
+      this.text1.setInteractive();
+        this.add.text(
+          this.text1.getBounds()?.x + (this.text1.getBounds()?.width / 2), this.text1.getBounds()?.y - this.text1.getBounds()?.height / 2, "label",
+          undefined
+        ).setOrigin(0.5);
+
+      this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.setInteractive();
+        this.add.text(
+          this.hitbox1.getBounds()?.x + (this.hitbox1.getBounds()?.width / 2), this.hitbox1.getBounds()?.y - this.hitbox1.getBounds()?.height / 2, "label",
+          undefined
+        ).setOrigin(0.5);
+    `;
+
+    const result = getSceneCreate(sceneName, sceneConfig);
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
+  });
+
   it('should get draggable actionable items', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {
@@ -409,7 +460,6 @@ describe('getSceneCreate function', () => {
     const result = getSceneCreate(sceneName, sceneConfig);
     const formattedExpectedCode = expectedCode.replace(/\s+/g, '');
     const formattedResult = result.replace(/\s+/g, '');
-    console.log();
     expect(formattedResult).toEqual(formattedExpectedCode);
   });
 

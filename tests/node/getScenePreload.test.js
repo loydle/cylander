@@ -28,6 +28,19 @@ describe('getScenePreload', () => {
     expect(getdPreloadCode).toEqual(expectedPreloadCode);
   });
 
+  test('should not get preload code if is actionable items another type than image ', () => {
+    const sceneName = 'TestScene';
+    const sceneConfig = {
+      actionableItems: [
+        { name: 'item1', type: 'text' },
+        { name: 'item2', type: 'hitbox' },
+      ],
+    };
+    const expectedPreloadCode = '';
+    const getdPreloadCode = getScenePreload(sceneName, sceneConfig);
+    expect(getdPreloadCode).toEqual(expectedPreloadCode);
+  });
+
   test('should get preload code for mainNPC', () => {
     const sceneName = 'TestScene';
     const sceneConfig = {

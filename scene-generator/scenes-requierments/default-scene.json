@@ -55,12 +55,13 @@
                 "transition": {
                   "to": "Scene1",
                   "effect": "fadeOut",
-                  "options": "500, 0,0,0"}
+                  "options": "500, 0,0,0"
                 }
               }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
