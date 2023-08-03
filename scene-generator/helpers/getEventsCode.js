@@ -30,9 +30,10 @@ function getEventsCode(name, actionType, actionTarget, events, sceneConfig) {
      `;
     }
   } else {
+    content += `
+       this.${name}.on("${actionType.toLowerCase()}", function () {`;
     events?.forEach(({ eventType, event }) => {
       content += `
-       this.${name}.on("${actionType.toLowerCase()}", function () {
          ${
            eventType === EventType.SCENE_TRANSITION
              ? getSceneTransitionCode(event)
@@ -42,10 +43,11 @@ function getEventsCode(name, actionType, actionTarget, events, sceneConfig) {
            eventType === EventType.MAIN_NPC_DIALOG
              ? getMainNPCDialogEventCode(event)
              : ''
-         }
-       }, this);
-     `;
+         }`;
     });
+    content += `
+       }, this);
+      `;
   }
   return content;
 }

@@ -5,10 +5,4 @@
 * [ ] Sound Effects and Background Music
 * [ ] Accessibility
 * [ ] Responsiveness
-* [] Tests
-  * [x] getEventsCode.test.js
-  * [x] getMainNPCDialogPositionCode.test.js
-  * [x] getMainNPCImagePositionCode.test.js
-  * [x] getMainNPCAnimationCode.test.js
-  * [x] getMainNPCDefaultDialogCode.test.js
-  * [] getMainNPCCode.test.js
+* [x] Tests

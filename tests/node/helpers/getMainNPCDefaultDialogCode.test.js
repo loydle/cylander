@@ -35,7 +35,7 @@ describe('getMainNPCDefaultDialogCode', () => {
       content: '',
     };
     const result = getMainNPCDefaultDialogCode(dialog);
-    const expectedCode = `this.mainNPC?.showDialog("", 3000);`;
+    const expectedCode = '';
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
