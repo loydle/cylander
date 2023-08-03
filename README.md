@@ -2,6 +2,8 @@
 
 Web-based point and click game aimed at raising awareness about cybersecurity threats. The game allows players to interact with objects and solve puzzles to progress through different scenes.
 
+The project includes a scene generator that automate the generation of scenes, with backgrounds, interactive items (images, hitboxes, and text), and an optional main Non-Playable Character (NPC) with properties and dialog.
+
 ## Note
 
 This project is currently in development and is a first draft aimed at testing the technology and mechanics of the game. It is not a final product and may undergo significant changes and improvements in the future.
