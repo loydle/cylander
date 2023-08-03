@@ -131,11 +131,10 @@ As of now there are three types of actionable items:
 ```
 
 ### Actions and Events
-Each actionable item can have one or more actions, and each action can trigger one or more events. Events define what happens when the action is performed. Supported event types are:
+Each actionable item can have one or more actions, and each action can trigger one or more events. Events define what happens when the action is performed.
 
-* **mainNPCDialog**: Displays a dialog for the main NPC with specified content and duration.
-* **sceneTransition**: Transitions to the specified scene with animation effects.
-Refer to the provided test cases for examples of actionable item configurations and their corresponding events.
+* Possible actions are listed here: [actionTypes.js](../scene-generator/actionTypes.js)
+* Possible events are listed here: [eventTypes.js](../scene-generator/eventTypes.js)
 
 ## Main NPC (Optional)
 
