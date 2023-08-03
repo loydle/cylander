@@ -9,7 +9,13 @@ describe('getEventsCode', () => {
     const actionType = ActionType.COLLIDE;
     const events = undefined;
     const sceneConfig = {};
-    const result = getEventsCode(name, actionType, 'obstacle', events, sceneConfig);
+    const result = getEventsCode(
+      name,
+      actionType,
+      'obstacle',
+      events,
+      sceneConfig
+    );
     expect(result.replace(/\s+/g, '')).toEqual('');
   });
 
@@ -19,27 +25,33 @@ describe('getEventsCode', () => {
     const actionTarget = 'obstacle';
     const events = [
       {
-       eventType: EventType.SCENE_TRANSITION,
-       event: {
-        transition: {
-          effect: 'fadeEffect',
-          options: '200,0,0,0',
-          to: 'nextScene',
-         },
+        eventType: EventType.SCENE_TRANSITION,
+        event: {
+          transition: {
+            effect: 'fadeEffect',
+            options: '200,0,0,0',
+            to: 'nextScene',
+          },
         },
-       },
+      },
       {
-       eventType: EventType.MAIN_NPC_DIALOG,
-       event: {
-        dialog: {
-         content: 'Hello',
-         duration: 3000,
+        eventType: EventType.MAIN_NPC_DIALOG,
+        event: {
+          dialog: {
+            content: 'Hello',
+            duration: 3000,
+          },
         },
-       },
       },
     ];
     const sceneConfig = {};
-    const result = getEventsCode(name, actionType, actionTarget, events, sceneConfig);
+    const result = getEventsCode(
+      name,
+      actionType,
+      actionTarget,
+      events,
+      sceneConfig
+    );
     const expectedCode = `
     this.physics.add.overlap(this.player, this.obstacle, () => {
      if (!isTransitionInProgress) {
@@ -56,26 +68,34 @@ describe('getEventsCode', () => {
      this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
    });
     `;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 
   it('should return the correct code for scene transition event on action type', () => {
     const name = 'player';
     const actionType = 'CLICK';
     const events = [
-     {
-      eventType: EventType.SCENE_TRANSITION,
-      event: {
-       transition: {
-         effect: 'fadeEffect',
-         options: '200,0,0,0',
-         to: 'otherScene',
+      {
+        eventType: EventType.SCENE_TRANSITION,
+        event: {
+          transition: {
+            effect: 'fadeEffect',
+            options: '200,0,0,0',
+            to: 'otherScene',
+          },
         },
-       },
       },
     ];
     const sceneConfig = {};
-    const result = getEventsCode(name, actionType, 'button', events, sceneConfig);
+    const result = getEventsCode(
+      name,
+      actionType,
+      'button',
+      events,
+      sceneConfig
+    );
     const expectedCode = `
       this.player.on("click", function () {
         if (!isTransitionInProgress) {
@@ -89,6 +109,8 @@ describe('getEventsCode', () => {
         }
       }, this);
     `;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 });

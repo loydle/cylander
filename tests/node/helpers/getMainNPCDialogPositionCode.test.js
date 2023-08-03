@@ -7,7 +7,9 @@ describe('getMainNPCDialogPositionCode', () => {
     const expectedCode = `
       this.mainNPC?.moveTextPosition(this.mainNPC?.initialPosition?.x, this.mainNPC?.initialPosition?.y - this.mainNPC?.mainNPCImage?.height / 2);
     `;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 
   it('should return the correct code with specified x and y position', () => {
@@ -21,7 +23,9 @@ describe('getMainNPCDialogPositionCode', () => {
     const expectedCode = `
       this.mainNPC?.moveTextPosition(100, 200 - this.mainNPC?.mainNPCImage?.height / 2);
     `;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 
   it('should return the correct code with top position', () => {
@@ -36,7 +40,9 @@ describe('getMainNPCDialogPositionCode', () => {
     const expectedCode = `
       this.mainNPC?.moveTextPosition(this.mainNPC?.initialPosition?.x, this.mainNPC?.initialPosition?.y - this.mainNPC?.mainNPCImage?.height  + 20);
     `;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 
   it('should return the correct code with specified x, y position, and top position', () => {
@@ -55,6 +61,8 @@ describe('getMainNPCDialogPositionCode', () => {
     const expectedCode = `
       this.mainNPC?.moveTextPosition(150, 250 - this.mainNPC?.mainNPCImage?.height  + 30);
     `;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 });

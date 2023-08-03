@@ -13,7 +13,9 @@ describe('getMainNPCDefaultDialogCode', () => {
     };
     const result = getMainNPCDefaultDialogCode(dialog);
     const expectedCode = `this.mainNPC?.showDialog("Hello, this is a default dialog.", 3000);`;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 
   it('should return the correct code with dialog content and specified duration', () => {
@@ -23,7 +25,9 @@ describe('getMainNPCDefaultDialogCode', () => {
     };
     const result = getMainNPCDefaultDialogCode(dialog);
     const expectedCode = `this.mainNPC?.showDialog("Hello, this is a custom dialog with duration.", 5000);`;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 
   it('should return the correct code with empty dialog content and default duration', () => {
@@ -32,7 +36,9 @@ describe('getMainNPCDefaultDialogCode', () => {
     };
     const result = getMainNPCDefaultDialogCode(dialog);
     const expectedCode = `this.mainNPC?.showDialog("", 3000);`;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 
   it('should return the correct code with no duration specified', () => {
@@ -41,6 +47,8 @@ describe('getMainNPCDefaultDialogCode', () => {
     };
     const result = getMainNPCDefaultDialogCode(dialog);
     const expectedCode = `this.mainNPC?.showDialog("Dialog without specified duration.", 3000);`;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 });

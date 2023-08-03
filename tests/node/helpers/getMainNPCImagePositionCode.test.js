@@ -7,7 +7,9 @@ describe('getMainNPCImagePositionCode', () => {
     const expectedCode = `
       this.mainNPC?.mainNPCImage.setPosition(this.mainNPC?.initialPosition?.x, this.mainNPC?.initialPosition?.y);
     `;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 
   it('should return the correct code with specified x and y position', () => {
@@ -19,7 +21,9 @@ describe('getMainNPCImagePositionCode', () => {
     const expectedCode = `
       this.mainNPC?.mainNPCImage.setPosition(100, 200);
     `;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 
   it('should return the correct code with only x position', () => {
@@ -30,7 +34,9 @@ describe('getMainNPCImagePositionCode', () => {
     const expectedCode = `
       this.mainNPC?.mainNPCImage.setPosition(150, this.mainNPC?.initialPosition?.y);
     `;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 
   it('should return the correct code with only y position', () => {
@@ -41,6 +47,8 @@ describe('getMainNPCImagePositionCode', () => {
     const expectedCode = `
       this.mainNPC?.mainNPCImage.setPosition(this.mainNPC?.initialPosition?.x, 250);
     `;
-    expect(result.replace(/\s+/g, '')).toEqual(expectedCode.replace(/\s+/g, ''));
+    expect(result.replace(/\s+/g, '')).toEqual(
+      expectedCode.replace(/\s+/g, '')
+    );
   });
 });
