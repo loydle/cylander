@@ -38,7 +38,7 @@ export class Scene1 extends Phaser.Scene {
       yoyo: false,
       repeat: 0,
     });
-    this.door = this.add.rectangle(637, 544, 100, 100, undefined);
+    this.door = this.add.rectangle(637, 544, 260, 200, undefined);
 
     this.door.isHitbox = true;
     this.door.setInteractive();
@@ -58,7 +58,7 @@ export class Scene1 extends Phaser.Scene {
       },
       this
     );
-    this.cactus = this.add.rectangle(444, 588, undefined, undefined, undefined);
+    this.cactus = this.add.rectangle(420, 570, 130, 220, undefined);
 
     this.cactus.isHitbox = true;
     this.cactus.setInteractive();
