@@ -1,16 +1,23 @@
 import * as Phaser from 'phaser';
 
 function debug(scene) {
-  const debugKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL);
+  const debugKey = scene.input.keyboard.addKey(
+    Phaser.Input.Keyboard.KeyCodes.CTRL
+  );
   let debugModeIsActive = false;
   const gameObjects = scene.children.getChildren();
 
   debugKey.on('down', () => {
     debugModeIsActive = !debugModeIsActive;
     if (debugModeIsActive) {
-      gameObjects.forEach(gameObject => {
+      gameObjects.forEach((gameObject) => {
         if (gameObject.body) {
-          const rectangle = scene.add.rectangle(gameObject.getBounds().x, gameObject.getBounds().y, gameObject.width * gameObject.scaleX, gameObject.height * gameObject.scaleY,);
+          const rectangle = scene.add.rectangle(
+            gameObject.getBounds().x,
+            gameObject.getBounds().y,
+            gameObject.width * gameObject.scaleX,
+            gameObject.height * gameObject.scaleY
+          );
           rectangle.setStrokeStyle(2, 0x00ff00);
           rectangle.setOrigin(0, 0);
           gameObject.internalType = 'Physic';
@@ -18,19 +25,25 @@ function debug(scene) {
           gameObject.on('drag', () => {
             gameObject.coordinatesText.setPosition(
               gameObject.getBounds().x,
-              gameObject.getBounds().y + (gameObject.height * gameObject.scale) + 10,
-              );
-            gameObject.debugBackground.setPosition(
-              gameObject.x,
-              gameObject.y
+              gameObject.getBounds().y +
+                gameObject.height * gameObject.scale +
+                10
             );
+            gameObject.debugBackground.setPosition(gameObject.x, gameObject.y);
             rectangle.setPosition(
               gameObject.getBounds().x,
               gameObject.getBounds().y
             );
-            gameObject.coordinatesText.setText(`x: ${gameObject.x.toFixed(0)}, y: ${gameObject.y.toFixed(0)}\nwidth: ${gameObject.width.toFixed(0)}, height: ${gameObject.height.toFixed(0)}\ntype: ${gameObject.internalType} - ${gameObject.type}`);
+            gameObject.coordinatesText.setText(
+              `x: ${gameObject.x.toFixed(0)}, y: ${gameObject.y.toFixed(
+                0
+              )}\nwidth: ${gameObject.width.toFixed(
+                0
+              )}, height: ${gameObject.height.toFixed(0)}\ntype: ${
+                gameObject.internalType
+              } - ${gameObject.type}`
+            );
           });
-
         } else if (gameObject.isHitbox) {
           gameObject.isStroked = true;
           gameObject.strokeColor = '0xff0000';
@@ -38,11 +51,17 @@ function debug(scene) {
           gameObject.internalType = 'Hitbox';
         }
 
-        const coordinatesContent = `x: ${gameObject.x.toFixed(0)}, y: ${gameObject.y.toFixed(0)}\nwidth: ${gameObject.width.toFixed(0)}, height: ${gameObject.height.toFixed(0)}\ntype: ${gameObject.internalType} - ${gameObject.type}`;
+        const coordinatesContent = `x: ${gameObject.x.toFixed(
+          0
+        )}, y: ${gameObject.y.toFixed(0)}\nwidth: ${gameObject.width.toFixed(
+          0
+        )}, height: ${gameObject.height.toFixed(0)}\ntype: ${
+          gameObject.internalType
+        } - ${gameObject.type}`;
 
         const coordinatesText = scene.add.text(
           gameObject.getBounds().x,
-          gameObject.getBounds().y + (gameObject.height * gameObject.scale) + 10,
+          gameObject.getBounds().y + gameObject.height * gameObject.scale + 10,
           coordinatesContent,
           {
             fontFamily: 'Arial',
@@ -60,7 +79,7 @@ function debug(scene) {
           gameObject.y,
           gameObject.width * gameObject.scaleX,
           gameObject.height * gameObject.scaleY,
-          0x0000FF,
+          0x0000ff,
           0.4
         );
         backgroundRect.setDepth(999);
@@ -82,7 +101,7 @@ function debug(scene) {
         });
       });
     } else {
-      gameObjects.map(gameObject => {
+      gameObjects.map((gameObject) => {
         gameObject.isStroked = false;
         scene.input.removeDebug(gameObject);
 
