@@ -66,7 +66,7 @@ function generateAllScenes(sceneTemplates) {
   sceneTemplates.forEach((sceneTemplate) => {
     getScenesForTemplate(sceneTemplate);
   });
-  console.log('\x1b[33mAll scenes getd successfully.\x1b[0m');
+  console.log('\x1b[33mAll scenes deleted successfully.\x1b[0m');
 }
 
 const sceneTemplatesDir = path.join(__dirname, 'scenes-requierments');

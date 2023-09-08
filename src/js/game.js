@@ -10,9 +10,7 @@ const config = {
   parent: 'game-container',
   physics: {
     default: 'arcade',
-    arcade: {
-      // debug: true
-    },
+    arcade: {},
   },
   scene: [DefaultScene, Scene1, Scene2, Scene3],
 };

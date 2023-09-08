@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { debug } from '../debug.js';
 import { MainNPC } from '../MainNPC.js';
 
 export class Scene2 extends Phaser.Scene {
@@ -34,6 +35,8 @@ export class Scene2 extends Phaser.Scene {
       repeat: -1,
     });
     this.exitDoor = this.add.rectangle(766, 520, 200, 300, undefined);
+
+    this.exitDoor.isHitbox = true;
     this.exitDoor.setInteractive();
     this.physics.world.enable(this.exitDoor);
     this.exitDoor.on(
@@ -60,6 +63,8 @@ export class Scene2 extends Phaser.Scene {
       this
     );
     this.redHitbox = this.add.rectangle(1244, 988, 100, 100, 0xfff0000);
+
+    this.redHitbox.isHitbox = true;
     this.redHitbox.setInteractive();
     this.add
       .text(
@@ -98,6 +103,8 @@ export class Scene2 extends Phaser.Scene {
       this
     );
     this.purpleHitbox = this.add.rectangle(844, 988, 100, 100, 0xfff00ff);
+
+    this.purpleHitbox.isHitbox = true;
     this.purpleHitbox.setInteractive();
     this.add
       .text(
@@ -142,6 +149,8 @@ export class Scene2 extends Phaser.Scene {
       this
     );
     this.yellowHitbox = this.add.rectangle(644, 988, 100, 100, 0xfffff00);
+
+    this.yellowHitbox.isHitbox = true;
     this.yellowHitbox.setInteractive();
     this.input.setDraggable(this.yellowHitbox);
     this.yellowHitbox.on('pointerdown', function () {
@@ -173,6 +182,8 @@ export class Scene2 extends Phaser.Scene {
       this
     );
     this.yellowHitbox2 = this.add.rectangle(244, 988, 100, 100, 0xfffff00);
+
+    this.yellowHitbox2.isHitbox = true;
     this.yellowHitbox2.setInteractive();
     this.input.setDraggable(this.yellowHitbox2);
     this.yellowHitbox2.on('pointerdown', function () {
@@ -226,6 +237,8 @@ export class Scene2 extends Phaser.Scene {
       this.mainNPC.showDialog(this.mainNPC.dialogContent, 3000);
     });
     this.whiteHitbox = this.add.rectangle(1044, 988, 100, 100, 0xfffffff);
+
+    this.whiteHitbox.isHitbox = true;
     this.whiteHitbox.setInteractive();
     this.input.setDraggable(this.whiteHitbox);
     this.whiteHitbox.on('pointerdown', function () {
@@ -270,5 +283,6 @@ export class Scene2 extends Phaser.Scene {
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
+    debug(this);
   }
 }
