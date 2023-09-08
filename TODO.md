@@ -6,3 +6,4 @@
 * [ ] Accessibility
 * [ ] Responsiveness
 * [x] Tests
+* [ ] Update label (text) coordinates on actionable items drag
