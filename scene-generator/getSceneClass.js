@@ -7,7 +7,9 @@ function getSceneClass(sceneName, sceneConfig) {
 
   const sceneClass = `
 import * as Phaser from 'phaser';
+import { debug } from '../debug.js';
 ${sceneConfig.mainNPC ? `import { MainNPC } from '../MainNPC.js';` : ''}
+
 
 export class ${sceneName} extends Phaser.Scene {
   constructor() {

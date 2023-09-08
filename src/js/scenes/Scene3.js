@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { debug } from '../debug.js';
 import { MainNPC } from '../MainNPC.js';
 
 export class Scene3 extends Phaser.Scene {
@@ -29,6 +30,8 @@ export class Scene3 extends Phaser.Scene {
     );
 
     this.purpleHitbox = this.add.rectangle(844, 988, 100, 100, 0xfff00ff);
+
+    this.purpleHitbox.isHitbox = true;
     this.purpleHitbox.setScale(1);
     this.purpleHitbox.setInteractive();
     this.add
@@ -69,5 +72,6 @@ export class Scene3 extends Phaser.Scene {
       },
       this
     );
+    debug(this);
   }
 }

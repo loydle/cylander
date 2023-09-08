@@ -10,6 +10,8 @@ function getActionableItemHitboxCode(actionableItem) {
   }, ${actionableItem?.size?.width}, ${actionableItem?.size?.height}, ${
     actionableItem?.backgroundColor
   });
+
+  this.${actionableItem?.name}.isHitbox = true;
  `;
 }
 

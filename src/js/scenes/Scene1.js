@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { debug } from '../debug.js';
 import { MainNPC } from '../MainNPC.js';
 
 export class Scene1 extends Phaser.Scene {
@@ -37,7 +38,9 @@ export class Scene1 extends Phaser.Scene {
       yoyo: false,
       repeat: 0,
     });
-    this.door = this.add.rectangle(637, 544, 100, 100, undefined);
+    this.door = this.add.rectangle(637, 544, 260, 200, undefined);
+
+    this.door.isHitbox = true;
     this.door.setInteractive();
     this.door.on(
       'pointerup',
@@ -55,7 +58,9 @@ export class Scene1 extends Phaser.Scene {
       },
       this
     );
-    this.cactus = this.add.rectangle(444, 588, undefined, undefined, undefined);
+    this.cactus = this.add.rectangle(420, 570, 130, 220, undefined);
+
+    this.cactus.isHitbox = true;
     this.cactus.setInteractive();
     this.cactus.on(
       'pointerup',
@@ -99,5 +104,6 @@ export class Scene1 extends Phaser.Scene {
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
+    debug(this);
   }
 }
