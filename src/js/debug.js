@@ -3,6 +3,7 @@ import * as Phaser from 'phaser';
 function debug(scene) {
   const debugKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL);
   const drawKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+  const cleanDrawKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
   let debugModeIsActive = false;
   let drawModeIsActive = false;
   let drawing = false;
@@ -25,7 +26,13 @@ function debug(scene) {
       scene.input.off('pointerup');
       scene.input.off('pointermove');
     }
+    cleanDrawKey.on('down', () => {
+      drawnRectangles.forEach((rectangle) => {
+        rectangle.destroy();
+      });
+    });
   });
+
 
   const gameObjects = scene.children.getChildren();
 
