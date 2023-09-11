@@ -1,5 +1,4 @@
 import * as Phaser from 'phaser';
-import { debug } from '../debug.js';
 
 export class DefaultScene extends Phaser.Scene {
   constructor() {
@@ -58,6 +57,5 @@ export class DefaultScene extends Phaser.Scene {
       },
       this
     );
-    debug(this);
   }
 }

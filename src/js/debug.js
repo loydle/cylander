@@ -158,6 +158,7 @@ function setupDrawMode(scene, drawnRectanglesArray) {
 
 function setupWireframeMode(scene, gameObjects) {
   gameObjects.forEach((gameObject) => {
+    console.log(gameObject);
     if (gameObject.isHitbox || gameObject.body) {
       const x = gameObject.x;
       const y = gameObject.y;
