@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { debug } from '../debug.js';
+
 import { MainNPC } from '../MainNPC.js';
 
 export class Scene2 extends Phaser.Scene {
@@ -283,6 +283,5 @@ export class Scene2 extends Phaser.Scene {
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
-    debug(this);
   }
 }
