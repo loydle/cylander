@@ -165,6 +165,7 @@ function debug(scene) {
     cleanDrawKey.on('down', () => {
       drawnRectanglesArray.forEach((rectangle) => {
         rectangle.coordinatesText.destroy();
+        rectangle.hoverBackground.destroy();
         rectangle.destroy();
       });
       drawnRectanglesArray.length = 0;
