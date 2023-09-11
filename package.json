@@ -4,7 +4,7 @@
   "description": "Cylander is a non-profit association dedicated to providing and producing free Cyber Security Knowledge",
   "scripts": {
     "start": "web-dev-server --config web-dev-server.config.mjs",
-    "start:watch": "concurrently 'npm run start' 'npx nodemon --watch ./scene-generator --exec \"npm run generate:dev:all\"'",
+    "watch": "concurrently 'npm run start' 'npx nodemon --watch ./scene-generator --exec \"npm run generate:dev:all\"'",
     "test": "jest --verbose --coverage",
     "test:browser": "jest --config=jest.config.js --testPathPattern=tests/browser",
     "test:node": "jest --config=jest.config.js --testPathPattern=tests/node",
@@ -29,7 +29,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run generate:prod:all ; npm run test && npm run lint:fix && npm run format",
+      "pre-commit": "npm run generate:prod:all && npm run test && npm run lint:fix && npm run format",
       "pre-push": "npm run lint"
     }
   }
