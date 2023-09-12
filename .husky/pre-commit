@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-NODE_ENV=production  node ./scene-generator/generateAllScenes.js && npm run test && npm run lint:fix && npm run format
+cross-env NODE_ENV=production  node ./scene-generator/generateAllScenes.js && npm run test && npm run lint:fix && npm run format
