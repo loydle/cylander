@@ -98,6 +98,10 @@ function geSceneCreate(sceneName, sceneConfig) {
       });
 
       createCode += getDragEventCode(sceneHasOneOrMoreDraggableItems);
+
+      if (process.env.NODE_ENV === 'development') {
+        createCode += 'debug(this);';
+      }
     }
   }
   function getSetDraggableCode(name, isDraggable) {

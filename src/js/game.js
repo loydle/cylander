@@ -1,18 +1,16 @@
 import * as Phaser from 'phaser';
 import { gameConfig } from '../configs/gameConfig.js';
-import { DefaultScene } from './scenes/DefaultScene.js';
-import { Scene1 } from './scenes/Scene1.js';
-import { Scene2 } from './scenes/Scene2.js';
-import { Scene3 } from './scenes/Scene3.js';
+import { DefaultScene } from '../../dist/scenes/DefaultScene.js';
+import { Scene1 } from '../../dist/scenes/Scene1.js';
+import { Scene2 } from '../../dist/scenes/Scene2.js';
+import { Scene3 } from '../../dist/scenes/Scene3.js';
 
 const config = {
   type: Phaser.AUTO,
   parent: 'game-container',
   physics: {
     default: 'arcade',
-    arcade: {
-      // debug: true
-    },
+    arcade: {},
   },
   scene: [DefaultScene, Scene1, Scene2, Scene3],
 };

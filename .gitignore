@@ -1,7 +1,10 @@
+
+package-lock.json
 coverage
 # Node.js dependencies
 node_modules/
 # Build artifacts
+src/js/scenes/*.js
 dist/
 build/
 *.js.map

@@ -4,16 +4,18 @@
   "description": "Cylander is a non-profit association dedicated to providing and producing free Cyber Security Knowledge",
   "scripts": {
     "start": "web-dev-server --config web-dev-server.config.mjs",
-    "start:watch": "concurrently 'npm run start' 'npx nodemon --watch ./scene-generator --exec \"npm run generate:all\"'",
+    "watch": "concurrently 'npm run start' 'npx nodemon --watch ./scene-generator --exec \"npm run generate:dev:all\"'",
     "test": "jest --verbose --coverage",
     "test:browser": "jest --config=jest.config.js --testPathPattern=tests/browser",
     "test:node": "jest --config=jest.config.js --testPathPattern=tests/node",
     "format": "prettier --write \"**/**/*.js\" --config .prettierrc.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "generate:all": "node ./scene-generator/generateAllScenes.js"
+    "generate:prod:all": "cross-env NODE_ENV=production  node ./scene-generator/generateAllScenes.js",
+    "generate:dev:all": "cross-env NODE_ENV=development  node ./scene-generator/generateAllScenes.js"
   },
   "dependencies": {
+    "cross-env": "^7.0.3",
     "phaser": "^3.60.0"
   },
   "devDependencies": {
@@ -28,7 +30,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test && npm run lint:fix && npm run format",
+      "pre-commit": "npm run generate:prod:all && npm run test && npm run lint:fix && npm run format",
       "pre-push": "npm run lint"
     }
   }
