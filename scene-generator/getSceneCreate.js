@@ -1,4 +1,5 @@
 const ActionableItemType = require('./actionableItemTypes.js');
+const getSetNameCode = require('./helpers/getSetNameCode.js');
 const getAnimationCode = require('./helpers/getAnimationCode.js');
 const getBackgroundCode = require('./helpers/getBackgroundCode.js');
 const getLabelCode = require('./helpers/getLabelCode.js');
@@ -55,6 +56,7 @@ function geSceneCreate(sceneName, sceneConfig) {
           default:
         }
 
+        createCode += getSetNameCode(actionableItem?.name);
         createCode += getSetScaleCode(
           actionableItem?.name,
           actionableItem?.scale
