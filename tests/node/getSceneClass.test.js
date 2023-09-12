@@ -21,7 +21,9 @@ describe('getSceneClass function', () => {
     };
 
     const result = getSceneClass(sceneName, sceneConfig);
-    expect(result).toContain(`import { MainNPC } from '../../src/js/MainNPC.js';`);
+    expect(result).toContain(
+      `import { MainNPC } from '../../src/js/MainNPC.js';`
+    );
   });
 
   it('should not import mainNPC if not present', () => {
@@ -29,6 +31,8 @@ describe('getSceneClass function', () => {
     const sceneConfig = {};
 
     const result = getSceneClass(sceneName, sceneConfig);
-    expect(result).not.toContain(`import { MainNPC } from '../../src/js/MainNPC.js';`);
+    expect(result).not.toContain(
+      `import { MainNPC } from '../../src/js/MainNPC.js';`
+    );
   });
 });
