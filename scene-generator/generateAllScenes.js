@@ -11,7 +11,7 @@ function readSceneRequirements(sceneFilePath) {
 }
 
 async function writeSceneToFile(sceneName, sceneClass) {
-  const scenesDir = path.join(__dirname, '../src/js/scenes');
+  const scenesDir = path.join(__dirname, '../dist/scenes');
   if (!fs.existsSync(scenesDir)) {
     fs.mkdirSync(scenesDir);
   }
