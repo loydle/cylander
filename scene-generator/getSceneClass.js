@@ -9,10 +9,10 @@ function getSceneClass(sceneName, sceneConfig) {
 import * as Phaser from 'phaser';
 ${
   process.env.NODE_ENV === 'development'
-    ? `import { debug } from '../debug.js';`
+    ? `import { debug } from '../../src/js/debug.js';`
     : ''
 }
-${sceneConfig.mainNPC ? `import { MainNPC } from '../MainNPC.js';` : ''}
+${sceneConfig.mainNPC ? `import { MainNPC } from '../../src/js/MainNPC.js';` : ''}
 
 
 export class ${sceneName} extends Phaser.Scene {
