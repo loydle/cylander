@@ -283,5 +283,6 @@ export class Scene2 extends Phaser.Scene {
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
+    debug(this);
   }
 }

@@ -72,5 +72,6 @@ export class Scene3 extends Phaser.Scene {
       },
       this
     );
+    debug(this);
   }
 }
