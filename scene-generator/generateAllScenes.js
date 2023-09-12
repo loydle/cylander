@@ -38,7 +38,7 @@ async function writeSceneToFile(sceneName, sceneClass) {
 }
 
 function deleteSceneFiles() {
-  const scenesDir = path.join(__dirname, '../src/js/scenes');
+  const scenesDir = path.join(__dirname, '../dist/scenes');
   if (!fs.existsSync(scenesDir)) {
     return;
   }
