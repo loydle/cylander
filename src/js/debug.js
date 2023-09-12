@@ -1,185 +1,298 @@
 import * as Phaser from 'phaser';
 
-function getDebugObjectInfoContentString(object) {
-  return `x: ${object.x.toFixed(0)}, y: ${object.y.toFixed(
-    0
-  )}\nwidth: ${object.width
-    .toFixed(0)
-    .replace('-', '')}, height: ${object.height.toFixed(0).replace('-', '')}`;
+const KEY_WIREFRAME = Phaser.Input.Keyboard.KeyCodes.W;
+const KEY_DRAW = Phaser.Input.Keyboard.KeyCodes.D;
+const KEY_CLEAN_DRAW = Phaser.Input.Keyboard.KeyCodes.C;
+let drawing = false;
+
+function getMainTitleContent(isWireframeActive, isDrawActive) {
+  const infoLines = [];
+
+  if (isWireframeActive) {
+    infoLines.push('Wireframe Mode Active');
+  }
+
+  if (isDrawActive) {
+    infoLines.push('Draw Mode Active');
+    infoLines.push('(Press "C" to clean the screen, "D" to deactivate)');
+  }
+
+  return infoLines.join('\n');
 }
 
-function getDebugObjectInfoStyle() {
+function createText(scene, x, y, content, style) {
+  return scene.add.text(x, y, content, style);
+}
+
+function createDebugText(scene, x, y, content, style) {
+  const debugText = createText(scene, x, y, content, style);
+  debugText.visible = false;
+  return debugText;
+}
+
+function getDebugInfoContent(object) {
+  return `x: ${object.x.toFixed(0)}, y: ${object.y.toFixed(
+    0
+  )}\nwidth: ${object.width.toFixed(0)}, height: ${object.height.toFixed(0)}`;
+}
+
+function getDebugInfoStyle() {
   return {
-    fontFamily: 'Arial',
+    fontFamily: 'Consolas',
     fontSize: 28,
     fontWeight: 'bold',
     color: '#fff',
-    visible: false,
     backgroundColor: '#000',
-    padding: 12,
+    padding: 16,
   };
 }
 
-function debug(scene) {
-  const wireframeKey = scene.input.keyboard.addKey(
-    Phaser.Input.Keyboard.KeyCodes.W
-  );
-  const drawKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-  const cleanDrawKey = scene.input.keyboard.addKey(
-    Phaser.Input.Keyboard.KeyCodes.C
-  );
+function bringToBack(...objects) {
+  objects.forEach((obj) => {
+    obj.setDepth(0);
+  });
+}
+function bringToFront(...objects) {
+  objects.forEach((obj) => {
+    obj.setDepth(999);
+  });
+}
 
-  let wireframeModeIsActive = false;
-  let drawModeIsActive = false;
+function showObjects(...objects) {
+  objects.forEach((obj) => {
+    obj.visible = true;
+  });
+}
+
+function hideObjects(...objects) {
+  objects.forEach((obj) => {
+    obj.visible = false;
+  });
+}
+
+function destroyObjects(...objects) {
+  objects.forEach((obj) => {
+    obj.destroy();
+  });
+}
+
+function setupDrawMode(scene, drawnRectanglesArray) {
+  let startDrawingPoint;
+  let currentRectangle;
+
+  scene.input.on('pointerdown', function startDrawing(pointer) {
+    currentRectangle = null;
+    drawing = true;
+    startDrawingPoint = { x: pointer.x, y: pointer.y };
+  });
+
+  scene.input.on('pointermove', function updateDrawing(pointer) {
+    if (drawing) {
+      const width = Math.abs(pointer.x - startDrawingPoint.x);
+      const height = Math.abs(pointer.y - startDrawingPoint.y);
+      const rectX = Math.min(pointer.x, startDrawingPoint.x) + width / 2;
+      const rectY = Math.min(pointer.y, startDrawingPoint.y) + height / 2;
+
+      if (currentRectangle) {
+        destroyObjects(currentRectangle);
+      }
+
+      currentRectangle = scene.add.rectangle(rectX, rectY, width, height);
+      currentRectangle.setStrokeStyle(4, 0x00ff00);
+    }
+  });
+
+  scene.input.on('pointerup', function stopDrawing() {
+    if (drawing && currentRectangle) {
+      const rect = currentRectangle;
+      const x = Number(rect.x.toFixed(0));
+      const y = Number(rect.y.toFixed(0));
+      const width = Number(rect.width.toFixed(0).replace('-', ''));
+      const height = Number(rect.height.toFixed(0).replace('-', ''));
+      const hoverBackgroundColor = 0x0000ff;
+      const hoverBackgroundAlpha = 0.4;
+      rect.debugInfoContent = createDebugText(
+        scene,
+        rect.getBounds().x,
+        rect.getBounds().y + rect.height * rect.scale + 10,
+        getDebugInfoContent(rect),
+        getDebugInfoStyle()
+      );
+
+      rect.setInteractive();
+      rect.hoverBackground = scene.add.rectangle(
+        rect.x,
+        rect.y,
+        rect.width,
+        rect.height,
+        hoverBackgroundColor,
+        hoverBackgroundAlpha
+      );
+
+      rect.on('pointerover', () => {
+        bringToFront(rect.hoverBackground, rect.debugInfoContent, rect);
+        showObjects(rect.hoverBackground, rect.debugInfoContent);
+        console.log(rect);
+        console.info(`          {
+          "name": "actionableObject",
+          "type": "",
+          "position": { "x": ${x}, "y": ${y} },
+          "size": {
+            "width": ${width},
+            "height": ${height}
+          },
+          "actions": [],
+        }`);
+      });
+
+      rect.on('pointerout', () => {
+        bringToBack(rect.hoverBackground, rect.debugInfoContent, rect);
+        hideObjects(rect.hoverBackground, rect.debugInfoContent);
+      });
+
+      drawnRectanglesArray.push(currentRectangle);
+    }
+    drawing = false;
+  });
+}
+
+function setupWireframeMode(scene, gameObjects) {
+  gameObjects.forEach((gameObject) => {
+    if (gameObject.isHitbox || gameObject.body) {
+      const x = gameObject.x;
+      const y = gameObject.y;
+      const width = gameObject.width * gameObject.scaleX;
+      const height = gameObject.height * gameObject.scaleY;
+      const wireframeStrokeWidth = 4;
+      const wireframeStrokeColor = 0x00ffff;
+      const debugInfoContentPadding = 10;
+      const hoverBackgroundColor = 0x0000ff;
+      const hoverBackgroundAlpha = 0.4;
+
+      gameObject.wireframe = scene.add.rectangle(x, y, width, height);
+      gameObject.wireframe.setStrokeStyle(
+        wireframeStrokeWidth,
+        wireframeStrokeColor
+      );
+      gameObject.wireframe.setOrigin(gameObject.originX, gameObject.originY);
+
+      gameObject.debugInfoContent = createDebugText(
+        scene,
+        gameObject.getBounds().x,
+        gameObject.getBounds().y +
+          gameObject.height * gameObject.scale +
+          debugInfoContentPadding,
+        getDebugInfoContent(gameObject),
+        getDebugInfoStyle()
+      );
+
+      gameObject.hoverBackground = scene.add.rectangle(
+        gameObject.x,
+        gameObject.y,
+        width,
+        height,
+        hoverBackgroundColor,
+        hoverBackgroundAlpha
+      );
+
+      bringToBack(
+        gameObject.hoverBackground,
+        gameObject.wireframe,
+        gameObject.debugInfoContent
+      );
+      hideObjects(gameObject.debugInfoContent, gameObject.hoverBackground);
+
+      gameObject.on('pointerover', () => {
+        console.info(gameObject);
+        bringToFront(
+          gameObject.hoverBackground,
+          gameObject.wireframe,
+          gameObject.debugInfoContent
+        );
+        showObjects(
+          gameObject.hoverBackground,
+          gameObject.wireframe,
+          gameObject.debugInfoContent
+        );
+      });
+
+      gameObject.on('pointerout', () => {
+        bringToBack(
+          gameObject.hoverBackground,
+          gameObject.wireframe,
+          gameObject.debugInfoContent
+        );
+        hideObjects(gameObject.debugInfoContent, gameObject.hoverBackground);
+      });
+      if (gameObject.body) {
+        gameObject.on('drag', () => {
+          drawing = false;
+          gameObject.debugInfoContent.setPosition(
+            gameObject.getBounds().x,
+            gameObject.getBounds().y +
+              gameObject.height * gameObject.scale +
+              debugInfoContentPadding
+          );
+
+          gameObject.hoverBackground.setPosition(gameObject.x, gameObject.y);
+          gameObject.wireframe.setPosition(gameObject.x, gameObject.y);
+          gameObject.debugInfoContent.setText(getDebugInfoContent(gameObject));
+        });
+      }
+    }
+  });
+}
+
+function debug(scene) {
+  const wireframeKey = scene.input.keyboard.addKey(KEY_WIREFRAME);
+  const drawKey = scene.input.keyboard.addKey(KEY_DRAW);
+  const cleanDrawKey = scene.input.keyboard.addKey(KEY_CLEAN_DRAW);
+
+  let isWireframeModeActive = false;
+  let isDrawModeActive = false;
 
   const drawnRectanglesArray = [];
   const gameObjects = scene.children.getChildren();
 
-  function getMainTitleContent() {
-    let wireframeActive = wireframeModeIsActive
-      ? `Wireframe Mode Active\nPress "${String.fromCharCode(
-          wireframeKey.keyCode
-        )}" to deactivate.\n\n`
-      : '';
-    let drawActive = drawModeIsActive
-      ? `Draw Mode Active\nPress "${String.fromCharCode(
-          cleanDrawKey.keyCode
-        )}" to clean the screen.\nPress "${String.fromCharCode(
-          drawKey.keyCode
-        )}" to deactivate.\n\n`
-      : '';
-
-    return `${wireframeActive}${drawActive}`;
-  }
-
-  let mainTitle = scene.add.text(30, 30, getMainTitleContent(), {
+  const mainTitleStyle = {
     color: '#72FE00',
     fontSize: 22,
-  });
+  };
 
-  function updateDebugMenuInfo() {
-    mainTitle.setText(getMainTitleContent());
-  }
-
-  let drawing = false;
-  function drawMode(scene) {
-    let startDrawingPoint;
-    let currentRectangle;
-
-    scene.input.on('pointerdown', startDrawing);
-    scene.input.on('pointerup', stopDrawing);
-    scene.input.on('pointermove', updateDrawing);
-
-    if (drawnRectanglesArray.length !== 0) {
-      drawnRectanglesArray.forEach((rectangle) => {
-        rectangle.visible = true;
-        rectangle.coordinatesText.visible = true;
-      });
-    }
-    function startDrawing(pointer) {
-      currentRectangle = null;
-      drawing = true;
-      startDrawingPoint = { x: pointer.x, y: pointer.y };
-    }
-
-    function updateDrawing(pointer) {
-      if (drawing) {
-        if (currentRectangle) {
-          currentRectangle.destroy();
-        }
-        const width = pointer.x - startDrawingPoint.x;
-        const height = pointer.y - startDrawingPoint.y;
-        currentRectangle = scene.add.rectangle(
-          startDrawingPoint.x + width / 2,
-          startDrawingPoint.y + height / 2,
-          width,
-          height
-        );
-        currentRectangle.setStrokeStyle(4, 0x00ff00);
-        currentRectangle.setOrigin(0.5, 0.5);
-      }
-    }
-
-    function stopDrawing() {
-      if (drawing) {
-        if (currentRectangle) {
-          const rect = currentRectangle;
-          const x = Number(rect.x.toFixed(0));
-          const y = Number(rect.y.toFixed(0));
-          const width = Number(rect.width.toFixed(0).replace('-', ''));
-          const height = Number(rect.height.toFixed(0).replace('-', ''));
-
-          rect.coordinatesText = scene.add.text(
-            rect.getBounds().x,
-            rect.getBounds().y + rect.height * rect.scale + 10,
-            getDebugObjectInfoContentString(rect),
-            getDebugObjectInfoStyle()
-          );
-          rect.isDrawing = true;
-          rect.setInteractive();
-          rect.hoverBackground = scene.add.rectangle(
-            rect.x,
-            rect.y,
-            rect.width * rect.scaleX,
-            rect.height * rect.scaleY,
-            0x0000ff,
-            0.4
-          );
-
-          rect.coordinatesText.visible = false;
-          rect.hoverBackground.visible = false;
-          rect.on('pointerover', () => {
-            rect.hoverBackground.setDepth(999);
-            rect.coordinatesText.setDepth(999);
-            rect.setDepth(999);
-            rect.coordinatesText.visible = true;
-            rect.hoverBackground.visible = true;
-            console.log(rect);
-            console.info(`          {
-              "name": "actionableObject",
-              "type": "",
-              "position": { "x": ${x}, "y": ${y} },
-              "size": {
-                "width": ${width},
-                "height": ${height}
-              },
-              "actions": [],
-            }`);
-          });
-          rect.on('pointerout', () => {
-            rect.hoverBackground.setDepth(0);
-            rect.coordinatesText.setDepth(0);
-            rect.setDepth(0);
-            rect.coordinatesText.visible = false;
-            rect.hoverBackground.visible = false;
-            rect.coordinatesText.bringToTop = false;
-          });
-          drawnRectanglesArray.push(currentRectangle);
-        }
-        drawing = false;
-      }
-    }
-  }
+  const debugTitle = createText(scene, 30, 30, '', mainTitleStyle);
 
   drawKey.on('down', () => {
+    drawnRectanglesArray.forEach((rectangle) => {
+      rectangle.visible = true;
+    });
     cleanDrawKey.on('down', () => {
       drawnRectanglesArray.forEach((rectangle) => {
-        rectangle.coordinatesText.destroy();
-        rectangle.hoverBackground.destroy();
-        rectangle.destroy();
+        destroyObjects(
+          rectangle.debugInfoContent,
+          rectangle.hoverBackground,
+          rectangle
+        );
       });
       drawnRectanglesArray.length = 0;
     });
 
-    drawModeIsActive = !drawModeIsActive;
-    if (drawModeIsActive) {
-      updateDebugMenuInfo();
-      drawMode(scene);
+    isDrawModeActive = !isDrawModeActive;
+
+    if (isDrawModeActive) {
+      debugTitle.setText(
+        getMainTitleContent(isWireframeModeActive, isDrawModeActive)
+      );
+      setupDrawMode(scene, drawnRectanglesArray);
     } else {
-      updateDebugMenuInfo();
+      debugTitle.setText(
+        getMainTitleContent(isWireframeModeActive, isDrawModeActive)
+      );
       drawnRectanglesArray.forEach((rectangle) => {
-        rectangle.visible = false;
-        rectangle.coordinatesText.visible = false;
+        hideObjects(
+          rectangle,
+          rectangle.debugInfoContent,
+          rectangle.hoverBackground
+        );
       });
       scene.input.off('pointerdown');
       scene.input.off('pointerup');
@@ -188,95 +301,23 @@ function debug(scene) {
   });
 
   wireframeKey.on('down', () => {
-    wireframeModeIsActive = !wireframeModeIsActive;
-    if (wireframeModeIsActive) {
-      updateDebugMenuInfo();
-      gameObjects.forEach((gameObject) => {
-        if (gameObject.isHitbox || gameObject.body) {
-          gameObject.wireframe = scene.add.rectangle(
-            gameObject.getBounds().x,
-            gameObject.getBounds().y,
-            gameObject.width * gameObject.scaleX,
-            gameObject.height * gameObject.scaleY
-          );
-          gameObject.wireframe.setStrokeStyle(4, 0x00ffff);
-          gameObject.wireframe.setOrigin(0, 0);
-
-          gameObject.coordinatesText = scene.add.text(
-            gameObject.getBounds().x,
-            gameObject.getBounds().y +
-              gameObject.height * gameObject.scale +
-              10,
-            getDebugObjectInfoContentString(gameObject),
-            getDebugObjectInfoStyle()
-          );
-
-          gameObject.hoverBackground = scene.add.rectangle(
-            gameObject.x,
-            gameObject.y,
-            gameObject.width * gameObject.scaleX,
-            gameObject.height * gameObject.scaleY,
-            0x0000ff,
-            0.4
-          );
-          gameObject.hoverBackground.setDepth(0);
-          gameObject.wireframe.setDepth(0);
-          gameObject.coordinatesText.setDepth(0);
-          gameObject.coordinatesText.visible = false;
-          gameObject.hoverBackground.visible = false;
-
-          gameObject.on('pointerover', () => {
-            console.log(gameObject);
-            gameObject.hoverBackground.setDepth(999);
-            gameObject.wireframe.setDepth(999);
-            gameObject.coordinatesText.setDepth(999);
-            gameObject.coordinatesText.visible = true;
-            gameObject.hoverBackground.visible = true;
-            gameObject.wireframe.visible = true;
-          });
-
-          gameObject.on('pointerout', () => {
-            gameObject.hoverBackground.setDepth(0);
-            gameObject.wireframe.setDepth(0);
-            gameObject.coordinatesText.setDepth(0);
-            gameObject.coordinatesText.visible = false;
-            gameObject.hoverBackground.visible = false;
-          });
-          if (gameObject.body) {
-            gameObject.internalType = 'Physic';
-
-            gameObject.on('drag', () => {
-              drawing = false;
-              gameObject.coordinatesText.setPosition(
-                gameObject.getBounds().x,
-                gameObject.getBounds().y +
-                  gameObject.height * gameObject.scale +
-                  10
-              );
-              gameObject.hoverBackground.setPosition(
-                gameObject.x,
-                gameObject.y
-              );
-              wireframe.setPosition(
-                gameObject.getBounds().x,
-                gameObject.getBounds().y
-              );
-              gameObject.coordinatesText.setText(
-                getDebugObjectInfoContentString(gameObject)
-              );
-            });
-          } else if (gameObject.isHitbox) {
-            gameObject.internalType = 'Hitbox';
-          }
-        }
-      });
+    isWireframeModeActive = !isWireframeModeActive;
+    if (isWireframeModeActive) {
+      debugTitle.setText(
+        getMainTitleContent(isWireframeModeActive, isDrawModeActive)
+      );
+      setupWireframeMode(scene, gameObjects);
     } else {
-      updateDebugMenuInfo();
+      debugTitle.setText(
+        getMainTitleContent(isWireframeModeActive, isDrawModeActive)
+      );
       gameObjects.forEach((gameObject) => {
         if (gameObject.wireframe) {
-          gameObject.wireframe.destroy();
-          gameObject.hoverBackground.destroy();
-          gameObject.coordinatesText.destroy();
+          destroyObjects(
+            gameObject.wireframe,
+            gameObject.hoverBackground,
+            gameObject.debugInfoContent
+          );
           gameObject.off('pointerover');
           gameObject.off('pointerout');
         }

@@ -1,5 +1,4 @@
 import * as Phaser from 'phaser';
-import { debug } from '../debug.js';
 import { MainNPC } from '../MainNPC.js';
 
 export class Scene3 extends Phaser.Scene {

@@ -136,6 +136,7 @@ describe('getSceneCreate function', () => {
       this.image1.setInteractive();
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.isHitbox = true;
       this.hitbox1.setInteractive();
     `;
 
@@ -221,12 +222,15 @@ describe('getSceneCreate function', () => {
     this.image3.setInteractive();
 
     this.hitbox1 = this.add.rectangle(200, 150, undefined, undefined, undefined);
+    this.hitbox1.isHitbox = true;
     this.hitbox1.setInteractive();
 
     this.hitbox2 = this.add.rectangle(this.cameras.main.centerX, 150, undefined, undefined, undefined);
+    this.hitbox2.isHitbox = true;
     this.hitbox2.setInteractive();
 
     this.hitbox3 = this.add.rectangle(this.cameras.main.centerX, this.cameras.main.centerY, undefined, undefined, undefined);
+    this.hitbox3.isHitbox = true;
     this.hitbox3.setInteractive();
     `;
 
@@ -279,9 +283,9 @@ describe('getSceneCreate function', () => {
       this.image1.setInteractive();
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.isHitbox = true;
       this.hitbox1.setOrigin(0.5, 0.5);
       this.hitbox1.setInteractive();
-
     `;
 
     const result = getSceneCreate(sceneName, sceneConfig);
@@ -341,10 +345,12 @@ describe('getSceneCreate function', () => {
       this.text2.setInteractive();
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.isHitbox = true;
       this.hitbox1.setScale(1);
       this.hitbox1.setInteractive();
 
       this.hitbox2 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox2.isHitbox = true;
       this.hitbox2.setInteractive();
     `;
 
@@ -393,6 +399,7 @@ describe('getSceneCreate function', () => {
         ).setOrigin(0.5);
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.isHitbox = true;
       this.hitbox1.setInteractive();
         this.add.text(
           this.hitbox1.getBounds()?.x + (this.hitbox1.getBounds()?.width / 2), this.hitbox1.getBounds()?.y - this.hitbox1.getBounds()?.height / 2, "label",
@@ -445,6 +452,7 @@ describe('getSceneCreate function', () => {
       });
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.isHitbox = true;
       this.hitbox1.setInteractive();
       this.input.setDraggable(this.hitbox1);
       this.hitbox1.on('pointerdown', function () {
@@ -525,6 +533,7 @@ describe('getSceneCreate function', () => {
       });
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.isHitbox = true;
       this.hitbox1.setInteractive();
       this.tweens.add({
         targets: this.hitbox1,
@@ -574,9 +583,9 @@ describe('getSceneCreate function', () => {
       this.physics.world.enable(this.image1);
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.isHitbox = true;
       this.hitbox1.setInteractive();
       this.physics.world.enable(this.hitbox1);
-
     `;
 
     const result = getSceneCreate(sceneName, sceneConfig);
@@ -689,6 +698,7 @@ describe('getSceneCreate function', () => {
   });
 
   this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+  this.hitbox1.isHitbox=true;
   this.hitbox1.setInteractive();
   this.physics.add.overlap(this.hitbox1, this.something, () => {
     if (!isTransitionInProgress) {
@@ -793,6 +803,7 @@ describe('getSceneCreate function', () => {
       }, this);
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
+      this.hitbox1.isHitbox = true;
       this.hitbox1.setInteractive();
       this.hitbox1.on("pointerdown", function () {
         this.mainNPC.dialogContent = "PointerDown event with main NPC dialog.";
