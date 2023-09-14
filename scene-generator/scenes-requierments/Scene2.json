@@ -108,7 +108,16 @@
       "name": "yellowHitbox",
       "type": "hitbox",
       "label": {
-        "content": "label"
+        "content": "label",
+        "styles": {
+          "font": "36px monospace",
+          "fill": "#00ff00",
+          "backgroundColor": "#333",
+          "padding": {
+            "x": 10,
+            "y": 10
+            }
+          }
       },
       "hasPhysicsEnabled": true,
       "isDraggable": true,
