@@ -313,10 +313,10 @@ function debug(scene) {
       );
       gameObjects.forEach((gameObject) => {
         if (gameObject.wireframe) {
-          destroyObjects(
+          hideObjects(
             gameObject.wireframe,
-            gameObject.hoverBackground,
-            gameObject.debugInfoContent
+            gameObject.debugInfoContent,
+            gameObject.hoverBackground
           );
           gameObject.off('pointerover');
           gameObject.off('pointerout');
