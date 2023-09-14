@@ -73,7 +73,7 @@
       "hasPhysicsEnabled": true,
       "actions": [
         {
-          "actionType": "pointerup",
+          "actionType": "pointerdown",
           "events": [
             {
               "eventType": "mainNPCDialog",
