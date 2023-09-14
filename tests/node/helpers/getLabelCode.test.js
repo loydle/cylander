@@ -11,13 +11,12 @@ describe('getLabelCode', () => {
 
   it('should return the correct code for valid label and name', () => {
     const name = 'someName';
-    const label = 'Hello, World!';
+    const label = { content: 'Hello, World!' };
     const labelStyles = { fontSize: '16px', color: '#ffffff' };
     const result = getLabelCode(name, label, labelStyles);
 
     const expectedCode = `
-   this.add.text(
-    this.someName.getBounds()?.x + (this.someName.getBounds()?.width / 2), this.someName.getBounds()?.y - this.someName.getBounds()?.height / 2, "Hello, World!",
+    this.someName.label = this.add.text(this.someName.getBounds()?.x + (this.someName.getBounds()?.width / 2), this.someName.getBounds()?.y - this.someName.getBounds()?.height / 2, "Hello, World!",
     {"fontSize":"16px","color":"#ffffff"}
   ).setOrigin(0.5);
    `;

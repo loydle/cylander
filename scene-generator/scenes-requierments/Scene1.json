@@ -58,7 +58,9 @@
     {
       "name": "key",
       "type": "image",
-      "label": "text",
+      "label": {
+        "content": "text"
+      },
       "scale": 0.6,
       "position": {
         "x": 120,

@@ -367,17 +367,23 @@ describe('getSceneCreate function', () => {
         {
           name: 'image1',
           type: 'image',
-          label: 'label',
+          label: {
+            content: 'label',
+          },
         },
         {
           name: 'text1',
           type: 'text',
-          label: 'label',
+          label: {
+            content: 'label',
+          },
         },
         {
           name: 'hitbox1',
           type: 'hitbox',
-          label: 'label',
+          label: {
+            content: 'label',
+          },
         },
       ],
     };
@@ -386,14 +392,14 @@ describe('getSceneCreate function', () => {
     let isTransitionInProgress = false;
     this.image1 = this.add.image(undefined, undefined, "image1");
     this.image1.setInteractive();
-      this.add.text(
+    this.image1.label = this.add.text(
         this.image1.getBounds()?.x + (this.image1.getBounds()?.width / 2), this.image1.getBounds()?.y - this.image1.getBounds()?.height / 2, "label",
         undefined
       ).setOrigin(0.5);
 
       this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
       this.text1.setInteractive();
-        this.add.text(
+      this.text1.label = this.add.text(
           this.text1.getBounds()?.x + (this.text1.getBounds()?.width / 2), this.text1.getBounds()?.y - this.text1.getBounds()?.height / 2, "label",
           undefined
         ).setOrigin(0.5);
@@ -401,7 +407,7 @@ describe('getSceneCreate function', () => {
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
       this.hitbox1.isHitbox = true;
       this.hitbox1.setInteractive();
-        this.add.text(
+      this.hitbox1.label = this.add.text(
           this.hitbox1.getBounds()?.x + (this.hitbox1.getBounds()?.width / 2), this.hitbox1.getBounds()?.y - this.hitbox1.getBounds()?.height / 2, "label",
           undefined
         ).setOrigin(0.5);
@@ -462,6 +468,10 @@ describe('getSceneCreate function', () => {
       this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
         gameObject.x = dragX;
         gameObject.y = dragY;
+        if (gameObject.label) {
+          gameObject.label.x = gameObject.getBounds()?.x + gameObject.getBounds()?.width / 2;
+          gameObject.label.y = gameObject.getBounds()?.y - gameObject.getBounds()?.height / 2;
+        }
       });
     `;
 
