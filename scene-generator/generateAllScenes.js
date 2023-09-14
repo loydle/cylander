@@ -5,14 +5,16 @@ const prettierConfig = require('../.prettierrc.json');
 const getSceneClass = require('./getSceneClass');
 const sceneConfig = require('../src/configs/sceneConfig.json');
 
+const distDir = path.join(__dirname, '../dist');
+const scenesDir = path.join(distDir, './scenes');
+
+
 function readSceneRequirements(sceneFilePath) {
   const sceneRequirements = fs.readFileSync(sceneFilePath, 'utf-8');
   return JSON.parse(sceneRequirements);
 }
 
 async function writeSceneToFile(sceneName, sceneClass) {
-  const distDir = path.join(__dirname, '../dist');
-  const scenesDir = path.join(__dirname, '../dist/scenes');
   if (!fs.existsSync(distDir)) {
     fs.mkdirSync(distDir);
   }
@@ -38,7 +40,6 @@ async function writeSceneToFile(sceneName, sceneClass) {
 }
 
 function deleteSceneFiles() {
-  const scenesDir = path.join(__dirname, '../src/js/scenes');
   if (!fs.existsSync(scenesDir)) {
     return;
   }
