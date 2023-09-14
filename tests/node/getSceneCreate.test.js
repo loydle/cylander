@@ -398,7 +398,17 @@ describe('getSceneCreate function', () => {
           type: 'text',
           label: {
             content: 'label',
-            styles: {},
+            styles: {
+              styles: {
+                font: '36px monospace',
+                fill: '#00ff00',
+                backgroundColor: '#333',
+                padding: {
+                  x: 10,
+                  y: 10
+                },
+              },
+            },
           },
         },
         {
@@ -427,7 +437,19 @@ describe('getSceneCreate function', () => {
       this.text1.setInteractive();
       this.text1.label = this.add.text(
           this.text1.getBounds()?.x + (this.text1.getBounds()?.width / 2), this.text1.getBounds()?.y - this.text1.getBounds()?.height / 2, "label",
-          {}
+          {\"styles\":
+            {
+              \"font\":\"36pxmonospace\",
+              \"fill\":\"#00ff00\",
+              \"backgroundColor\":
+              \"#333\",
+              \"padding\":
+              {
+                \"x\":10,
+                \"y\":10
+              }
+            }
+          }
         ).setOrigin(0.5);
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
