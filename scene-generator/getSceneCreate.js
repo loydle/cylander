@@ -26,6 +26,7 @@ function geSceneCreate(sceneName, sceneConfig) {
     );
   }
 
+
   if (!sceneConfig || typeof sceneConfig !== 'object') {
     throw new Error('Invalid sceneConfig. An object sceneConfig is required.');
   }
@@ -81,7 +82,7 @@ function geSceneCreate(sceneName, sceneConfig) {
         createCode += getLabelCode(
           actionableItem?.name,
           actionableItem?.label,
-          sceneConfig?.labelStyles
+          actionableItem?.label?.styles
         );
 
         if (actionableItem?.actions?.length > 0) {

@@ -52,7 +52,9 @@ As of now there are three types of actionable items:
 {
   "name": "itemTypeImage", // (mandatory)
   "type": "image",// (mandatory)
-  "label": "text", // (optional)
+  "label": { // (optional)
+    "content": "text"
+  },
   "scale": 0.6, // (optional)
   "position": {
     "x": 120, // (mandatory)
@@ -76,7 +78,9 @@ As of now there are three types of actionable items:
 {
   "name": "itemTypeHitbox", // (mandatory)
   "type": "hitbox", // (mandatory)
-  "label": "text", // (optional)
+  "label": { // (optional)
+    "content": "text"
+  },
   "backgroundColor": "0xfff00ff", // (optional)
   "scale": 1, // (optional)
   "position": {

@@ -4,7 +4,7 @@
   "description": "Cylander is a non-profit association dedicated to providing and producing free Cyber Security Knowledge",
   "scripts": {
     "start": "web-dev-server --config web-dev-server.config.mjs",
-    "watch": "concurrently 'npm run start' 'npx nodemon --watch ./scene-generator --exec \"npm run generate:dev:all\"'",
+    "watch": "npx nodemon --ignore dist --exec \"npx concurrently \\\"npm run start\\\"  \\\"npm run generate:dev:all\\\"\"",
     "test": "jest --verbose --coverage",
     "test:browser": "jest --config=jest.config.js --testPathPattern=tests/browser",
     "test:node": "jest --config=jest.config.js --testPathPattern=tests/node",

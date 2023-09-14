@@ -42,7 +42,9 @@
     {
       "name": "redHitbox",
       "type": "hitbox",
-      "label": "Scene3",
+      "label": {
+        "content": "Scene3"
+      },
       "position": { "x": 1244, "y": 988 },
       "backgroundColor": "0xfff0000",
       "size": {
@@ -70,7 +72,9 @@
     {
       "name": "purpleHitbox",
       "type": "hitbox",
-      "label": "Scene2",
+      "label": {
+        "content": "Scene2"
+      },
       "position": { "x": 844, "y": 988 },
       "backgroundColor": "0xfff00ff",
       "size": {
@@ -103,7 +107,18 @@
     {
       "name": "yellowHitbox",
       "type": "hitbox",
-      "label": "Label",
+      "label": {
+        "content": "label",
+        "styles": {
+          "font": "36px monospace",
+          "fill": "#00ff00",
+          "backgroundColor": "#333",
+          "padding": {
+            "x": 10,
+            "y": 10
+            }
+          }
+      },
       "hasPhysicsEnabled": true,
       "isDraggable": true,
       "position": { "x": 644, "y": 988 },
@@ -131,7 +146,9 @@
     {
       "name": "yellowHitbox2",
       "type": "hitbox",
-      "label": "Label",
+      "label": {
+        "content": "label"
+      },
       "hasPhysicsEnabled": true,
       "isDraggable": true,
       "position": { "x": 244, "y": 988 },
@@ -183,7 +200,9 @@
     {
       "name": "whiteHitbox",
       "type": "hitbox",
-      "label": "Label",
+      "label": {
+        "content": "label"
+      },
       "position": { "x": 1044, "y": 988 },
       "backgroundColor": "0xfffffff",
       "isDraggable": true,
