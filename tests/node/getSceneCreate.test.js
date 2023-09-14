@@ -437,16 +437,16 @@ describe('getSceneCreate function', () => {
       this.text1.setInteractive();
       this.text1.label = this.add.text(
           this.text1.getBounds()?.x + (this.text1.getBounds()?.width / 2), this.text1.getBounds()?.y - this.text1.getBounds()?.height / 2, "label",
-          {\"styles\":
+          {"styles":
             {
-              \"font\":\"36pxmonospace\",
-              \"fill\":\"#00ff00\",
-              \"backgroundColor\":
-              \"#333\",
-              \"padding\":
+              "font":"36pxmonospace",
+              "fill":"#00ff00",
+              "backgroundColor":
+              "#333",
+              "padding":
               {
-                \"x\":10,
-                \"y\":10
+                "x":10,
+                "y":10
               }
             }
           }
@@ -1044,5 +1044,38 @@ describe('getSceneCreate function', () => {
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
     );
+  });
+  it('should include debug code when NODE_ENV is development', () => {
+    process.env.NODE_ENV = 'development';
+    const sceneConfig = {
+      actionableItems: [
+        {
+          type: 'Hitbox',
+          name: 'hitbox1',
+        },
+      ],
+    };
+
+    const sceneName = 'TestScene';
+    const createCode = getSceneCreate(sceneName, sceneConfig);
+    expect(createCode).toContain('debug(this);');
+    process.env.NODE_ENV = 'test';
+  });
+
+  it('should exclude debug code when NODE_ENV is not development', () => {
+    process.env.NODE_ENV = 'production';
+    const sceneConfig = {
+      actionableItems: [
+        {
+          type: 'Hitbox',
+          name: 'hitbox1',
+        },
+      ],
+    };
+
+    const sceneName = 'TestScene';
+    const createCode = getSceneCreate(sceneName, sceneConfig);
+    expect(createCode).not.toContain('debug(this);');
+    process.env.NODE_ENV = 'test';
   });
 });

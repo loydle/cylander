@@ -35,4 +35,32 @@ describe('getSceneClass function', () => {
       `import { MainNPC } from '../../src/js/MainNPC.js';`
     );
   });
+
+  it('should include debug import when NODE_ENV is development', () => {
+    process.env.NODE_ENV = 'development';
+    const sceneConfig = {
+      mainNPC: true,
+    };
+
+    const sceneName = 'TestScene';
+    const sceneClass = getSceneClass(sceneName, sceneConfig);
+
+    expect(sceneClass).toContain(
+      "import { debug } from '../../src/js/debug.js';"
+    );
+    process.env.NODE_ENV = 'test';
+  });
+
+  it('should exclude debug import when NODE_ENV is not development', () => {
+    process.env.NODE_ENV = 'production';
+    const sceneConfig = {
+      mainNPC: true,
+    };
+    const sceneName = 'TestScene';
+    const sceneClass = getSceneClass(sceneName, sceneConfig);
+    expect(sceneClass).not.toContain(
+      "import { debug } from '../../src/js/debug.js';"
+    );
+    process.env.NODE_ENV = 'test';
+  });
 });
