@@ -26,7 +26,7 @@ The scene generator is a script that automatically generates scene classes for t
 ### Usage
 
 1. Define scene templates in JSON format in the 'scenes-requierments' directory.
-2. Run the generator script: `npm run generate:all`
+2. Run the generator script and start the server: `npm run watch`
 3. The scene classes will be automatically generated and saved to the 'dist/scenes' directory.
 4. To add a new scene, follow these steps:
    * Create a new scene requirement file in JSON format and place it in the 'scenes-requierments' directory.
