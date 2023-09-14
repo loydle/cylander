@@ -1,6 +1,5 @@
 const sceneConfig = require('../../src/configs/sceneConfig.json');
 
-
 function getLabelCode(name, label, labelStyles = sceneConfig?.labelStyles) {
   if (!label || !name) return '';
   return `

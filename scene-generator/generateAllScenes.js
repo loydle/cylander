@@ -8,7 +8,6 @@ const sceneConfig = require('../src/configs/sceneConfig.json');
 const distDir = path.join(__dirname, '../dist');
 const scenesDir = path.join(distDir, './scenes');
 
-
 function readSceneRequirements(sceneFilePath) {
   const sceneRequirements = fs.readFileSync(sceneFilePath, 'utf-8');
   return JSON.parse(sceneRequirements);

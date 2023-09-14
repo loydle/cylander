@@ -26,7 +26,6 @@ function geSceneCreate(sceneName, sceneConfig) {
     );
   }
 
-
   if (!sceneConfig || typeof sceneConfig !== 'object') {
     throw new Error('Invalid sceneConfig. An object sceneConfig is required.');
   }

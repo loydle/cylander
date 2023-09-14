@@ -405,7 +405,7 @@ describe('getSceneCreate function', () => {
                 backgroundColor: '#333',
                 padding: {
                   x: 10,
-                  y: 10
+                  y: 10,
                 },
               },
             },
