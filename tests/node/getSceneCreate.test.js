@@ -498,6 +498,9 @@ describe('getSceneCreate function', () => {
       this.input.setDraggable(this.image1);
       this.image1.on('pointerdown', function () {
           this.scene.children.bringToTop(this);
+          if (this.label) {
+            this.scene.children.bringToTop(this.label);
+          }
       });
 
       this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
@@ -506,6 +509,9 @@ describe('getSceneCreate function', () => {
       this.input.setDraggable(this.text1);
         this.text1.on('pointerdown', function () {
           this.scene.children.bringToTop(this);
+          if (this.label) {
+            this.scene.children.bringToTop(this.label);
+          }
       });
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
@@ -515,6 +521,9 @@ describe('getSceneCreate function', () => {
       this.input.setDraggable(this.hitbox1);
       this.hitbox1.on('pointerdown', function () {
         this.scene.children.bringToTop(this);
+        if (this.label) {
+          this.scene.children.bringToTop(this.label);
+        }
       });
 
       this.input.on("drag", (pointer, gameObject, dragX, dragY) => {

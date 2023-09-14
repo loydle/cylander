@@ -113,6 +113,9 @@ function geSceneCreate(sceneName, sceneConfig) {
       this.input.setDraggable(this.${name});
       this.${name}.on('pointerdown', function () {
         this.scene.children.bringToTop(this);
+        if (this.label) {
+          this.scene.children.bringToTop(this.label);
+        }
       });
     `;
   }
