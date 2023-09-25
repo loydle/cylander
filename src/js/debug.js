@@ -186,6 +186,14 @@ function setupWireframeMode(scene, gameObjects) {
         getDebugInfoStyle()
       );
 
+      if (gameObject.debugInfoContent.y >= scene.game.config.height - gameObject.debugInfoContent.height) {
+        gameObject.debugInfoContent.y = gameObject.getBounds().y - gameObject.debugInfoContent.height - debugInfoContentPadding;
+      }
+
+      if (gameObject.debugInfoContent.x >= scene.game.config.width - gameObject.debugInfoContent.width) {
+        gameObject.debugInfoContent.x = gameObject.getBounds().x - gameObject.debugInfoContent.width - debugInfoContentPadding;
+      }
+
       gameObject.hoverBackground = scene.add.rectangle(
         gameObject.x,
         gameObject.y,
@@ -227,16 +235,19 @@ function setupWireframeMode(scene, gameObjects) {
       if (gameObject.body) {
         gameObject.on('drag', () => {
           drawing = false;
-          gameObject.debugInfoContent.setPosition(
-            gameObject.getBounds().x,
-            gameObject.getBounds().y +
-              gameObject.height * gameObject.scale +
-              debugInfoContentPadding
-          );
-
+          let x = gameObject.getBounds().x;
+          let y = gameObject.getBounds().y + gameObject.height * gameObject.scale + debugInfoContentPadding;
+          x = (x >= scene.game.config.width - gameObject.debugInfoContent.width) ? gameObject.debugInfoContent.x = gameObject.getBounds().x - gameObject.debugInfoContent.width - debugInfoContentPadding : gameObject.getBounds().x;
+          y = (y >= scene.game.config.height - gameObject.debugInfoContent.height) ? gameObject.debugInfoContent.y = gameObject.getBounds().y - gameObject.debugInfoContent.height - debugInfoContentPadding : gameObject.getBounds().y + gameObject.height * gameObject.scale + debugInfoContentPadding;
+          gameObject.debugInfoContent.setPosition(x, y);
           gameObject.hoverBackground.setPosition(gameObject.x, gameObject.y);
           gameObject.wireframe.setPosition(gameObject.x, gameObject.y);
           gameObject.debugInfoContent.setText(getDebugInfoContent(gameObject));
+          bringToFront(
+            gameObject.hoverBackground,
+            gameObject.wireframe,
+            gameObject.debugInfoContent
+          );
         });
       }
     }
