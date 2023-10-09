@@ -10,6 +10,7 @@ const getSetOriginCode = require('./helpers/getSetOriginCode.js');
 const getSetInteractiveCode = require('./helpers/getSetInteractiveCode.js');
 const getHasPhysicsCode = require('./helpers/getHasPhysicsCode.js');
 const getActionableItemImageCode = require('./helpers/getActionableItemImageCode.js');
+const getActionableItemSpriteCode = require('./helpers/getActionableItemSpriteCode.js');
 const getActionableItemTextCode = require('./helpers/getActionableItemTextCode.js');
 const getActionableItemHitboxCode = require('./helpers/getActionableItemHitboxCode.js');
 const getEventsCode = require('./helpers/getEventsCode.js');
@@ -49,6 +50,9 @@ function geSceneCreate(sceneName, sceneConfig) {
             break;
           case ActionableItemType.IMAGE:
             createCode += getActionableItemImageCode(actionableItem);
+            break;
+          case ActionableItemType.SPRITE:
+            createCode += getActionableItemSpriteCode(actionableItem);
             break;
           case ActionableItemType.TEXT:
             createCode += getActionableItemTextCode(actionableItem);

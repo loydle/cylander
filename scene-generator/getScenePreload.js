@@ -11,6 +11,9 @@ function getScenePreload(sceneName, sceneConfig) {
     if (type === 'image') {
       preloadCode += `this.load.image("${name}", "${image.url}");\n`;
     }
+    if (type === 'sprite') {
+      preloadCode += `this.load.spritesheet("${name}", "${image.url}", { frameWidth: 37, frameHeight: 45 });\n`;
+    }
   });
 
   if (mainNPC) {
