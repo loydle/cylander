@@ -61,31 +61,34 @@ function geSceneCreate(sceneName, sceneConfig) {
         }
 
         createCode += getSetNameCode(actionableItem?.name);
-        createCode += getSetScaleCode(
-          actionableItem?.name,
-          actionableItem?.scale
-        );
+        if(actionableItem?.type !== ActionableItemType.SPRITE) {
+          createCode += getSetScaleCode(
+              actionableItem?.name,
+              actionableItem?.scale
+          );
+          createCode += getSetInteractiveCode(actionableItem?.name);
+          createCode += getAnimationCode(
+              actionableItem?.name,
+              actionableItem?.animation
+          );
+          createCode += getSetDraggableCode(
+              actionableItem?.name,
+              actionableItem?.isDraggable
+          );
+          createCode += getLabelCode(
+              actionableItem?.name,
+              actionableItem?.label,
+              actionableItem?.label?.styles
+          );
+          createCode += getDragEventCode(sceneHasOneOrMoreDraggableItems);
+        }
         createCode += getSetOriginCode(
           actionableItem?.name,
           actionableItem?.origin
         );
-        createCode += getSetInteractiveCode(actionableItem?.name);
-        createCode += getAnimationCode(
-          actionableItem?.name,
-          actionableItem?.animation
-        );
-        createCode += getSetDraggableCode(
-          actionableItem?.name,
-          actionableItem?.isDraggable
-        );
         createCode += getHasPhysicsCode(
           actionableItem?.name,
           actionableItem?.hasPhysicsEnabled
-        );
-        createCode += getLabelCode(
-          actionableItem?.name,
-          actionableItem?.label,
-          actionableItem?.label?.styles
         );
 
         if (actionableItem?.actions?.length > 0) {
@@ -102,8 +105,6 @@ function geSceneCreate(sceneName, sceneConfig) {
           );
         }
       });
-
-      createCode += getDragEventCode(sceneHasOneOrMoreDraggableItems);
 
       if (process.env.NODE_ENV === 'development') {
         createCode += 'debug(this);';

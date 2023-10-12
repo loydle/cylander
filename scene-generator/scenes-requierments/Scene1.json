@@ -94,32 +94,53 @@
       "label": {
         "content": "text"
       },
-      "scale": 0.6,
+      "scale": 4,
       "position": {
-        "x": 120,
-        "y": 920
+        "x": 190,
+        "y": 660
       },
+      "move": {
+        "x": 190,
+        "y": 0
+      },
+      "duration": 8800,
+      "repeat": 7,
+      "key": "walk",
+      "frameRate": 20,
+      "ease": "Linear",
       "image": {
         "url": "src/assets/animations/mummy37x45.png"
       },
       "isDraggable": false,
       "hasPhysicsEnabled": true,
-      "actions": [
-        {
-          "actionType": "pointerdown",
-          "events": [
-            {
-              "eventType": "mainNPCDialog",
-              "event": {
-                "dialog": {
-                  "content": "You found a mummy!",
-                  "duration": 5000
-                }
-              }
-            }
-          ]
-        }
-      ]
+      "actions": []
+    },
+    {
+      "name": "mummy2",
+      "type": "sprite",
+      "label": {
+        "content": "text"
+      },
+      "scale": 4,
+      "position": {
+        "x": 250,
+        "y": 630
+      },
+      "move": {
+        "x": 750,
+        "y": 0
+      },
+      "duration": 9800,
+      "repeat": 10,
+      "key": "walk",
+      "frameRate": 16,
+      "ease": "Linear",
+      "image": {
+        "url": "src/assets/animations/mummy37x45.png"
+      },
+      "isDraggable": false,
+      "hasPhysicsEnabled": true,
+      "actions": []
     }
   ],
   "mainNPC": {

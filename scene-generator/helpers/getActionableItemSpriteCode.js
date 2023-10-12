@@ -1,20 +1,18 @@
 function getActionableItemSpriteCode(actionableItem) {
   return `this.${actionableItem?.name} = this.anims.create({
-  key: 'walk',
-  frames: this.anims.generateFrameNumbers('mummy'),
-  frameRate: 16,
+    key: '${actionableItem?.key}',
+    frames: this.anims.generateFrameNumbers('${actionableItem?.name}'),
+    frameRate: ${actionableItem?.frameRate},
   });
-  
-  const sprite = this.add.sprite(50, 300, 'mummy').setScale(4);
-
-  sprite.play({ key: 'walk', repeat: 7 });
+  const ${actionableItem?.name}Sprite = this.add.sprite(${actionableItem?.position.x},${actionableItem?.position.y}, '${actionableItem?.name}').setScale(${actionableItem?.scale});
+  ${actionableItem?.name}Sprite.play({ key: '${actionableItem?.key}', repeat: ${actionableItem?.repeat} });
     
-    this.tweens.add({
-        targets: sprite,
-        x: 750,
-        duration: 8800,
-        ease: 'Linear'
-    });
+  this.tweens.add({
+      targets: ${actionableItem?.name}Sprite,
+      x: ${actionableItem?.move.x},
+      duration: ${actionableItem?.duration},
+      ease: '${actionableItem?.ease}'
+  });
   
  `;
 }
