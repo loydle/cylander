@@ -104,7 +104,7 @@
         "y": 0
       },
       "duration": 8800,
-      "repeat": 7,
+      "repeat": 18,
       "key": "walk",
       "frameRate": 20,
       "ease": "Linear",
