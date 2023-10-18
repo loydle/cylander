@@ -12,7 +12,7 @@ ${
     ? `import { debug } from '../../src/js/debug.js';`
     : ''
 }
-import localeConfig from '../../src/configs/localeConfig.js';
+import localization from '../../src/js/localization.js';
 ${
   sceneConfig.mainNPC
     ? `import { MainNPC } from '../../src/js/MainNPC.js';`
@@ -23,6 +23,10 @@ ${
 export class ${sceneName} extends Phaser.Scene {
   constructor() {
     super({ key: '${sceneName}' });
+  }
+
+  msg(key) {
+    return localization.msg(${`\`${sceneName}.\${key}\``})
   }
 
   preload() {

@@ -4,13 +4,14 @@
   "description": "Cylander is a non-profit association dedicated to providing and producing free Cyber Security Knowledge",
   "scripts": {
     "start": "web-dev-server --config web-dev-server.config.mjs",
-    "watch": "npx nodemon --ignore dist --exec \"npx concurrently \\\"npm run start\\\"  \\\"npm run generate:dev:all\\\"\"",
+    "watch": "npx nodemon --ignore dist --exec \"npx concurrently \\\"npm run start\\\"  \\\"npm run generate:dev:all\\\"  \\\"npm run generate:translations\\\"\"",
     "test": "jest --verbose --coverage",
     "test:browser": "jest --config=jest.config.js --testPathPattern=tests/browser",
     "test:node": "jest --config=jest.config.js --testPathPattern=tests/node",
     "format": "prettier --write \"**/**/*.js\" --config .prettierrc.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "generate:translations": " node ./scene-generator/generateTranslations.js",
     "generate:prod:all": "cross-env NODE_ENV=production  node ./scene-generator/generateAllScenes.js",
     "generate:dev:all": "cross-env NODE_ENV=development  node ./scene-generator/generateAllScenes.js"
   },

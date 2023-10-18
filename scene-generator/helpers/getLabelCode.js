@@ -4,7 +4,7 @@ function getLabelCode(name, label, labelStyles = sceneConfig?.labelStyles) {
   if (!label || !name) return '';
   return `
     this.${name}.label = this.add.text(
-     this.${name}.getBounds()?.x + (this.${name}.getBounds()?.width / 2), this.${name}.getBounds()?.y - this.${name}.getBounds()?.height / 2, localeConfig.msg("${name}-label"),
+     this.${name}.getBounds()?.x + (this.${name}.getBounds()?.width / 2), this.${name}.getBounds()?.y - this.${name}.getBounds()?.height / 2, this.msg("${name}-label"),
      ${JSON.stringify(labelStyles)}
    ).setOrigin(0.5);
  `;

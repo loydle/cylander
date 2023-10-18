@@ -7,7 +7,7 @@ function getActionableItemTextCode(actionableItem) {
     actionableItem?.position?.y === 'center'
       ? `this.cameras.main.centerY`
       : actionableItem?.position?.y
-  }, localeConfig.msg("${actionableItem?.name}"), ${JSON.stringify(
+  }, this.msg("${actionableItem?.name}-label"), ${JSON.stringify(
     actionableItem?.text?.styles
   )});
  `;
