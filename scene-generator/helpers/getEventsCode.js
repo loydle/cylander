@@ -18,12 +18,12 @@ function getEventsCode(name, actionType, actionTarget, events, sceneConfig) {
       content += `
        this.physics.add.overlap(this.${name}, this.${actionTarget}, () => {
      `;
-      events.forEach(({ eventType, event }) => {
+      events.forEach(({ eventType, event }, index) => {
         if (eventType === EventType.SCENE_TRANSITION) {
           content += getSceneTransitionCode(event, sceneConfig);
         }
         if (eventType === EventType.MAIN_NPC_DIALOG) {
-          content += getMainNPCDialogEventCode(event, sceneConfig);
+          content += getMainNPCDialogEventCode(event, name, actionType, index);
         }
       });
       content += `});
@@ -32,7 +32,7 @@ function getEventsCode(name, actionType, actionTarget, events, sceneConfig) {
   } else {
     content += `
        this.${name}.on("${actionType.toLowerCase()}", function () {`;
-    events?.forEach(({ eventType, event }) => {
+    events?.forEach(({ eventType, event }, index) => {
       content += `
          ${
            eventType === EventType.SCENE_TRANSITION
@@ -41,7 +41,7 @@ function getEventsCode(name, actionType, actionTarget, events, sceneConfig) {
          }
          ${
            eventType === EventType.MAIN_NPC_DIALOG
-             ? getMainNPCDialogEventCode(event)
+             ? getMainNPCDialogEventCode(event, name, actionType, index)
              : ''
          }`;
     });

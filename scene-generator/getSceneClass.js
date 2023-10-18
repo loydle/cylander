@@ -12,6 +12,7 @@ ${
     ? `import { debug } from '../../src/js/debug.js';`
     : ''
 }
+import localeConfig from '../../src/configs/localeConfig.js';
 ${
   sceneConfig.mainNPC
     ? `import { MainNPC } from '../../src/js/MainNPC.js';`
