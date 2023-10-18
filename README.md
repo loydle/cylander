@@ -15,10 +15,9 @@ This project is currently in development and is a first draft aimed at testing t
 2. Navigate to the project folder: `cd cylander`
 3. Install dependencies: `npm install`
 4. Generate scenes for development: `npm run generate:dev:all` (this add debug capability)
-5. Generate translation files: `npm run generate:translations`
-6. Start the server: `npm run start` or Run watcher: `npm run watch` (regenerate dev scenes)
-7. Generate scenes for production: `npm run generate:prod:all`
-8. Run tests: `npm run test`
+5. Start the server: `npm run start` or Run watcher: `npm run watch` (regenerate dev scenes)
+6. Generate scenes for production: `npm run generate:prod:all`
+7. Run tests: `npm run test`
 
 ## Scene Generator (Under Progress)
 
@@ -34,7 +33,6 @@ The scene generator is a script that automatically generates scene classes for t
    * Create a new scene requirement file in JSON format and place it in the 'scenes-requierments' directory.
    *  Define the scene configuration in the JSON file, specifying the background, actionable items, and MainNPC dialogues as needed.
    *  Run the scene generator script by executing `npm run generate:all` in the terminal.
-   *  Run the translation generator script by executing `npm run generate:translation` in the terminal.
    *  The scene generator script will automatically process the JSON file and generate a new scene class based on the defined template.
    *  The newly created scene class will be saved to the 'dist/scenes' directory with the appropriate name based on the JSON file.
    *  To use the new scene in the game, open the 'game.js' file and import the newly generated scene class using the appropriate import statement. For example: `import { NewScene } from './scenes/NewScene.js';`

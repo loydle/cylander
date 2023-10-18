@@ -54,7 +54,9 @@ As of now there are three types of actionable items:
   "type": "image",// (mandatory)
   "label": { // (optional)
     "content": {
-      "en": "text"
+      "en": "English translation",
+      "fr": "French translation",
+      "nl": "Dutch translation"
       }
   },
   "scale": 0.6, // (optional)
@@ -82,7 +84,9 @@ As of now there are three types of actionable items:
   "type": "hitbox", // (mandatory)
   "label": { // (optional)
     "content": {
-      "en": "text"
+      "en": "English translation",
+      "fr": "French translation",
+      "nl": "Dutch translation"
       }
   },
   "backgroundColor": "0xfff00ff", // (optional)
@@ -113,7 +117,9 @@ As of now there are three types of actionable items:
   "type": "text", // (mandatory)
   "text": {
   "content": {
-      "en": "text"
+      "en": "English translation",
+      "fr": "French translation",
+      "nl": "Dutch translation"
       }, // (mandatory)
   "styles": {
     "font": "36px monospace", // (optional)

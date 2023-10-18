@@ -1,9 +1,11 @@
 const getScenePreload = require('./getScenePreload');
 const getSceneCreate = require('./getSceneCreate');
+const { getSceneTranslation } = require('./getSceneTranslation');
 
 function getSceneClass(sceneName, sceneConfig) {
   const preloadCode = getScenePreload(sceneName, sceneConfig);
   const createCode = getSceneCreate(sceneName, sceneConfig);
+  const translationObject = JSON.stringify(getSceneTranslation(sceneConfig));
 
   const sceneClass = `
 import * as Phaser from 'phaser';
@@ -19,6 +21,7 @@ ${
     : ''
 }
 
+const translation = ${translationObject};
 
 export class ${sceneName} extends Phaser.Scene {
   constructor() {
@@ -26,7 +29,7 @@ export class ${sceneName} extends Phaser.Scene {
   }
 
   msg(key) {
-    return localization.msg(${`\`${sceneName}.\${key}\``})
+    return translation[localization.locale][key];
   }
 
   preload() {

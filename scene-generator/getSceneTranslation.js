@@ -47,7 +47,7 @@ const getMainNPCDialog = (mainNPC) => {
   return captionFields;
 };
 
-const getSceneObj = (sceneConfig) => {
+const getSceneTranslation = (sceneConfig) => {
   if (!sceneConfig) return '';
   const captionFields = createBaseCaptionFields();
   const AILabels = getActionableItemLabels(sceneConfig.actionableItems);
@@ -58,7 +58,6 @@ const getSceneObj = (sceneConfig) => {
 
   locales.forEach((locale) => {
     captionFields[locale] = {
-      ...captionFields[locale],
       ...AILabels[locale],
       ...AIEventCaptions[locale],
       ...MNPCDialog[locale],
@@ -68,16 +67,6 @@ const getSceneObj = (sceneConfig) => {
   return captionFields;
 };
 
-const getTranslationObjCode = (json) => {
-  const translationObj = `
-  export default ${JSON.stringify(json)};
-  `;
-
-  return translationObj;
-};
-
 module.exports = {
-  getSceneObj,
-  getTranslationObjCode,
-  createBaseCaptionFields,
+  getSceneTranslation,
 };
