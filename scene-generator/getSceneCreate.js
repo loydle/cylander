@@ -3,6 +3,7 @@ const getSetNameCode = require('./helpers/getSetNameCode.js');
 const getAnimationCode = require('./helpers/getAnimationCode.js');
 const getBackgroundCode = require('./helpers/getBackgroundCode.js');
 const getLabelCode = require('./helpers/getLabelCode.js');
+const getSpriteLabelCode = require('./helpers/getSpriteLabelCode.js');
 const getDragEventCode = require('./helpers/getDragEventCode.js');
 const getSetScaleCode = require('./helpers/getSetScaleCode.js');
 const getSetOriginCode = require('./helpers/getSetOriginCode.js');
@@ -81,6 +82,12 @@ function geSceneCreate(sceneName, sceneConfig) {
               actionableItem?.label?.styles
           );
           createCode += getDragEventCode(sceneHasOneOrMoreDraggableItems);
+        } else {
+          createCode += getSpriteLabelCode(
+              actionableItem?.name,
+              actionableItem?.label,
+              actionableItem?.label?.styles
+          );
         }
         createCode += getSetOriginCode(
           actionableItem?.name,

@@ -288,19 +288,19 @@ describe('getSceneCreate function', () => {
 
       this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
       this.text1.name = "text1";
-      this.text1.setOrigin(0.5, 0.5);
       this.text1.setInteractive();
+      this.text1.setOrigin(0.5, 0.5);
 
       this.image1 = this.add.image(undefined, undefined, "image1");
       this.image1.name = "image1";
-      this.image1.setOrigin(0.5, 0.5);
       this.image1.setInteractive();
+      this.image1.setOrigin(0.5, 0.5);
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
       this.hitbox1.isHitbox = true;
       this.hitbox1.name = "hitbox1";
-      this.hitbox1.setOrigin(0.5, 0.5);
       this.hitbox1.setInteractive();
+      this.hitbox1.setOrigin(0.5, 0.5);
     `;
 
     const result = getSceneCreate(sceneName, sceneConfig);
@@ -502,6 +502,15 @@ describe('getSceneCreate function', () => {
             this.scene.children.bringToTop(this.label);
           }
       });
+      
+      this.input.on("drag", (pointer,gameObject,dragX,dragY) => {
+        gameObject.x = dragX;
+        gameObject.y = dragY;
+        if(gameObject.label) {
+          gameObject.label.x = gameObject.getBounds()?.x + gameObject.getBounds()?.width/2;
+          gameObject.label.y = gameObject.getBounds()?.y - gameObject.getBounds()?.height/2;
+        }
+      });
 
       this.text1 = this.add.text(undefined, undefined, "undefined", undefined);
       this.text1.name = "text1";
@@ -512,6 +521,15 @@ describe('getSceneCreate function', () => {
           if (this.label) {
             this.scene.children.bringToTop(this.label);
           }
+      });
+      
+      this.input.on("drag", (pointer,gameObject,dragX,dragY) => {
+        gameObject.x = dragX;
+        gameObject.y = dragY;
+        if(gameObject.label) {
+          gameObject.label.x = gameObject.getBounds()?.x + gameObject.getBounds()?.width/2;
+          gameObject.label.y = gameObject.getBounds()?.y - gameObject.getBounds()?.height/2;
+        }
       });
 
       this.hitbox1 = this.add.rectangle(undefined, undefined, undefined, undefined, undefined);
