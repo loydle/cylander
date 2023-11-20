@@ -67,7 +67,6 @@ function geSceneCreate(sceneName, sceneConfig) {
               actionableItem?.name,
               actionableItem?.scale
           );
-          createCode += getSetInteractiveCode(actionableItem?.name);
           createCode += getAnimationCode(
               actionableItem?.name,
               actionableItem?.animation
@@ -97,6 +96,8 @@ function geSceneCreate(sceneName, sceneConfig) {
           actionableItem?.name,
           actionableItem?.hasPhysicsEnabled
         );
+
+        createCode += getSetInteractiveCode(actionableItem?.name);
 
         if (actionableItem?.actions?.length > 0) {
           actionableItem?.actions.forEach(
