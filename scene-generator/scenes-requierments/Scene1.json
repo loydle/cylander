@@ -113,7 +113,19 @@
       },
       "isDraggable": false,
       "hasPhysicsEnabled": true,
-      "actions": []
+      "actions": [{
+        "actionType": "pointerup",
+        "events": [
+          {
+            "eventType": "mainNPCDialog",
+            "event": {
+              "dialog": {
+                "content": "Watch out! It's a mummy!"
+              }
+            }
+          }
+        ]
+      }]
     },
     {
       "name": "mummy2",
@@ -140,7 +152,19 @@
       },
       "isDraggable": false,
       "hasPhysicsEnabled": true,
-      "actions": []
+      "actions": [{
+        "actionType": "pointerup",
+        "events": [
+          {
+            "eventType": "mainNPCDialog",
+            "event": {
+              "dialog": {
+                "content": "Watch out! It's a mummy!"
+              }
+            }
+          }
+        ]
+      }]
     }
   ],
   "mainNPC": {

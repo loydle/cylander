@@ -71,10 +71,6 @@ function geSceneCreate(sceneName, sceneConfig) {
               actionableItem?.name,
               actionableItem?.animation
           );
-          createCode += getSetDraggableCode(
-              actionableItem?.name,
-              actionableItem?.isDraggable
-          );
           createCode += getLabelCode(
               actionableItem?.name,
               actionableItem?.label,
@@ -97,13 +93,17 @@ function geSceneCreate(sceneName, sceneConfig) {
           actionableItem?.hasPhysicsEnabled
         );
 
-        createCode += getSetInteractiveCode(actionableItem?.name);
+        createCode += getSetInteractiveCode(actionableItem);
+        createCode += getSetDraggableCode(
+            actionableItem?.name,
+            actionableItem?.isDraggable
+        );
 
         if (actionableItem?.actions?.length > 0) {
           actionableItem?.actions.forEach(
             ({ actionType, events, actionTarget }) => {
               createCode += getEventsCode(
-                actionableItem?.name,
+                actionableItem,
                 actionType,
                 actionTarget,
                 events,

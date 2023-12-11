@@ -3,7 +3,7 @@ const EventType = require('../eventTypes.js');
 const getSceneTransitionCode = require('./getSceneTransitionCode.js');
 const getMainNPCDialogEventCode = require('./getMainNPCDialogEventCode.js');
 
-function getEventsCode(name, actionType, actionTarget, events, sceneConfig) {
+function getEventsCode(actionableItem, actionType, actionTarget, events, sceneConfig) {
   if (!events) return '';
 
   let content = '';
@@ -16,7 +16,7 @@ function getEventsCode(name, actionType, actionTarget, events, sceneConfig) {
       )
     ) {
       content += `
-       this.physics.add.overlap(this.${name}, this.${actionTarget}, () => {
+       this.physics.add.overlap(this.${actionableItem.name}, this.${actionTarget}, () => {
      `;
       events.forEach(({ eventType, event }) => {
         if (eventType === EventType.SCENE_TRANSITION) {
@@ -30,6 +30,7 @@ function getEventsCode(name, actionType, actionTarget, events, sceneConfig) {
      `;
     }
   } else {
+    const name = (actionableItem.type === 'sprite')? actionableItem.name + 'Sprite' : actionableItem.name;
     content += `
        this.${name}.on("${actionType.toLowerCase()}", function () {`;
     events?.forEach(({ eventType, event }) => {
