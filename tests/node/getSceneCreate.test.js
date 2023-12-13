@@ -98,6 +98,8 @@ describe('getSceneCreate function', () => {
     this.mainNPC?.create();
     this.mainNPC?.mainNPCImage.setPosition(this.mainNPC?.initialPosition?.x, this.mainNPC?.initialPosition?.y);
     this.mainNPC?.moveTextPosition(this.mainNPC?.initialPosition?.x, this.mainNPC?.initialPosition?.y - this.mainNPC?.mainNPCImage?.height / 2);
+    this.physics.world.enable(this.mainNPC?.mainNPCImage);
+    this.mainNPC?.mainNPCImage.setInteractive();
     `;
 
     const result = getSceneCreate(sceneName, sceneConfig);

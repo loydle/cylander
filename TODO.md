@@ -3,7 +3,7 @@
   * [x] Wireframe Mode for ActionableItems
     * [x] Physic Objects
     * [x] Hitbox Objects
-    * [] MainNPC
+    * [x] MainNPC
   * [x] Draw Mode
 * [ ] Moving sprites (ex: animate the MainNPC)
 * [ ] Sound Effects and Background Music

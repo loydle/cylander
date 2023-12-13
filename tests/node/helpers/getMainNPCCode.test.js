@@ -47,6 +47,8 @@ describe('getMainNPCCode', () => {
       mockedImagePositionCode
       mockedDialogPositionCode
       mockedAnimationCode
+      this.physics.world.enable(this.mainNPC?.mainNPCImage);
+      this.mainNPC?.mainNPCImage.setInteractive();
     `;
     expect(result.replace(/\s+/g, '')).toEqual(
       expectedCode.replace(/\s+/g, '')
