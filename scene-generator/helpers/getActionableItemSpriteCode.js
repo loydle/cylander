@@ -1,19 +1,26 @@
 function getActionableItemSpriteCode(actionableItem) {
-  return `this.${actionableItem?.name} = this.anims.create({
-    key: '${actionableItem?.key}',
+    /*
+    PlayAnimationConfig {
+        "key": "",
+        "frameRate": 0,
+        "duration": 0,
+        "delay": 0,
+        "repeat": 0,
+        "repeatDelay": 0,
+        "yoyo": false,
+        "showOnStart": true,
+        "hideOnComplete": false,
+    }
+    */
+    let options = JSON.stringify(actionableItem?.play?.options);
+  return `this.${actionableItem?.name}Anim = this.anims.create({
+    key: '${actionableItem?.name}Key',
     frames: this.anims.generateFrameNumbers('${actionableItem?.name}'),
-    frameRate: ${actionableItem?.frameRate},
+    frameRate: ${actionableItem?.animation?.options?.frameRate},
   });
-  this.${actionableItem?.name}Sprite = this.add.sprite(${actionableItem?.position.x},${actionableItem?.position.y}, '${actionableItem?.name}').setScale(${actionableItem?.scale});
-  this.${actionableItem?.name}Sprite.play({ key: '${actionableItem?.key}', repeat: ${actionableItem?.repeat} });
-  this.${actionableItem?.name}Sprite.anims.msPerFrame = Math.floor(${actionableItem?.duration}/(${actionableItem?.frameRate}*${actionableItem?.repeat}));
-    
-  this.tweens.add({
-      targets: this.${actionableItem?.name}Sprite,
-      x: ${actionableItem?.move.x},
-      duration: ${actionableItem?.duration},
-      ease: '${actionableItem?.ease}'
-  });
+  this.${actionableItem?.name} = this.add.sprite(${actionableItem?.position?.x},${actionableItem?.position?.y}, '${actionableItem?.name}').setScale(${actionableItem?.scale});
+  this.${actionableItem?.name}.play({ key: '${actionableItem?.name}Key', ...${options} });
+  this.${actionableItem?.name}.anims.msPerFrame = Math.floor(${actionableItem?.animation?.options?.duration}/(${actionableItem?.animation?.options?.frameRate}*${actionableItem?.animation?.options?.repeat}));
   
  `;
 }

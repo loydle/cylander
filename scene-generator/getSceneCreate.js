@@ -63,14 +63,6 @@ function geSceneCreate(sceneName, sceneConfig) {
 
         createCode += getSetNameCode(actionableItem?.name);
         if(actionableItem?.type !== ActionableItemType.SPRITE) {
-          createCode += getSetScaleCode(
-              actionableItem?.name,
-              actionableItem?.scale
-          );
-          createCode += getAnimationCode(
-              actionableItem?.name,
-              actionableItem?.animation
-          );
           createCode += getLabelCode(
               actionableItem?.name,
               actionableItem?.label,
@@ -84,6 +76,14 @@ function geSceneCreate(sceneName, sceneConfig) {
               actionableItem?.label?.styles
           );
         }
+        createCode += getSetScaleCode(
+            actionableItem?.name,
+            actionableItem?.scale
+        );
+        createCode += getAnimationCode(
+            actionableItem?.name,
+            actionableItem?.animation
+        );
         createCode += getSetOriginCode(
           actionableItem?.name,
           actionableItem?.origin
@@ -92,8 +92,7 @@ function geSceneCreate(sceneName, sceneConfig) {
           actionableItem?.name,
           actionableItem?.hasPhysicsEnabled
         );
-
-        createCode += getSetInteractiveCode(actionableItem);
+        createCode += getSetInteractiveCode(actionableItem?.name);
         createCode += getSetDraggableCode(
             actionableItem?.name,
             actionableItem?.isDraggable
@@ -103,7 +102,7 @@ function geSceneCreate(sceneName, sceneConfig) {
           actionableItem?.actions.forEach(
             ({ actionType, events, actionTarget }) => {
               createCode += getEventsCode(
-                actionableItem,
+                actionableItem?.name,
                 actionType,
                 actionTarget,
                 events,
