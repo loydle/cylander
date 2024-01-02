@@ -95,7 +95,7 @@
         "url": "src/assets/animations/mummy37x45.png"
       },
       "label": {
-        "content": "text"
+        "content": "mummy"
       },
       "scale": 4,
       "position": {
@@ -104,7 +104,11 @@
       },
       "play": {
         "options": {
-          "yoyo": false
+          "duration": 8800,
+          "frameRate": 20,
+          "ease": "Linear",
+          "yoyo": false,
+          "repeat": 330
         }
       },
       "animation": {
@@ -114,7 +118,7 @@
           "frameRate": 20,
           "ease": "Linear",
           "yoyo": false,
-          "repeat": 18
+          "repeat": 1
         }
       },
       "isDraggable": false,
@@ -140,7 +144,7 @@
         "url": "src/assets/animations/mummy37x45.png"
       },
       "label": {
-        "content": "text"
+        "content": "mummy2"
       },
       "scale": 4,
       "position": {
@@ -149,7 +153,11 @@
       },
       "play": {
         "options": {
-          "yoyo": false
+          "duration": 980,
+          "frameRate": 44,
+          "ease": "Linear",
+          "yoyo": false,
+          "repeat": 100
         }
       },
       "animation": {
@@ -158,8 +166,8 @@
           "duration": 9800,
           "frameRate": 16,
           "ease": "Linear",
-          "yoyo": false,
-          "repeat": 10
+          "yoyo": true,
+          "repeat": 1
         }
       },
       "isDraggable": false,
