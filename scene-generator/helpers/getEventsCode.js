@@ -23,7 +23,7 @@ function getEventsCode(name, actionType, actionTarget, events, sceneConfig) {
           content += getSceneTransitionCode(event, sceneConfig);
         }
         if (eventType === EventType.MAIN_NPC_DIALOG) {
-          content += getMainNPCDialogEventCode(event, sceneConfig);
+          content += getMainNPCDialogEventCode(event);
         }
       });
       content += `});

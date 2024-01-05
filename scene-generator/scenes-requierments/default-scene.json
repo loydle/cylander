@@ -29,7 +29,11 @@
       "type": "text",
       "position": { "x": "center", "y": "750" },
       "text": {
-        "content": "Click anywhere to start!",
+        "content": {
+          "en": "Click anywhere to start!",
+          "fr": "Cliquez n'importe où pour commencer !",
+          "nl": "Klik ergens om te beginnen!"
+          },
         "styles": {
           "font": "36px monospace",
           "fill": "#ffffff",

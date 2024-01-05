@@ -101,6 +101,8 @@ function geSceneCreate(sceneName, sceneConfig) {
 
       createCode += getDragEventCode(sceneHasOneOrMoreDraggableItems);
 
+      createCode += 'settings(this);';
+
       if (process.env.NODE_ENV === 'development') {
         createCode += 'debug(this);';
       }

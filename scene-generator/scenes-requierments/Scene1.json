@@ -47,7 +47,11 @@
               "eventType": "mainNPCDialog",
               "event": {
                 "dialog": {
-                  "content": "Watch out! It's a cactus!"
+                  "content": {
+                    "en": "Watch out! It's a cactus!",
+                    "fr": "Attention! C'est un cactus !",
+                    "nl": "Kijk uit! Het is een cactus!"
+                    }
                 }
               }
             }
@@ -59,7 +63,11 @@
       "name": "key",
       "type": "image",
       "label": {
-        "content": "text"
+        "content": {
+          "en": "text",
+          "fr": "texte",
+          "nl": "tekst"
+          }
       },
       "scale": 0.6,
       "position": {
@@ -79,7 +87,11 @@
               "eventType": "mainNPCDialog",
               "event": {
                 "dialog": {
-                  "content": "You found a key!",
+                  "content": {
+                    "en": "You found a key!",
+                    "fr": "Vous avez trouvé une clé !",
+                    "nl": "Je hebt een sleutel gevonden!"
+                    },
                   "duration": 5000
                 }
               }
@@ -91,7 +103,11 @@
   ],
   "mainNPC": {
     "dialog": {
-      "content": "Find the door or explore your surroundings.",
+      "content": {
+        "en": "Find the door or explore your surroundings.",
+        "fr": "Trouvez la porte ou explorez votre environnement.",
+        "nl": "Vind de deur of verken je omgeving."
+        },
       "duration": 5000,
       "position": {
         "top": 20

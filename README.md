@@ -26,12 +26,13 @@ The scene generator is a script that automatically generates scene classes for t
 ### Usage
 
 1. Define scene templates in JSON format in the 'scenes-requierments' directory.
-2. Run the generator script and start the server: `npm run watch`
-3. The scene classes will be automatically generated and saved to the 'dist/scenes' directory.
-4. To add a new scene, follow these steps:
+2. Define the language you would want to support in the 'locales.js' at the 'scene-generator' directory and in the 'localeConfig.js' at the 'src/configs' directory.
+3. Run the generator script and start the server: `npm run watch`
+4. The scene classes will be automatically generated and saved to the 'dist/scenes' directory.
+5. To add a new scene, follow these steps:
    * Create a new scene requirement file in JSON format and place it in the 'scenes-requierments' directory.
    *  Define the scene configuration in the JSON file, specifying the background, actionable items, and MainNPC dialogues as needed.
-   *  Run the generator script by executing `npm run generate:all` in the terminal.
+   *  Run the scene generator script by executing `npm run generate:all` in the terminal.
    *  The scene generator script will automatically process the JSON file and generate a new scene class based on the defined template.
    *  The newly created scene class will be saved to the 'dist/scenes' directory with the appropriate name based on the JSON file.
    *  To use the new scene in the game, open the 'game.js' file and import the newly generated scene class using the appropriate import statement. For example: `import { NewScene } from './scenes/NewScene.js';`

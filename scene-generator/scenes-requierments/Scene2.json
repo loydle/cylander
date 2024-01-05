@@ -43,7 +43,11 @@
       "name": "redHitbox",
       "type": "hitbox",
       "label": {
-        "content": "Scene3"
+        "content": {
+          "en": "Scene3",
+          "fr": "Scene3",
+          "nl": "Scene3"
+          } 
       },
       "position": { "x": 1244, "y": 988 },
       "backgroundColor": "0xfff0000",
@@ -73,7 +77,11 @@
       "name": "purpleHitbox",
       "type": "hitbox",
       "label": {
-        "content": "Scene2"
+        "content": {
+          "en": "Scene2",
+          "fr": "Scene2",
+          "nl": "Scene2"
+          } 
       },
       "position": { "x": 844, "y": 988 },
       "backgroundColor": "0xfff00ff",
@@ -108,7 +116,11 @@
       "name": "yellowHitbox",
       "type": "hitbox",
       "label": {
-        "content": "label",
+        "content": {
+          "en": "label",
+          "fr": "label",
+          "nl": "label"
+          } ,
         "styles": {
           "font": "36px monospace",
           "fill": "#00ff00",
@@ -135,7 +147,11 @@
               "eventType": "mainNPCDialog",
               "event": {
                 "dialog": {
-                  "content": "This is just a visible hitbox!"
+                  "content": {
+          "en": "This is just a visible hitbox!",
+          "fr": "This is just a visible hitbox!",
+          "nl": "This is just a visible hitbox!"
+          } 
                 }
               }
             }
@@ -147,7 +163,11 @@
       "name": "yellowHitbox2",
       "type": "hitbox",
       "label": {
-        "content": "label"
+        "content": {
+          "en": "label",
+          "fr": "label",
+          "nl": "label"
+          } 
       },
       "hasPhysicsEnabled": true,
       "isDraggable": true,
@@ -165,7 +185,11 @@
               "eventType": "mainNPCDialog",
               "event": {
                 "dialog": {
-                  "content": "This is just a visible hitbox!"
+                  "content": {
+          "en": "This is just a visible hitbox!",
+          "fr": "This is just a visible hitbox!",
+          "nl": "This is just a visible hitbox!"
+          } 
                 }
               }
             }
@@ -189,7 +213,11 @@
               "eventType": "mainNPCDialog",
               "event": {
                 "dialog": {
-                  "content": "Collide event dialog"
+                  "content": {
+          "en": "Collide event dialog",
+          "fr": "Collide event dialog",
+          "nl": "Collide event dialog"
+          } 
                 }
               }
             }
@@ -201,7 +229,11 @@
       "name": "whiteHitbox",
       "type": "hitbox",
       "label": {
-        "content": "label"
+        "content": {
+          "en": "label",
+          "fr": "label",
+          "nl": "label"
+          } 
       },
       "position": { "x": 1044, "y": 988 },
       "backgroundColor": "0xfffffff",
@@ -219,7 +251,11 @@
               "eventType": "mainNPCDialog",
               "event": {
                 "dialog": {
-                  "content": "Find something to interact with!",
+                  "content": {
+          "en": "Find something to interact with!",
+          "fr": "Find something to interact with!",
+          "nl": "Find something to interact with!"
+          } ,
                   "duration": 1000                }
                 }
               }
@@ -233,7 +269,11 @@
                 "eventType": "mainNPCDialog",
                 "event": {
                   "dialog": {
-                    "content": "Something happend!",
+                    "content": {
+          "en": "Something happend!",
+          "fr": "Something happend!",
+          "nl": "Something happend!"
+          } ,
                     "duration": 5000
                   }
                 }
@@ -248,7 +288,11 @@
                 "eventType": "mainNPCDialog",
                 "event": {
                   "dialog": {
-                    "content": "Boom!",
+                    "content": {
+          "en": "Boom!",
+          "fr": "Boom!",
+          "nl": "Boom!"
+          } ,
                     "duration": 5000
                   }
                 }
@@ -260,7 +304,11 @@
     ],
     "mainNPC": {
       "dialog": {
-        "content": "Welcome to Scene 2!"
+        "content": {
+          "en": "Welcome to Scene 2!",
+          "fr": "Welcome to Scene 2!",
+          "nl": "Welcome to Scene 2!"
+          } 
       },
       "position": { "x": 1055, "y": 488 },
       "animation": {

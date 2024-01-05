@@ -17,7 +17,8 @@ ${
     ? `import { MainNPC } from '../../src/js/MainNPC.js';`
     : ''
 }
-
+import { settings } from '../../src/js/settings.js';
+import localization from '../../src/js/localization.js';
 
 export class ${sceneName} extends Phaser.Scene {
   constructor() {

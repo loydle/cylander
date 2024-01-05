@@ -10,7 +10,11 @@
       "name": "purpleHitbox",
       "type": "hitbox",
       "label": {
-        "content": "Scene2"
+        "content": {
+          "en": "Scene2",
+          "fr": "Scene2",
+          "nl": "Scene2"
+          } 
       },
       "position": { "x": 844, "y": 988 },
       "backgroundColor": "0xfff00ff",
@@ -40,7 +44,11 @@
   ],
   "mainNPC": {
     "dialog": {
-      "content": "Welcome to Scene 3!"
+      "content": {
+          "en": "Welcome to Scene 3!",
+          "fr": "Welcome to Scene 3!",
+          "nl": "Welcome to Scene 3!"
+          } 
     }
   }
 }

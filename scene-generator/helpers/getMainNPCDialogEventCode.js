@@ -1,10 +1,8 @@
 function getMainNPCDialogEventCode(event) {
   if (!event || !event.dialog) return '';
+  const { content, duration } = event.dialog;
   return `
-   this.mainNPC.dialogContent = "${event.dialog?.content}";
-   this.mainNPC.showDialog(this.mainNPC.dialogContent, ${
-     event.dialog?.duration || 3000
-   });
+   this.mainNPC.showDialog(${JSON.stringify(content)}[localization.locale], ${duration || 3000});
  `;
 }
 
