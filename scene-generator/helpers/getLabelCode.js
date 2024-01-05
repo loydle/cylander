@@ -2,11 +2,8 @@ const sceneConfig = require('../../src/configs/sceneConfig.json');
 
 function getLabelCode(name, label, labelStyles = sceneConfig?.labelStyles) {
   if (!label || !name) return '';
-  return `
-    this.${name}.label = this.add.text(
-     this.${name}.getBounds()?.x + (this.${name}.getBounds()?.width / 2), this.${name}.getBounds()?.y - this.${name}.getBounds()?.height / 2, "${
-       label.content
-     }",
+  return `this.${name}.label = this.add.text(
+     this.${name}.getBounds()?.x + (this.${name}.getBounds()?.width / 2), this.${name}.getBounds()?.y - this.${name}.getBounds()?.height / 2, ${JSON.stringify(label.content)}[localization.locale],
      ${JSON.stringify(labelStyles)}
    ).setOrigin(0.5);
  `;

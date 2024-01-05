@@ -4,6 +4,10 @@ import { DefaultScene } from '../../dist/scenes/DefaultScene.js';
 import { Scene1 } from '../../dist/scenes/Scene1.js';
 import { Scene2 } from '../../dist/scenes/Scene2.js';
 import { Scene3 } from '../../dist/scenes/Scene3.js';
+import localization, { getLocale } from '../js/localization.js';
+import { default_locale } from '../configs/localeConfig.js';
+
+localization.locale = getLocale() || default_locale;
 
 const config = {
   type: Phaser.AUTO,
