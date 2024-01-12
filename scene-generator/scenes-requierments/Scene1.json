@@ -87,6 +87,104 @@
           ]
         }
       ]
+    },
+    {
+      "name": "mummy",
+      "type": "sprite",
+      "image": {
+        "url": "src/assets/animations/mummy37x45.png"
+      },
+      "label": {
+        "content": "mummy"
+      },
+      "scale": 4,
+      "position": {
+        "x": 190,
+        "y": 660
+      },
+      "play": {
+        "options": {
+          "duration": 8800,
+          "frameRate": 20,
+          "ease": "Linear",
+          "yoyo": false,
+          "repeat": 330
+        }
+      },
+      "animation": {
+        "options": {
+          "x": 190,
+          "duration": 8800,
+          "frameRate": 20,
+          "ease": "Linear",
+          "yoyo": false,
+          "repeat": 1
+        }
+      },
+      "isDraggable": false,
+      "hasPhysicsEnabled": true,
+      "actions": [{
+        "actionType": "pointerup",
+        "events": [
+          {
+            "eventType": "mainNPCDialog",
+            "event": {
+              "dialog": {
+                "content": "Watch out! It's a mummy!"
+              }
+            }
+          }
+        ]
+      }]
+    },
+    {
+      "name": "mummy2",
+      "type": "sprite",
+      "image": {
+        "url": "src/assets/animations/mummy37x45.png"
+      },
+      "label": {
+        "content": "mummy2"
+      },
+      "scale": 4,
+      "position": {
+        "x": 250,
+        "y": 630
+      },
+      "play": {
+        "options": {
+          "duration": 980,
+          "frameRate": 44,
+          "ease": "Linear",
+          "yoyo": false,
+          "repeat": 100
+        }
+      },
+      "animation": {
+        "options": {
+          "x": 750,
+          "duration": 9800,
+          "frameRate": 16,
+          "ease": "Linear",
+          "yoyo": true,
+          "repeat": 1
+        }
+      },
+      "isDraggable": false,
+      "hasPhysicsEnabled": true,
+      "actions": [{
+        "actionType": "pointerup",
+        "events": [
+          {
+            "eventType": "mainNPCDialog",
+            "event": {
+              "dialog": {
+                "content": "Watch out! It's a mummy!"
+              }
+            }
+          }
+        ]
+      }]
     }
   ],
   "mainNPC": {

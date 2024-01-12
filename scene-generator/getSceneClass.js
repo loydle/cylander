@@ -1,9 +1,11 @@
 const getScenePreload = require('./getScenePreload');
 const getSceneCreate = require('./getSceneCreate');
+const getSceneUpdate = require('./getSceneUpdate');
 
 function getSceneClass(sceneName, sceneConfig) {
   const preloadCode = getScenePreload(sceneName, sceneConfig);
   const createCode = getSceneCreate(sceneName, sceneConfig);
+  const updateCode = getSceneUpdate(sceneName, sceneConfig);
 
   const sceneClass = `
 import * as Phaser from 'phaser';
@@ -30,6 +32,10 @@ export class ${sceneName} extends Phaser.Scene {
 
   create() {
     ${createCode}
+  }
+  
+  update() {
+    ${updateCode}
   }
 }
 `;

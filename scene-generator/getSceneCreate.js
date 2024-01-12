@@ -3,6 +3,7 @@ const getSetNameCode = require('./helpers/getSetNameCode.js');
 const getAnimationCode = require('./helpers/getAnimationCode.js');
 const getBackgroundCode = require('./helpers/getBackgroundCode.js');
 const getLabelCode = require('./helpers/getLabelCode.js');
+const getSpriteLabelCode = require('./helpers/getSpriteLabelCode.js');
 const getDragEventCode = require('./helpers/getDragEventCode.js');
 const getSetScaleCode = require('./helpers/getSetScaleCode.js');
 const getSetOriginCode = require('./helpers/getSetOriginCode.js');
@@ -10,6 +11,7 @@ const getSetOriginCode = require('./helpers/getSetOriginCode.js');
 const getSetInteractiveCode = require('./helpers/getSetInteractiveCode.js');
 const getHasPhysicsCode = require('./helpers/getHasPhysicsCode.js');
 const getActionableItemImageCode = require('./helpers/getActionableItemImageCode.js');
+const getActionableItemSpriteCode = require('./helpers/getActionableItemSpriteCode.js');
 const getActionableItemTextCode = require('./helpers/getActionableItemTextCode.js');
 const getActionableItemHitboxCode = require('./helpers/getActionableItemHitboxCode.js');
 const getEventsCode = require('./helpers/getEventsCode.js');
@@ -50,6 +52,9 @@ function geSceneCreate(sceneName, sceneConfig) {
           case ActionableItemType.IMAGE:
             createCode += getActionableItemImageCode(actionableItem);
             break;
+          case ActionableItemType.SPRITE:
+            createCode += getActionableItemSpriteCode(actionableItem);
+            break;
           case ActionableItemType.TEXT:
             createCode += getActionableItemTextCode(actionableItem);
             break;
@@ -57,31 +62,40 @@ function geSceneCreate(sceneName, sceneConfig) {
         }
 
         createCode += getSetNameCode(actionableItem?.name);
+        if(actionableItem?.type !== ActionableItemType.SPRITE) {
+          createCode += getLabelCode(
+              actionableItem?.name,
+              actionableItem?.label,
+              actionableItem?.label?.styles
+          );
+          createCode += getDragEventCode(sceneHasOneOrMoreDraggableItems);
+        } else {
+          createCode += getSpriteLabelCode(
+              actionableItem?.name,
+              actionableItem?.label,
+              actionableItem?.label?.styles
+          );
+        }
         createCode += getSetScaleCode(
-          actionableItem?.name,
-          actionableItem?.scale
+            actionableItem?.name,
+            actionableItem?.scale
+        );
+        createCode += getAnimationCode(
+            actionableItem?.name,
+            actionableItem?.animation
         );
         createCode += getSetOriginCode(
           actionableItem?.name,
           actionableItem?.origin
         );
-        createCode += getSetInteractiveCode(actionableItem?.name);
-        createCode += getAnimationCode(
-          actionableItem?.name,
-          actionableItem?.animation
-        );
-        createCode += getSetDraggableCode(
-          actionableItem?.name,
-          actionableItem?.isDraggable
-        );
         createCode += getHasPhysicsCode(
           actionableItem?.name,
           actionableItem?.hasPhysicsEnabled
         );
-        createCode += getLabelCode(
-          actionableItem?.name,
-          actionableItem?.label,
-          actionableItem?.label?.styles
+        createCode += getSetInteractiveCode(actionableItem?.name);
+        createCode += getSetDraggableCode(
+            actionableItem?.name,
+            actionableItem?.isDraggable
         );
 
         if (actionableItem?.actions?.length > 0) {
@@ -98,8 +112,6 @@ function geSceneCreate(sceneName, sceneConfig) {
           );
         }
       });
-
-      createCode += getDragEventCode(sceneHasOneOrMoreDraggableItems);
 
       if (process.env.NODE_ENV === 'development') {
         createCode += 'debug(this);';
