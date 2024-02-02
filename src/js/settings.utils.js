@@ -45,34 +45,43 @@ export const createSettings = (scene) => {
     return builder;
 }
 
-const createSettingsOverlay = scene => {
-    const menuBackground = scene.add.rectangle(scene.cameras.main.centerX, scene.cameras.main.centerY, 1500, 1000, 0x1b1e1e)
-    menuBackground.setOrigin(0.5, 0.5);
-    return menuBackground;
-}
+const createSettingsOverlay = (scene) => {
+  const menuBackground = scene.add.rectangle(
+    scene.cameras.main.centerX,
+    scene.cameras.main.centerY,
+    1500,
+    1000,
+    0x1b1e1e
+  );
+  menuBackground.setOrigin(0.5, 0.5);
+  menuBackground.setDepth(100);
+  return menuBackground;
+};
 
-const createSettingsHeader = scene => headerText => {
-    const settingsHeader = scene.add.text(
-        scene.cameras.main.centerX, 
-        100, 
-        headerText, 
-        {...settingsItemStyle, font: '64px monospace'}
-        );
-        settingsHeader.setOrigin(0.5, 0);
-        return settingsHeader;
-}
+const createSettingsHeader = (scene) => (headerText) => {
+  const settingsHeader = scene.add.text(
+    scene.cameras.main.centerX,
+    100,
+    headerText,
+    { ...settingsItemStyle, font: '64px monospace' }
+  );
+  settingsHeader.setOrigin(0.5, 0);
+  settingsHeader.setDepth(100);
+  return settingsHeader;
+};
 
-const createSettingsMenuItem = scene => (menuItemText, positionY, style) => {
-    const settingsMenuItem = scene.add.text(
-        scene.cameras.main.centerX, 
-        positionY, 
-        menuItemText, 
-        style
-        );
-        settingsMenuItem.setOrigin(0.5, 0);
-        settingsMenuItem.setInteractive();
-        return settingsMenuItem;
-}
+const createSettingsMenuItem = (scene) => (menuItemText, positionY, style) => {
+  const settingsMenuItem = scene.add.text(
+    scene.cameras.main.centerX,
+    positionY,
+    menuItemText,
+    style
+  );
+  settingsMenuItem.setOrigin(0.5, 0);
+  settingsMenuItem.setDepth(100);
+  settingsMenuItem.setInteractive();
+  return settingsMenuItem;
+};
 
 export const settingsItemStyle = {
     font: '36px monospace',
